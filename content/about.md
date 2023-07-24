@@ -1,18 +1,26 @@
 +++
-date = "2019-06-24"
+date = "2023-07-24"
 title = "About"
-tags = ["about", "avelino", "open source", "thiago avelino"]
+tags = ["about", "leonardorifeli", "open source", "leonardo rifeli"]
 +++
 
-I’m Thiago Avelino CTO at [buser](https://linkedin.com/company/buserbrasil/), creator/maintainer any [open source projects](https://github.com/avelino) and Mathematician at [IME-USP - Aplicated Math](https://www.ime.usp.br).
+I’m Leonardo Rifeli CTO at [harmo](https://harmo.me), creator/maintainer any [open source projects](https://github.com/avelino) andData Science Technologist at [Uninter](https://www.uninter.com/).
 
-Contributor to any Open Source projects, study focus is **team building**, **people tech management** _(human/evolutionary psychology)_ and **open source** _(and all distributed contribution ecosystem)_. My day job is to help the team I lead to evolve professionally and get to where it planned to get, delivering great results for the company, encouraging them to achieve their best professional performance.
+I have more than 12 years old of experience as Software Developer. Studies Data Science at uninter.com university.
 
-I have talked about open source contribution and today I work more with people management, but I still enjoy programming - even though I have less time to write code - less than I would like. I am usually involved with project that use the technologies:
+I co-founded the startup called Reviewr (reviewr.me), eligible as one of the most promising in Santa Catarina - Brazil, incubated at MIDITEC, the 5th best startup incubator in the world, and accelerated by Darwin Startups. And, I also co-founded the Harmo startup (harmo.me), a fusion of Reviewr & Gorila startups. Harmo’s a partner company of ReclemaAqui.
 
-- Distributed systems
-- Lisp dialects (clojure/racket)
-- Go
-- Python
+My specialty is data extraction and processing. I work on top of AWS basically using Lambda, StepFunction, EKS, RDS Aurora, SQS, SES, OpenSearch, and API Gateway.
 
-> 🏊‍♂️🚴‍♂️🏃‍♂️ **Good dream is dream lived**
+My main tech stacks are Golang, Javascript (with Node.js) & python. I’m Gopher since 2017 (1.7 version) & also a serverless enthusiast.
+
+My everyday routine includes:
+
+* Team Tech Leader (+10 peoples);
+* Software Architecture & Development;
+* Data Engineering (architecture, extractor, and processor);
+* Architecture Decision;
+* Problem-Solving;
+* SRE & DevOps.
+
+> 🏊‍♂️🚴‍♂️🏃‍♂️ **Good dream is dream lived (Avelino, Thiago)**

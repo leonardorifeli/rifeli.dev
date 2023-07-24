@@ -1,10 +1,10 @@
-baseURL = "https://avelino.run/"
+baseURL = "https://rifeli.dev/"
 languageCode = "en-us"
-title = "Thiago Avelino"
+title = "Leonardo Rifeli"
 theme = "archie"
 # googleAnalytics = "UA-3063031-15"
 googleAnalytics = "G-MHKZRCJN0C"
-disqusShortname = "avelino"
+disqusShortname = "leonardorifeli"
 
 # Code Highlight
 pygmentsstyle = "monokai"
@@ -31,7 +31,7 @@ blog  = ":slug"
 author = "Thiago Avelino"
 mode="toggle" # color-mode → light,dark,toggle or auto
 useCDN=true # don't use CDNs for fonts and icons, instead serve them locally.
-subtitle = "I use open source to help people evolve, I take pleasure in seeing people evolve"
+subtitle = "I'm a Software Craftsman! Remember that there is no code faster than no code. Gopher since 2017"
 mathjax = false # enable MathJax support
 katex = false # enable KaTeX support
 customcss = ["/css/custom.css"]
@@ -40,11 +40,15 @@ customcss = ["/css/custom.css"]
 [[params.social]]
 name = "GitHub"
 icon = "github"
-url = "https://github.com/avelino"
+url = "https://github.com/leonardorifeli"
 [[params.social]]
 name = "Twitter"
 icon = "twitter"
-url = "https://twitter.com/avelinorun"
+url = "https://twitter.com/rifelidev"
+[[params.social]]
+name = "Instagram"
+icon = "instagram"
+url = "https://www.instagram.com/rifeli.dev/"
 
 # Main menu Items
 [[menu.main]]
@@ -53,16 +57,11 @@ url = "/"
 weight = 1
 
 [[menu.main]]
-name = "projects"
-url = "/projects"
-weight = 2
-
-[[menu.main]]
 name = "all posts"
 url = "/blog"
-weight = 3
+weight = 2
 
 [[menu.main]]
 name = "about"
 url = "/about"
-weight = 4
+weight = 3
