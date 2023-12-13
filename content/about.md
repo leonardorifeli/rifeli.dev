@@ -6,9 +6,14 @@ lastmod: 2023-12-12T00:00:00.000Z
 description: "About"
 ---
 
-I’m Leonardo Rifeli CTO at [harmo](https://harmo.me), creator/maintainer any [open source projects](https://github.com/avelino) andData Science Technologist at [Uninter](https://www.uninter.com/).
+💻 | Co-Founder & CTO at @harmo.me
+❤️ | Writer at rifeli.dev & Gopher since 2017
+👰 | @thuany.rifeli
+📍 | Antônio Carlos - SC 🇧🇷
 
-I have more than 12 years old of experience as Software Developer. Studies Data Science at uninter.com university.
+I'm Leonardo Rifeli CTO at [harmo](https://harmo.me) and Data Science Technologist at [Uninter](https://www.uninter.com/).
+
+I have more than 13 years old of experience as Software Developer. Studies Data Science at uninter.com university.
 
 I co-founded the startup called Reviewr (reviewr.me), eligible as one of the most promising in Santa Catarina - Brazil, incubated at MIDITEC, the 5th best startup incubator in the world, and accelerated by Darwin Startups. And, I also co-founded the Harmo startup (harmo.me), a fusion of Reviewr & Gorila startups. Harmo’s a partner company of ReclemaAqui.
 
