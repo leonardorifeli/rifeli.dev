@@ -5,7 +5,7 @@ isSinglePage = true
 description = "Hello"
 
 # Header Configuration
-avatar = "https://avatars.githubusercontent.com/u/6767689?v=5"
+avatar = "img/6767689.jpeg"
 
 # disqus is a comment system. see https://disqus.com
 disqusShortname = ""
