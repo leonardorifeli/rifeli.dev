@@ -1,8 +1,13 @@
-+++
-date = "2015-11-11"
-title = "Como replicar banco de dados MySQL"
-tags = ["tips"]
-+++
+---
+title: "Como replicar banco de dados MySQL"
+draft: false
+date: 2015-11-11T00:00:00.000Z
+description: ""
+categories:
+  - Dicas
+tags:
+  - MySQL
+---
 
 Saudações, atuo como desenvolvedor Full-Stack em uma empresa de Araraquara (SP), a wab.com.br. Não sou um expert em servidores e aplicações atuando como tal. Porém gosto de estudar, então pratiquei sobre o assunto a qual os escrevo.
 

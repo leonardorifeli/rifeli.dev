@@ -1,8 +1,13 @@
-+++
-date = "2017-12-30"
-title = "Princípios SOLID: LSP e sopa de letrinhas"
-tags = ["solid","clean-code"]
-+++
+---
+title: "Princípios SOLID: LSP e sopa de letrinhas"
+draft: false
+date: 2017-12-30T00:00:00.000Z
+description: ""
+categories:
+  - Desenvolvimento
+tags:
+  - SOLID
+---
 
 Este é o terceiro post de uma série onde abordaremos todos os cinco princípios do SOLID. Neste, falaremos sobre “Liskov substitution principle”, abreviado por LSP, e significa literalmente “Princípio da substituição de Liskov”.
 

@@ -1,8 +1,13 @@
-+++
-date = "2015-03-21"
-title = "Série de Hangouts sobre OOD"
-tags = ["event"]
-+++
+---
+title: "PHP Expirience 2015"
+draft: false
+date: 2015-03-21T00:00:00.000Z
+description: "Eventos"
+categories:
+  - Eventos
+tags:
+  - Eventos
+---
 
 PHP Experience 2015! Um dos maiores eventos sobre PHP da América Latina, contando com a presença de mais de 1000 programadores.
 

@@ -1,8 +1,14 @@
-+++
-date = "2016-11-05"
-title = "Docker: Vamos falar sobre virtualização?"
-tags = ["dev","docker"]
-+++
+---
+title: "Docker: Vamos falar sobre virtualização?"
+draft: false
+date: 2016-11-05T00:00:00.000Z
+description: ""
+categories:
+  - Desenvolvimento
+tags:
+  - Docker
+---
+
 
 No desenvolvimento de aplicações, podemos optar por usar máquinas virtuais (VMs) para facilitar o gerenciamento e provisionamento de serviços. Para isso, podemos citar o Vagrant. Mas, o provisionamento de máquinas virtuais demanda grande quantidade de tempo, além do fato do consumo demasiado de espaço em disco, recursos em geral da máquina que será o host.
 

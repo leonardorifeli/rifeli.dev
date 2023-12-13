@@ -3,7 +3,13 @@
 	<article>
 		<div class="title">
 			<h1 class="title">{{ .Title }}</h1>
-			<div class="meta">Posted on {{ dateFormat "Jan 2, 2006" .Date }}{{ if .Draft }} <span
+			<div class="meta">{{ if .Date }} Posted on {{ dateFormat "Jan 2, 2006" .Date }} {{ end }} 
+				
+				{{ if ne .Lastmod .Date }}
+					  - Updated on {{ dateFormat "Jan 2, 2006" .Lastmod }}
+  					{{ end }}
+
+				 {{ if .Draft }} <span
 					class="draft-label">DRAFT</span> {{ end }}</div>
 		</div>
 		{{ if isset .Params "tldr" }}
@@ -18,7 +24,11 @@
 			{{ .Content }}
 		</section>
 
+		{{ partial "single/comments/giscus.html" . }}
+
 		<div class="post-tags">
+			<br/>
+			<h3>Tags:</h3>
 			{{ if ne .Type "page" }}
 			{{ if gt .Params.tags 0 }}
 			<nav class="nav tags">
@@ -31,15 +41,7 @@
 			{{ end }}
 			{{ end }}
 		</div>
-		{{- $.Scratch.Set "isDisqus" true -}}
-		<!-- Check if disqus short name is given -->
-		{{ if not .Site.DisqusShortname }}
-		{{- $.Scratch.Set "isDisqus" false -}}
-		{{ end }}
 
-		{{- if eq ($.Scratch.Get "isDisqus") true -}}
-		{{- partial "disqus.html" . -}}
-		{{- end -}}
 	</article>
 </main>
 {{ end }}

@@ -1,8 +1,13 @@
-+++
-date = "2016-11-11"
-title = "Falando sobre a estrutura do meu blog"
-tags = ["dev","docker"]
-+++
+---
+title: "Falando sobre a estrutura do meu blog"
+draft: false
+date: 2016-11-11T00:00:00.000Z
+description: ""
+categories:
+  - Desenvolvimento
+tags:
+  - Jekyll
+---
 
 Neste artigo, falarei sobre a estrutura do meu blog, um resumo geral de como ele funciona, como faço as publicações, os macetes envolvidos, etc. Recentemente, recebi várias perguntas sobre isso e decidir fazer este artigo para compartilhar isso com você.
 

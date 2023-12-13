@@ -1,8 +1,14 @@
-+++
-date = "2017-03-25"
-title = "Princípios SOLID: SRP e sopa de letrinhas"
-tags = ["solid","clean-code"]
-+++
+---
+title: "Princípios SOLID: SRP e sopa de letrinhas"
+draft: false
+date: 2017-03-25T00:00:00.000Z
+description: ""
+categories:
+  - Desenvolvimento
+tags:
+  - SOLID
+---
+
 
 Em programação de software a sigla **SOLID** tem ganhado cada vez mais importância. Trata-se de um acrônimo popularizado por **Robert C. Martin** (o Uncle Bob), onde cada letra representa um dos cinco princípios do OOD (object-oriented design) que, quando aplicados em conjunto ou isoladamente, possibilitam a criação de códigos com facilidade de manter e de se estender ao longo do tempo.
 

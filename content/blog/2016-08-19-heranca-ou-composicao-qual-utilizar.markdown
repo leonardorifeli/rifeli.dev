@@ -1,8 +1,13 @@
-+++
-date = "2016-08-19"
-title = "Herança ou composição? Qual utilizar?"
-tags = ["php","tips"]
-+++
+---
+title: "Herança ou composição? Qual utilizar?"
+draft: false
+date: 2016-08-19T00:00:00.000Z
+description: ""
+categories:
+  - Desenvolvimento
+tags:
+  - PHP
+---
 
 Olá dev sapiens, desta vez o artigo será mais teórico (comparado ao último: [Web Socket no PHP](https://leonardorifeli.com/development/2016/05/29/socket-no-php.html)) e será sobre dois assuntos que possuem demasiada importância no meio da programação orientada a objetos, a herança e a composição.
 

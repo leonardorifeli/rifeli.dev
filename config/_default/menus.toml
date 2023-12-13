@@ -1,0 +1,49 @@
+[[main]]
+    identifier = "home"
+    name = "Home"
+    url = "/"
+    weight = 1
+
+[[main]]
+    identifier = "about"
+    name = "About me"
+    url = "/about"
+    weight = 2
+
+[[main]]
+    identifier = "setup"
+    name = "My Setup"
+    url = "/setup"
+    weight = 3
+
+[[main]]
+    identifier = "categories"
+    name = "Categories"
+    url = "/categories"
+    weight = 4
+
+[[main]]
+    identifier = "tags"
+    name = "Tags"
+    url = "/tags"
+    weight = 5
+
+# Social Media Configuration
+
+[[social]]
+    identifier = "twitter"
+    name = "Twitter"
+    url = "https://twitter.com/rifelidev"
+    weight = 1
+
+[[social]]
+    identifier = "instagram"
+    name = "Instagram"
+    url = "https://www.instagram.com/rifeli.dev/"
+    weight = 2
+
+[[social]]
+    identifier = "github"
+    name = "GitHub"
+    url = "http://github.com/leonardorifeli"
+    weight = 3

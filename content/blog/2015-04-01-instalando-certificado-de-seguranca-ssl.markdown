@@ -1,8 +1,13 @@
-+++
-date = "2015-04-01"
-title = "Instalando certificado de segurança SSL"
-tags = ["security","linux"]
-+++
+---
+title: "Instalando certificado de segurança SSL"
+draft: false
+date: 2015-04-01T00:00:00.000Z
+description: ""
+categories:
+  - Segurança
+tags:
+  - Linux
+---
 
 O SSL **(Secure Socket Layer)** é um protocolo desenvolvido para elevar a segurança dos dados transmitidos pela internet. O SSL pode ser usado em vários serviços, sendo que o mais comum é o acesso à páginas web.
 

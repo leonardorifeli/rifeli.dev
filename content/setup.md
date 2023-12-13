@@ -1,14 +1,18 @@
-+++
-date = "2020-03-07"
-title = "My Setup"
-tags = ["tips","setup"]
-+++
+---
+title: "My Setup"
+draft: false
+date: 2020-03-17T00:00:00.000Z
+lastmod: 2023-12-13
+description: ""
+categories:
+  - Desenvolvimento
+tags:
+  - SOLID
+---
 
 Algumas pessoas me perguntam qual é o meu setup para trabalho remoto. Então, decidi compartilhar neste post uma lista do hardware que utilizo atualmente.
 
 Tentarei manter essa lista atualizada sempre que possível.
-
-My setup resume
 
 # Machine
 

@@ -1,8 +1,13 @@
-+++
-date = "2016-01-22"
-title = "Implementando annotations com doctrine annotation reader em PHP"
-tags = ["php","tips"]
-+++
+---
+title: "Implementando annotations com doctrine annotation reader em PHP"
+draft: false
+date: 2016-01-22T00:00:00.000Z
+description: ""
+categories:
+  - Dicas
+tags:
+  - PHP
+---
 
 Saudações méros mortais, primeiro, peço desculpas pelo período sem trazer novidades para vocês (estive em uma excursão pela galáxia), em breve escreverei um artigo sobre essa viagem. Neste artigo mostrarei sobre **annotations** (é claro, está no título).
 

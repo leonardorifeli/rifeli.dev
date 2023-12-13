@@ -1,8 +1,13 @@
-+++
-date = "2015-03-20"
-title = "Série de Hangouts sobre OOD"
-tags = ["object-oriented", "cleancode"]
-+++
+---
+title: "Série de Hangouts sobre OOD"
+draft: false
+date: 2015-03-20T00:00:00.000Z
+description: ""
+categories:
+  - Design
+tags:
+  - CleanCode
+---
 
 Quando o assunto **Orientação a Objetos (paradigma orientado a objetos)** é abordado, é imprescindível falarmos sobre **OOD (object-oriented design)**. Temos o SOLID na aplicação de Padrões de Projetos.
 

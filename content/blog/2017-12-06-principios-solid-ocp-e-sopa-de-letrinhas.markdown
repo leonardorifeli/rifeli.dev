@@ -1,8 +1,15 @@
-+++
-date = "2017-12-06"
-title = "Princípios SOLID: OCP e sopa de letrinhas"
-tags = ["solid","clean-code"]
-+++
+---
+title: "Princípios SOLID: OCP e sopa de letrinhas"
+draft: false
+date: 2017-12-06T00:00:00.000Z
+description: ""
+categories:
+  - Desenvolvimento
+tags:
+  - SOLID
+---
+
+
 
 Este é o segundo post de uma série onde abordaremos todos os cinco princípios do SOLID. Neste, falaremos sobre “Open closed principle”, abreviado por OCP, e significa literalmente “Princípio aberto-fechado”.
 

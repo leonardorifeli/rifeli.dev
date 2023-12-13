@@ -1,9 +1,13 @@
-+++
-date = "2015-07-12"
-title = "Como ir bem em cálculo 1"
-tags = ["tips"]
-+++
-
+---
+title: "Como ir bem em cálculo 1"
+draft: false
+date: 2015-07-12T00:00:00.000Z
+description: ""
+categories:
+  - Dicas
+tags:
+  - Matemática
+---
 
 Sim, é possível, não desista sem ao menos ter sentado a ‘bunda’ na cadeira e estudado.
 

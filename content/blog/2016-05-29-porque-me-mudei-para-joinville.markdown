@@ -1,8 +1,13 @@
-+++
-date = "2016-05-29"
-title = "Porque me mudei para Joinville"
-tags = ["life","tips"]
-+++
+---
+title: "Porque eu me mudei para Joinville"
+draft: false
+date: 2016-05-29T00:00:00.000Z
+description: ""
+categories:
+  - Dicas
+tags:
+  - Vida
+---
 
 Saudação méro mortal, lembra o post maroto que escrevi há alguns meses? (caso não tenha efetuado uma sábia leitura, clique aqui). Então, nele eu me desculpei e argumentei que estou em uma viagem pela galáxia. Pois bem, este post é para conversarmos sobre essa incrível viagem.
 
