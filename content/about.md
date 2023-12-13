@@ -6,10 +6,10 @@ lastmod: 2023-12-12T00:00:00.000Z
 description: "About"
 ---
 
-💻 | Co-Founder & CTO at @harmo.me
-❤️ | Writer at rifeli.dev & Gopher since 2017
-👰 | @thuany.rifeli
-📍 | Antônio Carlos - SC 🇧🇷
+- 💻 | Co-Founder & CTO at @harmo.me
+- ❤️ | Writer at rifeli.dev & Gopher since 2017
+- 👰 | @thuany.rifeli
+- 📍 | Antônio Carlos - SC 🇧🇷
 
 I'm Leonardo Rifeli CTO at [harmo](https://harmo.me) and Data Science Technologist at [Uninter](https://www.uninter.com/).
 
