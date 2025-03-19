@@ -24,7 +24,9 @@
 			{{ .Content }}
 		</section>
 
-		{{ partial "single/comments/giscus.html" . }}
+		{{ if .Params.Comments }}
+			{{ partial "single/comments/giscus.html" . }}
+		{{ end }}
 
 		<div class="post-tags">
 			<br/>
