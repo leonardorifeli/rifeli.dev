@@ -11,9 +11,9 @@
     weight = 2
 
 [[main]]
-    identifier = "setup"
-    name = "My Setup"
-    url = "/setup"
+    identifier = "uses"
+    name = "uses"
+    url = "/uses"
     weight = 3
 
 [[main]]
@@ -31,19 +31,19 @@
 # Social Media Configuration
 
 [[social]]
-    identifier = "twitter"
-    name = "Twitter"
-    url = "https://twitter.com/rifelidev"
-    weight = 1
-
-[[social]]
-    identifier = "instagram"
-    name = "Instagram"
-    url = "https://www.instagram.com/rifeli.dev/"
-    weight = 2
-
-[[social]]
     identifier = "github"
     name = "GitHub"
     url = "http://github.com/leonardorifeli"
+    weight = 1
+
+[[social]]
+    identifier = "linkedin"
+    name = "Linkedin"
+    url = "https://www.linkedin.com/in/leonardorifeli"
+    weight = 2
+
+[[social]]
+    identifier = "work"
+    name = "My Startup"
+    url = "https://harmo.me"
     weight = 3
