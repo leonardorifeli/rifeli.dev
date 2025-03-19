@@ -1,34 +1,46 @@
 ---
-title: "About me"
+title: "About"
 draft: false
 date: 2020-03-07T00:00:00.000Z
-lastmod: 2023-12-12T00:00:00.000Z
+lastmod: 2025-03-19T00:00:00.000Z
 description: "About"
 comments: false
 ---
 
-- 💻 | Co-Founder & CTO at @harmo.me
-- ❤️ | Writer at rifeli.dev & Gopher since 2017
-- 👰 | @thuany.rifeli
-- 📍 | Antônio Carlos - SC 🇧🇷
+## 👋 Hey, I'm Leonardo Rifeli
 
-I'm Leonardo Rifeli CTO at [harmo](https://harmo.me) and Data Science Technologist at [Uninter](https://www.uninter.com/).
+🚀 **Co-Founder & CTO at [Harmo](https://harmo.me) | Data Engineer & Software Architect**  
+💡 Passionate about **scalable architectures, data engineering, and cloud solutions**  
 
-I have more than 13 years old of experience as Software Developer. Studies Data Science at uninter.com university.
+### 🏢 **Professional Background**
+I'm an **Experienced Software Developer and Data Engineer** with over **14 years** of expertise in **scalable systems** and **high-performance teams** leadership.  
 
-I co-founded the startup called Reviewr (reviewr.me), eligible as one of the most promising in Santa Catarina - Brazil, incubated at MIDITEC, the 5th best startup incubator in the world, and accelerated by Darwin Startups. And, I also co-founded the Harmo startup (harmo.me), a fusion of Reviewr & Gorila startups. Harmo’s a partner company of ReclemaAqui.
+I co-founded **Reviewr** (reviewr.me), recognized as one of the most promising startups in **Santa Catarina, Brazil**, incubated at **MIDITEC** (5th best startup incubator in the world) and accelerated by **Darwin Startups**. Later, I co-founded **Harmo** (harmo.me), a fusion of Reviewr & Gorila, and a **partner company of ReclameAqui**.
 
-My specialty is data extraction and processing. I work on top of AWS basically using Lambda, StepFunction, EKS, RDS Aurora, SQS, SES, OpenSearch, and API Gateway.
+### 🔥 **Tech Stack & Expertise**
+- **Backend Development**: Golang (since 2017), JavaScript (Node.js), Python  
+- **Cloud & Infrastructure**: AWS (Lambda, Step Functions, EKS, RDS Aurora, MWAA/Airflow, SQS, SES, OpenSearch, API Gateway)  
+- **Data Engineering**: Data pipelines, ETL, and AI-driven processing  
+- **System Scalability & DevOps**: SRE, Infrastructure as Code, and Serverless architectures  
 
-My main tech stacks are Golang, Javascript (with Node.js) & python. I’m Gopher since 2017 (1.7 version) & also a serverless enthusiast.
+### 🎯 **What I Do**
 
-My everyday routine includes:
+Every day, I work on:  
+✅ **Leading a team of 12+ engineers**  
+✅ **Software Architecture & Backend Development**  
+✅ **Data Engineering (Extractors, Pipelines, and AI Processing)**  
+✅ **Cloud & DevOps Strategies (AWS, Kubernetes, Serverless)**  
+✅ **Architecture Decision-Making & Problem Solving**  
 
-* Team Tech Leader (+10 peoples);
-* Software Architecture & Development;
-* Data Engineering (architecture, extractor, and processor);
-* Architecture Decision;
-* Problem-Solving;
-* SRE & DevOps.
+### 📍 **Location**
 
-> 🏊‍♂️🚴‍♂️🏃‍♂️ **Good dream is dream lived (Avelino, Thiago)**
+🏡 I live in **Antônio Carlos - SC, Brazil 🇧🇷**, where I enjoy family time, nature, and building meaningful tech solutions.  
+
+### ✨ **Beyond Work**
+
+- ❤️ **Gopher since 2017**  
+- 📝 **Writing at [rifeli.dev](https://rifeli.dev)**  
+- 📚 **Always learning & improving**  
+- 👰 **Happily married**  
+
+> 🏊‍♂️🚴‍♂️🏃‍♂️ *"Good dream is a dream lived" — Avelino, Thiago*  
