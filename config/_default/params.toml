@@ -1,5 +1,5 @@
 # Homepage Config
-isSinglePage = true
+isSinglePage = false
 
 # Meta Config
 description = "Hello"
@@ -22,7 +22,7 @@ enableEmoji = true
     categoryId = "DIC_kwDOK5D89s4Cbsd_"
     mapping = "pathname"  # comment value is the default value
     strict = 0
-    reactionsEnabled = 1
+    reactionsEnabled = 0
     emitMetadata = 1
     inputPosition = "top"
     theme = "preferred_color_scheme"
