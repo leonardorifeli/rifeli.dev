@@ -1,6 +1,15 @@
 {{ define "main" }}
 <main>
 	<article>
+
+		{{ with .Params.tags }}
+		<div id="tags-custom-container">
+				{{ range . }}
+				<a id="tag-custom-button" href="{{ "/tags/" | relLangURL }}{{ . | urlize }}">{{ . }}</a>
+				{{ end }}
+		</div>
+		{{ end }}
+
 		<div class="title">
 			<h1 class="title">{{ .Title }}</h1>
 			<div class="meta">{{ if .Date }} Posted on {{ dateFormat "Jan 2, 2006" .Date }} {{ end }} 
@@ -26,23 +35,6 @@
 
 		{{ if .Params.Comments }}
 			{{ partial "single/comments/giscus.html" . }}
-		{{ end }}
-
-		{{ if gt .Params.tags 0 }}
-		<div class="post-tags">
-			<br/>
-			<h3>Tags:</h3>
-			{{ if ne .Type "page" }}
-			
-			<nav class="nav tags">
-				<ul class="tags">
-					{{ range .Params.tags }}
-					<li><a href="{{ " /tags/" | relLangURL }}{{ . | urlize }}">{{ . }}</a></li>
-					{{ end }}
-				</ul>
-			</nav>
-			{{ end }}
-		</div>
 		{{ end }}
 
 	</article>

@@ -17,8 +17,10 @@ keywords: [
   "cloud solutions"
 ]
 tags:
+  - event
   - serverless
-  - distributed-architecture
+  - distributed
+  - architecture
 ---
 
 On July 14, 2020, I participated in the Sem Servidor podcast, led by the late Evandro Pires, where I shared how we built our Serverless architecture at Harmo.
