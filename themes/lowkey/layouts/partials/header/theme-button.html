@@ -18,6 +18,8 @@
     const html = document.querySelector('html');
     localStorage.setItem('theme', theme);
 
+    updateGiscusTheme()
+
     if (theme === 'light') {
       if (html.classList.contains('dark')) {
         document.querySelector('html').classList.remove('dark');
@@ -37,11 +39,37 @@
 
   function toggleTheme() {
     const theme = localStorage.getItem('theme');
-
+    updateGiscusTheme();
     if (theme === 'light') {
       setTheme('dark');
     } else {
       setTheme('light');
     }
   }
+
+  function updateGiscusTheme() {
+    const theme = localStorage.getItem("theme") || "light";
+    const giscusTheme = theme === "dark" ? "dark" : "light";
+
+    function sendMessage(message) {
+      const iframe = document.querySelector("iframe.giscus-frame");
+      if (!iframe) {
+        setTimeout(() => sendMessage(message), 500);
+        return;
+      }
+      iframe.contentWindow.postMessage({ giscus: message }, "https://giscus.app");
+    }
+
+    setTimeout(() => sendMessage({ setConfig: { theme: giscusTheme } }), 1000);
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    updateGiscusTheme();
+  });
+
+  window.addEventListener("storage", function (event) {
+    if (event.key === "theme") {
+      updateGiscusTheme();
+    }
+  });
 </script>
