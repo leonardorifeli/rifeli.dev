@@ -28,11 +28,12 @@
 			{{ partial "single/comments/giscus.html" . }}
 		{{ end }}
 
+		{{ if gt .Params.tags 0 }}
 		<div class="post-tags">
 			<br/>
 			<h3>Tags:</h3>
 			{{ if ne .Type "page" }}
-			{{ if gt .Params.tags 0 }}
+			
 			<nav class="nav tags">
 				<ul class="tags">
 					{{ range .Params.tags }}
@@ -41,8 +42,8 @@
 				</ul>
 			</nav>
 			{{ end }}
-			{{ end }}
 		</div>
+		{{ end }}
 
 	</article>
 </main>
