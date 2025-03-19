@@ -2,7 +2,7 @@
 isSinglePage = false
 
 # Meta Config
-description = "Hello"
+description = "Leonardo creates, writes and operates software. 🚀 CTO at Harmo | Data Engineer | Software Architect."
 
 # Header Configuration
 avatar = "img/6767689.jpeg"
@@ -11,7 +11,7 @@ avatar = "img/6767689.jpeg"
 disqusShortname = ""
 
 [emoji]
-enableEmoji = true
+enableEmoji = false
 
 # giscus is a comment system based on GitHub Discussions. see https://giscus.app
 [giscus]       
@@ -25,6 +25,5 @@ enableEmoji = true
     reactionsEnabled = 0
     emitMetadata = 1
     inputPosition = "top"
-    theme = "preferred_color_scheme"
     lang = "en"
     lazyLoading = false

@@ -5,7 +5,22 @@ date: 2020-03-07T00:00:00.000Z
 lastmod: 2025-03-19T00:00:00.000Z
 description: "About"
 comments: false
+keywords: [
+  "Software",
+  "Develop",
+  "Setup DEV",
+  "rifeli",
+  "Software Developer",
+  "Data Science",
+  "CTO Harmo",
+  "scalable architectures",
+  "data engineering",
+  "cloud solutions"
+]
 ---
+
+<img id="image-custom" src="/images/about/me.png" alt="my desk, as of December, 2024" />
+<p id="image-legend">Talk on GopherCon LATAM 2024</p>
 
 ## 👋 Hey, I'm Leonardo Rifeli
 

@@ -1,11 +1,33 @@
 <div class="order-1 sm:order-2">
   <ul class="flex sm:justify-end gap-5">
-    {{ with site.Menus.social }}
-    {{ range . }}
-    <li>    
-      <a href="{{ .URL }}" target="_blank" rel="noopener noreferrer">{{ .Name }}</a>
+    {{ with site.Params.social.github }}
+    <li class="social__item">
+      <a class="social__link" href="{{ . }}" target="_blank" rel="noopener me" aria-label="GitHub link">
+        <ion-icon name="logo-github"></ion-icon>
+      </a>
     </li>
     {{ end }}
+
+    {{ with site.Params.social.linkedin }}
+    <li class="social__item">
+      <a class="social__link" href="{{ . }}" target="_blank" rel="noopener me" aria-label="linkedin link">
+        <ion-icon name="logo-linkedin"></ion-icon>
+      </a>
+    </li>
+    {{ end }}
+
+    {{ with site.Params.social.website }}
+    <li class="social__item">
+      <a class="social__link" href="{{ . }}" target="_blank" rel="noopener me" aria-label="Website link">
+        <ion-icon name="link"></ion-icon>
+      </a>
+    </li>
     {{ end }}
   </ul>
+
+  <!-- Botão de Voltar ao Topo -->
+  <button id="back-to-top" aria-label="Voltar ao topo">
+    <ion-icon name="arrow-up-outline"></ion-icon>
+  </button>
+
 </div>

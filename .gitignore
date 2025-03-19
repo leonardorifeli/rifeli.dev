@@ -4,3 +4,5 @@ node_modules
 .hugo_build.lock
 # Local Netlify folder
 .netlify
+package-lock.json
+resources

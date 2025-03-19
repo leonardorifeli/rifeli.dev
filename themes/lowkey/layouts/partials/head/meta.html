@@ -5,4 +5,60 @@
 <meta name="description" content="{{ if .IsPage }}{{ or .Params.description .Summary }}{{ else if .IsHome }}{{ .Site.Params.description }}{{ else if .IsNode }}{{ or .Params.description .Summary }}{{ end }}">
 <link rel="canonical" href="{{ .Permalink }}">
 <link rel="robots" href="/robots.txt" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+{{ with .Params.keywords }}
+<meta name="keywords" content="{{ delimit . ", " }}">
+{{ end }}
+<meta property="og:title" content="{{ .Title }} | rifeli.dev">
+<meta property="og:description" content="{{ if .Params.description }}{{ .Params.description }} | rifeli.dev{{ else }}{{ site.Params.description }}{{ end }}">
+<meta property="og:type" content="article">
+<meta property="og:url" content="{{ .Permalink }}">
+{{ with .Params.image }}
+<meta property="og:image" content="{{ . | absURL }}">
+{{ end }}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ .Title }} | rifeli.dev">
+<meta name="twitter:description" content="{{ if .Params.description }}{{ .Params.description }}{{ else }}{{ site.Params.description }}{{ end }}">
+{{ with .Params.image }}
+<meta name="twitter:image" content="{{ . | absURL }}">
+{{ end }}
+<link rel="icon" type="image/png" href="https://avatars.githubusercontent.com/u/6767689?v=4">
+<script type="module" src="https://unpkg.com/ionicons@latest/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@latest/dist/ionicons/ionicons.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const backToTopButton = document.getElementById("back-to-top");
 
+  window.addEventListener("scroll", function () {
+    if (window.scrollY > 300) {
+      backToTopButton.classList.add("show");
+    } else {
+      backToTopButton.classList.remove("show");
+    }
+  });
+
+  backToTopButton.addEventListener("click", function () {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+});
+
+function setGiscusTheme() {
+  const theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+  function sendMessage(message) {
+    const iframe = document.querySelector('iframe.giscus-frame');
+    if (!iframe) return;
+    iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+  }
+  sendMessage({ setConfig: { theme: theme } });
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  setGiscusTheme(); // Define o tema ao carregar
+
+  // Atualiza ao mudar de tema
+  const observer = new MutationObserver(setGiscusTheme);
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+});
+</script>

@@ -3,12 +3,23 @@ copyright = "2015 - {year}"
 languageCode = 'en-US'
 defaultContentLanguage = 'en'
 theme = 'lowkey'
-title = 'Leonardo Rifeli'
+title = 'rifeli.dev'
 enableRobotsTXT = true
 summaryLength = 15
-paginate = 10
+
+[params.social]
+  github = "https://github.com/leonardorifeli"
+  linkedin = "https://www.linkedin.com/in/leonardorifeli"
+  website = "https://rifeli.dev"
+
+[pagination]
+  pagerSize = 5
 
 [markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
   [markup.highlight]
     anchorLineNos = false
     codeFences = true

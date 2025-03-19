@@ -1,4 +1,4 @@
-{{ define "main" }} 
+{{ define "main" }}
 
 {{ $pages := where site.RegularPages "Type" "in" site.Params.mainSections }} 
 {{ $paginator := .Paginate $pages }}

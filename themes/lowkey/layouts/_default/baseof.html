@@ -4,17 +4,23 @@
     {{- partial "head/index" . -}}
   </head>
 
-  <body class="max-w-screen-md mx-auto">
-    <div class="header">
+  <body>
+    <div class="header max-w-screen-md mx-auto">
       {{ partial "header/index" . }}
       {{ partial "header/theme-button" . }}
     </div>
-  
-    <main id="content">
+
+    {{ if .IsHome }}
+      {{ partial "intro.html" . }}
+    {{ end }}
+
+    <main id="content" class="max-w-screen-md mx-auto">
       {{- block "main" . -}}
       {{- end }}
     </main>
 
+    <div>
     {{- partial "footer/index" . -}}
+    </div>
   </body>
 </html>
