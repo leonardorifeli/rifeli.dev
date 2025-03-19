@@ -6,7 +6,7 @@
 <script type="text/x-mathjax-config">MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });</script>
 
 {{/* Processor */}} 
-{{- $styles := slice $tailwind | resources.Concat "css/app.css?v10" -}} 
+{{- $styles := slice $tailwind | resources.Concat "css/app.css" -}} 
 
 {{/* Output */}} 
 {{- if eq hugo.Environment "development" -}}
