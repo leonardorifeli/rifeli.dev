@@ -3,12 +3,8 @@ title: "/uses"
 draft: false
 date: 2020-03-17T00:00:00.000Z
 lastmod: 2025-03-19
-description: ""
+description: "My current setup"
 comments: false
-categories:
-  - setup
-tags:
-  - setup
 ---
 
 Sometimes people ask me what my setup looks like for remote work. I decided to try to keep a list of the hardware and software I’m using.
