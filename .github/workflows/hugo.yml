@@ -52,7 +52,7 @@ jobs:
             --minify \
             --baseURL "${{ steps.pages.outputs.base_url }}/"
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v2  # 🔥 Versão correta para GitHub Pages
         with:
           path: ./public
 
@@ -63,6 +63,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4  # 🔥 Atualizado para v4
+        with:
+          name: github-pages
+          path: ./public
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
