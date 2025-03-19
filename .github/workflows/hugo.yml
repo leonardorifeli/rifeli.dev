@@ -1,4 +1,4 @@
-# Sample workflow for building and deploying a Hugo site to GitHub Pages
+# Workflow para construir e implantar um site Hugo no GitHub Pages
 name: Deploy Hugo site to Pages
 
 on:
@@ -52,9 +52,9 @@ jobs:
             --minify \
             --baseURL "${{ steps.pages.outputs.base_url }}/"
       - name: Upload artifact
-        uses: actions/upload-artifact@v4  # 🔥 Alterado para `upload-artifact@v4`
+        uses: actions/upload-artifact@v4 
         with:
-          name: github-pages
+          name: github-pages 
           path: ./public
 
   deploy:
@@ -65,9 +65,9 @@ jobs:
     needs: build
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v4  # 🔥 Atualizado para `v4`
+        uses: actions/download-artifact@v4 
         with:
-          name: github-pages
+          name: github-pages 
           path: ./public
       - name: Deploy to GitHub Pages
         id: deployment
