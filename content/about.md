@@ -4,6 +4,7 @@ draft: false
 date: 2020-03-07T00:00:00.000Z
 lastmod: 2023-12-12T00:00:00.000Z
 description: "About"
+comments: false
 ---
 
 - 💻 | Co-Founder & CTO at @harmo.me
