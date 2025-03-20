@@ -363,7 +363,38 @@
       font-size: 0.85rem;
       padding: 5px 10px;
     }
+
+    #custom-copy-final{
+      margin-left: 20px;
+    }
+
+    .custom-header nav {
+      margin-left: 20px;
+    }
+
+    .custom-header #site-title {
+      margin-left: -55px;
+    }
+
+    .toggle-theme {
+      margin-right: 20px;
+      margin-top:-30px;
+    }
+
+    #content {
+      width: 90%;
+    }
+
+    .title {
+      text-align: left;
+    }
+
+    .newsletter-card{
+      margin-left: 0px!important;
+      margin-right: 0px!important;
+    }
   }
+  
 
   .custom-header {
     padding-top: 30px!important;
