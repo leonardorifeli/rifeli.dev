@@ -30,7 +30,7 @@ People usually call such pages ["my /uses page"](https://uses.tech/).
 
 - **Linux Laptop** DELL G15 with an i7-13650HX 14-Core Processor, with 32GB of RAM, 512GB NVMe, and GeForce RTX 3050 6GB
 - **Linux Desktop** with an i9-10850K 20-Core Processor, with 32GB of RAM, 1TB NVMe, and a GeForce RTX 4060 8GB
-- **Motorola Edge 50 5G**
+- **Smartphone Motorola Edge 50 5G**
 
 ## With Power Manager
 
@@ -52,18 +52,18 @@ I have many keyboards:
 - **Logitech MX Keys**
 - **Logitech K400**
 - **Attack Shark K86**
-- **Motospeed CK62**
-- **Magegee STAR**
+- **Motospeed CK62 with red switch**
+- **Magegee STAR with blue switch**
 
 <img id="image-custom" src="/images/uses/main-keyboard.jpg" alt="my main keyboard, as of March, 2025" />
 <p id="image-legend">my main keyboard, as of March, 2025</p>
 
 # Sound & Video
 
-- **Acer Gamer Nitro 31.5" 240Hz** *Main*
-- **Bettdow 15.6"**
-- **Samsung T450 24" IPS 75Hz**
-- **Lenovo 300 FHD**
+- **Monitor Acer Gamer Nitro 31.5" 240Hz** *Main*
+- **Monitor Bettdow 15.6"**
+- **Monitor Samsung T450 24" IPS 75Hz**
+- **Webcam Lenovo 300 FHD**
 - **Motorola Moto Buds+**
 - **HyperX SoloCast Microphone**
 
@@ -71,8 +71,9 @@ I have many keyboards:
 
 Here are some of the apps I use every day and/or enjoy using:
 
-- [LMDE 6 'Faye'](https://linuxmint.com/download_lmde.php): My default OS on desktop and laptop
+- [Ubuntu 24.04 with Omakub](https://omakub.org/): My default OS on desktop and laptop
 - [Terminator](https://gnome-terminator.readthedocs.io/en/latest/): Terminal
+- [Alacritty](https://alacritty.org/index.html): Terminal
 - [VSCode](https://code.visualstudio.com/): Main Editor
 - [Notion](https://www.notion.so/): Personal docs
 - [ClickUp](https://clickup.com/): Work app
@@ -81,9 +82,10 @@ Here are some of the apps I use every day and/or enjoy using:
 
 # Retired
 
-- **Husky Gaming 27" 240Hz**
-- **AOC Hero 24” 144Hz G2460PF**
-- **LG 25UM58 25” IPS**
+- [LMDE 6 'Faye'](https://linuxmint.com/download_lmde.php): My default OS on desktop and laptop
+- **Monitor Husky Gaming 27" 240Hz**
+- **Monitor AOC Hero 24” 144Hz G2460PF**
+- **Monitor LG 25UM58 25” IPS**
 - **Magic Keyboard 2**
 - **Magic Mouse 1**
 - **MacBook Pro 14" M2 (2024)**
