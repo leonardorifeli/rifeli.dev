@@ -96,6 +96,7 @@ Here are some of the apps I use every day and/or enjoy using:
 
 # Changelog
 
+- **2025-04-30** - Change main OS and some descriptions
 - **2025-03-19** - Added new power managers
 - **2024-12-01** - Added new Dell G15 as main laptop
 - **2024-06-01** - Added last MacBook to retired list
