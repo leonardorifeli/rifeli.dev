@@ -29,6 +29,8 @@ People usually call such pages ["my /uses page"](https://uses.tech/).
 <p id="image-legend">my desk, as of December, 2024</p>
 
 - **Linux Laptop** DELL G15 with an i7-13650HX 14-Core Processor, with 32GB of RAM, 512GB NVMe, and GeForce RTX 3050 6GB
+- **HomeLab** with an AMD-A8-5600k, with 16GB of ram, and NAS with 5TB
+- **Capture Desktop**: with an XEON-E52620-v3, with 16GB of RAM, and RX-580 8GB
 - **Linux Desktop** with an i9-10850K 20-Core Processor, with 32GB of RAM, 1TB NVMe, and a GeForce RTX 4060 8GB
 - **Smartphone Motorola Edge 50 5G**
 
@@ -48,7 +50,9 @@ People usually call such pages ["my /uses page"](https://uses.tech/).
 
 I have many keyboards:
 
-- **8BitDo Retro** *My favorite*
+- **Aula F75** *My favorite 1*
+- **8BitDo Retro** *My favorite 2*
+- **Retro Sun Microsystems mid 1996**
 - **Logitech MX Keys**
 - **Logitech K400**
 - **Attack Shark K86**
@@ -71,9 +75,11 @@ I have many keyboards:
 
 Here are some of the apps I use every day and/or enjoy using:
 
-- [Ubuntu 24.04 with Omakub](https://omakub.org/): My default OS on desktop and laptop
+- [Pop!_OS](https://omakub.org/): My default OS on desktop and laptop
 - [Terminator](https://gnome-terminator.readthedocs.io/en/latest/): Terminal
 - [Alacritty](https://alacritty.org/index.html): Terminal
+- [Wave](https://www.waveterm.dev/): Terminal
+- [Cursor](https://cursor.com/): Main Editor
 - [VSCode](https://code.visualstudio.com/): Main Editor
 - [Notion](https://www.notion.so/): Personal docs
 - [ClickUp](https://clickup.com/): Work app
@@ -82,7 +88,8 @@ Here are some of the apps I use every day and/or enjoy using:
 
 # Retired
 
-- [LMDE 6 'Faye'](https://linuxmint.com/download_lmde.php): My default OS on desktop and laptop
+- **[Ubuntu with Omakub](https://omakub.org/): Desktop & laptop OS**
+- **[LMDE 6 'Faye'](https://linuxmint.com/download_lmde.php): My default OS on desktop and laptop**
 - **Monitor Husky Gaming 27" 240Hz**
 - **Monitor AOC Hero 24” 144Hz G2460PF**
 - **Monitor LG 25UM58 25” IPS**
@@ -96,6 +103,7 @@ Here are some of the apps I use every day and/or enjoy using:
 
 # Changelog
 
+- **2025-08-01** - Change main OS, some descriptions, and add a new keyboard
 - **2025-04-30** - Change main OS and some descriptions
 - **2025-03-19** - Added new power managers
 - **2024-12-01** - Added new Dell G15 as main laptop
