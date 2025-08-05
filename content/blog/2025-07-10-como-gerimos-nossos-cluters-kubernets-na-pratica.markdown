@@ -2,7 +2,7 @@
 title: "Como gerimos nossos clusters Kubernetes na prática"
 draft: false
 date: 2025-07-10T00:00:00.000Z
-description: "Em muitas aplicações, é comum a necessidade de executar tarefas recorrentes: limpar dados antigos, atualizar tabelas derivadas ou enviar notificações. Em servidores tradicionais, usamos o cron, um agendador de tarefas do sistema operacional, para executar esses processos de forma automática."
+description: "Em ambientes modernos de produção, como o nosso na Harmo, gerenciar clusters Kubernetes de forma eficiente e segura é essencial. Utilizamos o Amazon EKS como nossa base de orquestração, e para operações diárias: observabilidade, debug, troubleshooting e deploys, utilizamos principalmente duas ferramentas: Lens e k9s. Neste artigo, explico como estruturamos nosso acesso, como usamos essas ferramentas no dia a dia e quais os benefícios que elas trazem para nosso time técnico."
 comments: true
 keywords: [
   "Software",
