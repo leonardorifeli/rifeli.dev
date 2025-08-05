@@ -14,12 +14,12 @@ disqusShortname = ""
 enableEmoji = false
 
 # giscus is a comment system based on GitHub Discussions. see https://giscus.app
-[giscus]       
+[giscus]
     enable = true
     repo = "leonardorifeli/personal_blog"
-    repoId = "R_kgDOK5D89g"
-    category = "blog"
-    categoryId = "DIC_kwDOK5D89s4Cbsd_"
+    repoId = "R_kgDOPYaRZg"
+    category = "General"
+    categoryId = "DIC_kwDOPYaRZs4CtySp"
     mapping = "pathname"  # comment value is the default value
     strict = 0
     reactionsEnabled = 0
