@@ -2,7 +2,7 @@
 title: "Entrevista com Elton Minetto em Mais Que Senior"
 draft: false
 date: 2025-08-01T00:00:00.000Z
-description: "Gerenciar um time técnico em constante evolução exige mais do que domínio de ferramentas: exige **clareza de propósito**, **boas decisões arquiteturais** e **foco no que realmente gera valor** para o negócio. Como CTO e Co-fundador da Harmo, essa é a lente pela qual enxergo tecnologia todos os dias."
+description: "Gerenciar um time técnico em constante evolução exige mais do que domínio de ferramentas: exige clareza de propósito, boas decisões arquiteturais e foco no que realmente gera valor para o negócio. Como CTO e Co-fundador da Harmo, essa é a lente pela qual enxergo tecnologia todos os dias."
 comments: true
 keywords: [
   "Software",
