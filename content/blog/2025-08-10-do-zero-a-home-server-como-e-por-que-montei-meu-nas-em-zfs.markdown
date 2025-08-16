@@ -1,5 +1,5 @@
 ---
-title: "De zero a Home Server: como e por que montei meu NAS em ZFS"
+title: "Do zero a Home Server: como e por que montei meu NAS em ZFS"
 draft: false
 date: 2025-08-10T00:00:00.000Z
 description: "Comecei a programar aos 14 anos com um site de streaming de áudio e um servidor de Tibia. Desde então, soluções self-hosted sempre fizeram parte da minha vida, permitindo aprender e experimentar. Agora, depois de quase dez anos, montei um home server moderno, com NAS em ZFS, Docker e Cloudflare Tunnel."
