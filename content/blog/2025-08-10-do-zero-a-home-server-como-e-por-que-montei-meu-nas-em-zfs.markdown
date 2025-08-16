@@ -27,10 +27,8 @@ tags:
 
 # Introdução
 
-<p align="center">
-  <img src="/static/images/posts/home-server/19.png" alt=""><br>
-  <em>Sempre em busca da melhor versão</em>
-</p>
+<img id="image-custom" src="/images/posts/home-server/19.png" alt="" />
+<p id="image-legend">Sempre em busca da melhor versão</p>
 
 Comecei a programar aos 14 anos, tendo um site de streaming de áudio e um servidor de Tibia (vulgo OT Server), na época rodando na versão 8.5. Desde cedo, **soluções self-hosted** foram parte essencial do meu aprendizado: de protocolos de comunicação até sistemas de auto-gestão.
 
@@ -118,10 +116,8 @@ Tudo isso sem precisar configurar NGINX ou Let's Encrypt manualmente.
 
 # Setup
 
-<p align="center">
-  <img src="/static/images/posts/home-server/18.png" alt=""><br>
-  <em>Server com AMD-A8-5600k, 16GB RAM e NAS 5TB</em>
-</p>
+<img id="image-custom" src="/images/posts/home-server/18.png" alt="" />
+<p id="image-legend">Server com AMD-A8-5600k, 16GB RAM e NAS 5TB</p>
 
 ### 🖥️ Servidor
 - **CPU**: AMD-A8-5600k
@@ -136,13 +132,13 @@ Os HDs estão ligados via **gaveta hot-swap**, e não diretamente à placa-mãe.
 - 📦 Expansão simples (basta adicionar novo HD)
 - 🛡️ Perfeito para ZFS/RAID, com reconstrução automática (resilver)
 
-<p align="center">
-  <img src="/static/images/posts/home-server/17.png" alt=""><br>
-  <em>NAS com gavetas hot-swap</em>
-</p>
+<img id="image-custom" src="/images/posts/home-server/17.png" alt="" />
+<p id="image-legend">NAS com gavetas hot-swap</p>
 
 ### ⚡ Gestão de energia
+
 Para mitigar quedas de energia, configurei:
+
 - **Gerador**: 3.75 kVA 3000W
 - **Nobreak SMS Lite 1200VA** (~6h autonomia)
 - **Nobreak SMS NET 4+ 1400VA** (~8h autonomia)
@@ -166,10 +162,8 @@ Em média, gasto **R\$ 60–110/mês**, dependendo da carga e da tarifa.
 
 # Arquitetura
 
-<p align="center">
-  <img src="/static/images/posts/home-server/flow.jpeg" alt=""><br>
-  <em>Arquitetura do Home Server</em>
-</p>
+<img id="image-custom" src="/images/posts/home-server/flow.jpeg" alt="" />
+<p id="image-legend">Arquitetura do Home Server</p>
 
 ### 🔍 Como funciona o fluxo
 1. **Usuário** → acessa pelo navegador
