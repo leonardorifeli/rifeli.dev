@@ -134,3 +134,8 @@ Interessante refletir e analisar cada caso, mas o que sempre buscamos ter aqui �
 - **Reduza dependências:** cada pacote a menos significa menos riscos, menos manutenção e menos bugs;
 - **Crie seus utilitários:** pequenos helpers (fetchJson, fetchWithRetry) podem substituir dezenas de linhas de configs em libs externas;
 - **Padronize no time:** uma decisão simples como **“usar fetch nativo com helper padrão”** já elimina inconsistências e acelera onboarding de devs.
+
+**💬 E você, como lida com requisições no Node.js?**
+
+Prefere ficar só no fetch nativo ou ainda vê valor em libs como Axios?
+Deixa sua experiência nos comentários, quero muito ouvir como outros times têm tratado esse tema no dia a dia.
