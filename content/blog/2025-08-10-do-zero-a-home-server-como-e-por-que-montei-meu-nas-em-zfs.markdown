@@ -17,7 +17,10 @@ keywords: [
   "servidor em casa",
   "self-hosted",
   "storage",
-  "armazenamento"
+  "armazenamento",
+  "home server",
+  "how to",
+  "how to create a home server"
 ]
 tags:
   - infra-estrutura
