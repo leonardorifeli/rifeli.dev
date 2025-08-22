@@ -1,6 +1,6 @@
 ---
 title: "Por que priorizar o fetch nativo? E como implementar timeout nas requisições"
-draft: true
+draft: false
 date: 2025-08-20T00:00:00.000Z
 description: "Entenda por que o fetch nativo deve ser sua primeira escolha no Node.js e veja como implementar timeout de forma simples e eficiente."
 comments: true
