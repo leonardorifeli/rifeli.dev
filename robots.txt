@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Sitemap: https://rifeli.dev/sitemap.xml
+
+# Helpful: block common junk
+Disallow: /wp-admin/
+Disallow: /*?replytocom=
