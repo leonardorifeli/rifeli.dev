@@ -1,7 +1,7 @@
 ---
 title: "Como estruturamos nosso pipeline CI/CD para aplicações cloud-native no EKS"
 draft: true
-date: 2025-11-14T00:00:00.000Z
+date: 2025-11-01T00:00:00.000Z
 description: "Entenda como funciona nosso pipeline CI/CD usando GitHub, Copilot AI, CircleCI, AWS ECR, Jenkins e Kubernetes (EKS) para garantir deploys previsíveis, seguros e escaláveis."
 comments: true
 keywords: [
