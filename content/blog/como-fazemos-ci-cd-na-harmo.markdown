@@ -1,6 +1,6 @@
 ---
 title: "Como estruturamos nosso pipeline CI/CD para aplicações cloud-native no EKS"
-draft: true
+draft: false
 date: 2025-11-01T00:00:00.000Z
 description: "Entenda como funciona nosso pipeline CI/CD usando GitHub, Copilot AI, CircleCI, AWS ECR, Jenkins e Kubernetes (EKS) para garantir deploys previsíveis, seguros e escaláveis."
 comments: true
@@ -24,27 +24,28 @@ tags:
   - automação
 ---
 
-# Como estruturamos nosso pipeline CI/CD para aplicações cloud-native no EKS
+<img id="image-custom" src="https://assets.primotech.com/wp-content/uploads/2022/07/CICD-Pipeline-Everything-You-Need-to-Know-1024x546.png" alt="cloud-native" />
+<p id="image-legend"></p>
 
-Construir uma plataforma cloud-native moderna não depende apenas de Kubernetes, observabilidade e arquitetura distribuída — depende de um **pipeline de entrega contínua confiável**, capaz de compilar, testar, versionar, empacotar e implantar aplicações de forma consistente.
+# Introdução
+
+Construir uma plataforma cloud-native moderna não depende apenas de Kubernetes, observabilidade e arquitetura distribuída, mas sim de um **pipeline de entrega contínua confiável**, capaz de compilar, testar, versionar, empacotar e implantar aplicações de forma consistente.
 
 Na Harmo, adotamos um fluxo que conecta:
 
 - **GitHub** (código + PRs)
-- **Copilot AI** (refinamento, lint, segurança, padrões)
+- **Copilot AI** (code-review, refinamento, lint, segurança, padrões)
 - **CircleCI** (build, testes, análise estática, push no ECR)
 - **AWS ECR** (registry de imagens)
 - **Jenkins** (orquestração do deploy)
 - **Amazon EKS** (execução final das aplicações)
 
-Este artigo detalha todo o processo, incluindo template de PR, boas práticas de mercado e a visão arquitetural geral.
+# Como fazemos
 
----
-
-# Resumo rápido (para quem quer entender o fluxo em 20 segundos)
+Buscamos ao longo dos anos, um fluxo confiável e robusto de entrega contínua.
 
 1. O dev abre um **Pull Request** no GitHub.
-2. O **Copilot AI** sugere melhorias de código, segurança, testes e estilo.
+2. O **Copilot AI** sugere melhorias de código, segurança, testes e estilo. Além de outras pessoas desenvolvedoras.
 3. O PR é revisado com regras rígidas e padronizadas.
 4. Ao receber *approve*, o **merge** dispara pipelines no CircleCI.
 5. O CircleCI:
@@ -62,11 +63,11 @@ Este artigo detalha todo o processo, incluindo template de PR, boas práticas de
 
 Resultado: deploys previsíveis, auditáveis e rastreáveis.
 
----
+# Por que CI/CD é um pilar do cloud-native
 
-# 1. Por que CI/CD é um pilar do cloud-native
+Cloud-native não significa simplesmente "estar na nuvem"s. Significa projetar e operar sistemas que exploram a nuvem ao máximo. Tendo autonomia e facilidade para entrega contínua de soluções.
 
-Cloud-native exige:
+Em uma filosofia Cloud-native exige:
 
 - **deploys frequentes**
 - **rollback instantâneo**
@@ -76,42 +77,33 @@ Cloud-native exige:
 - **infra em YAML ou Helm**
 - **zero intervenção manual**
 
-Sem um pipeline maduro, Kubernetes vira risco, não vantagem.
+Na minha visão, sem um pipeline maduro, Kubernetes vira risco, não vantagem.
 
----
-
-# 2. Visão geral da arquitetura do nosso pipeline
+# Visão geral da arquitetura do nosso pipeline
 
 Fluxo completo:
 
 GitHub → Pull Request → Copilot AI → Code Review → Merge → CircleCI → Build Docker → Scan → Push ECR → Trigger Jenkins → Deploy no EKS → Observabilidade
 
-yaml
-Copy code
-
 **Pontos fundamentais:**
 
 - Um PR **nunca** vira deploy sem revisão humana.
-- Nada roda sem testes — mínimo aceitável de cobertura.
 - Toda imagem tem **tag semântica + tag por SHA**.
 - Todo deploy é rastreável até o commit original.
 
----
-
-# 3. GitHub + Copilot AI: a primeira linha de defesa
+# GitHub + Copilot AI: a primeira linha de defesa e automação
 
 O GitHub atua como centro de controle:
 
 ### ✔️ Branching model padrão
 - `main` → produção
-- `develop` → staging
+- `develop` → staging (estamos em constante avanço nessa parte)
 - branches de feature: `feature/nome`
 - hotfixes controlados por tag
 
 ### ✔️ O Copilot ajuda no PR
 Usamos o Copilot para:
 
-- sugerir testes automatizados
 - detectar código inseguro
 - revisar padrões de estilo
 - identificar endpoints sem cobertura
@@ -119,9 +111,7 @@ Usamos o Copilot para:
 
 Ele não substitui a revisão humana, mas agiliza muito.
 
----
-
-# 4. Template de Pull Request (padrão Harmo)
+# Template de Pull Request (padrão Harmo)
 
 Usamos um PR *enxuto, objetivo e baseado em engenharia madura*:
 
@@ -131,10 +121,6 @@ O que foi alterado? Por quê?
 
 ## 🎯 Motivação / Contexto
 Qual problema isso resolve?
-
-## 🧪 Testes
-- [ ] Testes unitários escritos/atualizados
-- [ ] Testes manuais realizados (descrever abaixo)
 
 ## 📊 Observabilidade
 - [ ] Logs ajustados
@@ -149,159 +135,77 @@ Serviço / namespace afetado:
 
 ## 🔙 Rollback
 Como desfazer? (passo a passo)
+```
 
-## 📎 Checklist final
-- [ ] Segurança revisada
-- [ ] Código idempotente
-- [ ] Sem breaking changes ocultos
+# CircleCI: build, scan e push para o ECR
 
+Quando o PR é aprovado e mergeado, pipeline CircleCI executa:
 
-5. Regras de mercado para aprovação de PR
-
-Apenas PRs que seguem práticas maduras são aceitos:
-
-🔹 PR pequeno > PR grande
-
-Pull requests grandes escondem falhas.
-
-🔹 Tudo versionado
-
-Nada fora do Git. Nada.
-
-🔹 Testes obrigatórios
-
-Sem teste = sem merge.
-
-🔹 Padrões de commit
-
-Usamos Conventional Commits:
-
-feat: nova funcionalidade
-fix: correção
-chore: manutenção
-refactor: melhoria sem alterar comportamento
-perf: performance
-docs: documentação
-
-🔹 Sem merges na sexta-feira
-
-Política que salva finais de semana.
-
-6. CircleCI: build, scan e push para o ECR
-
-Quando o PR é aprovado e mergeado:
-
-O pipeline CircleCI executa:
-
-Checkout do código
-
-Lint + análise estática
-
-Testes unitários
-
-Build da imagem Docker
-
-Execução do Trivy (scan de vulnerabilidades)
+- Checkout do código
+- Lint + análise estática
+- Testes unitários
+- Build da imagem Docker
 
 Tag da imagem com:
 
-versão semântica
-
-commit SHA
-
-timestamp
-
-Push para o AWS ECR
+- versão semântica
+- commit SHA
+- timestamp
+- Push para o AWS ECR
 
 Chamada ao Jenkins:
 
-jenkins-cli trigger build -p image_tag=$TAG -p service=$SERVICE
+Temos um repositório interno de CLI, ele é clonado durante o build, e o jenkins é acionado via bash, usando a API do jenkins.
 
-7. Jenkins: deploy seguro no EKS
+# Jenkins: deploy seguro no EKS
 
-O Jenkins recebe o trigger e roda o pipeline declarativo:
+O Jenkins recebe o trigger e roda o pipeline de deploy:
 
-Etapas:
+- Baixar imagem do ECR
+- Edita os arquivos helm
+- Atualiza o EKS/pods
 
-Baixar imagem do ECR
+Utilizando a flag `--atomic`, o Helm reverte sozinho se algo falhar.
 
-Executar migrações (quando aplicável)
-
-Atualizar ConfigMaps/Secrets
-
-Aplicar manifestos:
-
-kubectl apply -f deployment.yaml
-
-
-ou
-
-helm upgrade --install service chart/ --atomic --timeout 5m
-
-
-Aguardar readiness
-
-Validar health checks
-
-Executar rollback automático caso necessário
-
-Com --atomic, o Helm reverte sozinho se algo falhar.
-
-8. Rastreabilidade e confiabilidade
+# Rastreabilidade e confiabilidade
 
 Toda versão na produção possui:
 
-referência ao SHA do commit
+- referência ao SHA do commit
+- tag exata da imagem
+- ambiente, namespace e cluster
+- pipeline de origem (CircleCI job ID)
+- logs de deploy no Jenkins
+- métricas de latência pós-deploy
 
-tag exata da imagem
+Isso facilita postmortems (fica pra um próximo artigo), auditorias e diagnósticos.
 
-ambiente, namespace e cluster
+# Benefícios reais
 
-pipeline de origem (CircleCI job ID)
+- Deploys rápidos e previsíveis
+- Zero intervenção manual
+- Menos incidentes
+- Versionamento rigoroso
+- Segurança reforçada
+- Redução drástica de falhas humanas
+- Replicabilidade entre ambientes
+- Cultura de engenharia madura
+- Time mais rápido e com mais confiança
 
-logs de deploy no Jenkins
+# Conclusão
 
-métricas de latência pós-deploy
-
-Isso facilita postmortems, auditorias e diagnósticos.
-
-9. Benefícios reais desse pipeline
-
-Deploys rápidos e previsíveis
-
-Zero intervenção manual
-
-Menos incidentes
-
-Versionamento rigoroso
-
-Segurança reforçada
-
-Redução drástica de falhas humanas
-
-Replicabilidade entre ambientes
-
-Cultura de engenharia madura
-
-Time mais rápido e com mais confiança
-
-10. Conclusão
-
-CI/CD não é um acessório — é a coluna vertebral de uma plataforma cloud-native.
+CI/CD não é um acessório, é a coluna vertebral de uma plataforma cloud-native.
 Sem automação, sem padrões e sem disciplina, Kubernetes se torna uma fábrica de riscos.
 
 Ao integrar GitHub, Copilot, CircleCI, ECR, Jenkins e EKS, criamos um pipeline:
 
-seguro
-
-rastreável
-
-escalável
-
-automatizado
-
-de fácil auditoria
-
-e resiliente a falhas
+- seguro
+- rastreável
+- escalável
+- automatizado
+- de fácil auditoria
+- e resiliente a falhas
 
 Esse pipeline permite que a Harmo evolua sua plataforma sem medo de quebrar produção, com velocidade de startup e qualidade de empresa enterprise.
+s
+E quais são suas experiências em CI/CD? Compartilha conosco nos comentários.
