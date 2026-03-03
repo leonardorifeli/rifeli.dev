@@ -1,7 +1,7 @@
 ---
-title: "Object Calisthenics em Go: Disciplina de Design para Código Idiomático"
-draft: true
-date: 2026-02-25T00:00:00.000Z
+title: "Object Calisthenics em Go: disciplina de design em uma linguagem pragmática"
+draft: false
+date: 2026-03-03T00:00:00.000Z
 description: "Eleve a qualidade do seu código Go com as 9 regras do Object Calisthenics. Aprenda a aplicar exercícios de disciplina de design para criar structs coesas, funções limpas e um domínio rico, transformando teoria de Clean Code em prática idiomática no seu dia a dia."
 comments: true
 keywords: [
@@ -23,12 +23,324 @@ tags:
   - programming
 ---
 
-IntroduçãoNo [meu último artigo], discutimos como Go lida com Orientação a Objetos através da composição. Mas como garantir que essa liberdade não resulte em um código bagunçado?Object Calisthenics é um conjunto de 9 regras de design criadas por Jeff Bay. Pense nelas como "exercícios de academia" para o seu código: no início dói, mas o resultado é uma base de código flexível, testável e elegante.As 9 Regras Adaptadas para Go1. Apenas um nível de indentação por funçãoEvite o "Código em Flecha" ($>$). Se você tem um if dentro de um for, sua função já está fazendo coisa demais.Em Go: Use Guard Clauses (retornos precoces) para manter o "caminho feliz" à esquerda.2. Não use a palavra-chave elseO else geralmente indica uma lógica que poderia ser simplificada com um retorno antecipado.Go// ✅ Idiomático em Go
-if err != nil {
-    return err
-}
-// lógica segue sem indentação extra
-3. Encapsule todos os primitivos (Value Objects)Um email string é apenas um texto. Um type Email struct pode garantir que o dado é válido desde o nascimento.Dica: Isso evita o erro comum de passar age onde deveria ser id só porque ambos são int.4. Coleções como Cidadãos de Primeira ClasseSe você tem um slice de preços []float64, transforme-o em um tipo.Gotype Prices []float64
+<img id="image-custom" src="https://dkrn4sk0rn31v.cloudfront.net/uploads/2022/10/o-que-e-e-como-comecar-com-golang.jpg" alt="cloud-native" />
+<p id="image-legend">
+  <a href="https://github.com/golang/go" target="_blank">golang/go</a>
+</p>
 
-func (p Prices) Total() float64 { /* soma */ }
-Isso move a lógica de negócio para onde o dado está, em vez de espalhar for pelo projeto.5. Um ponto por linha (Lei de Demeter)Não "navegue" através de objetos: user.Account.Profile.Picture.Isso cria acoplamento rígido. Peça o que você precisa diretamente: user.ProfilePicture().6. Não abrevie nomesGo tem uma cultura de nomes curtos para variáveis locais (r para reader, i para index). A regra aqui é: clareza acima de tudo. Se o nome precisa ser abreviado para ser lido, talvez o escopo da função esteja grande demais.7. Mantenha as entidades pequenasStructs com 50 campos são um pesadelo. Se uma struct cresce muito, ela está acumulando responsabilidades. Quebre-a em structs menores e use composição.8. Sem Getters ou SettersEm Go, não usamos GetAmount(). Usamos apenas Amount(). Mas o desafio aqui é maior: em vez de pedir o estado (get) para tomar uma decisão, mande o objeto fazer o que precisa.Don't ask, tell.9. No máximo dois campos de instância por structEssa é a regra mais difícil e polêmica. Ela força você a pensar em alta coesão. Se sua struct precisa de 10 campos, talvez ela deva ser composta por 5 structs menores.Conclusão: Disciplina vs DogmaAplicar as 9 regras ao mesmo tempo em um projeto de produção pode ser contraproducente. No entanto, praticá-las em projetos paralelos ou refatorações pontuais treina seu cérebro para identificar "cheiros de código" (code smells) instantaneamente.O design em Go não é sobre o que a linguagem te obriga a fazer, mas sobre a disciplina que você escolhe ter.
+# Introdução
+
+No meu último artigo, discutimos como Go lida com orientação a objetos através de composição ([veja aqui](https://rifeli.dev/blog/go-e-orientada-a-objetos-paradigmas/)). Mas composição sozinha não garante bom design.
+
+Go te dá liberdade: structs simples, métodos livres e interfaces implícitas, porém, é justamente por isso é fácil cair em:
+
+- Funções gigantes
+- Services que sabem demais
+- DTOs anêmicos
+- Lógica espalhada pelo projeto
+
+A pergunta não é "Go suporta OO?". Ela precisa ser: Como manter disciplina arquitetural numa linguagem que não impõe nada?
+
+É aqui que entra **Object Calisthenics**.
+
+# O que é Object Calisthenics?
+
+Tem uma palestra que marcou minha carreira, é do Guilherme Blanco e foi [PHP para Adultos – Object Calisthenics e Clean Code - Guilherme Blanco no InterCon PHP 2014
+](https://www.youtube.com/watch?v=u-w4eULRrr0) em set/2014 (entreguei a idade).
+
+Criado por **Jeff Bay**, é um conjunto de 9 regras de design pensadas como treino de musculação para código.
+
+No começo dói.
+Depois você começa a enxergar problemas antes deles virarem débito técnico.
+
+Mas aqui vai o ponto importante:
+
+> Object Calisthenics não deve ser aplicado como dogma.
+> Ele deve ser usado como lente.
+
+Vamos adaptar as 9 regras para a realidade do Go.
+
+# 1. Apenas um nível de indentação por função
+
+Se sua função parece uma pirâmide, ela já está fazendo coisa demais.
+
+Código em flecha:
+```golang
+func Process(order Order) error {
+	if order.IsValid() {
+		if order.HasStock() {
+			if err := order.Pay(); err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+```
+
+Versão idiomática em Go:
+
+```
+func Process(order Order) error {
+	if !order.IsValid() {
+		return ErrInvalidOrder
+	}
+
+	if !order.HasStock() {
+		return ErrNoStock
+	}
+
+	return order.Pay()
+}
+```
+
+Go já incentiva isso naturalmente via guard clauses (Está PROIBIDO usar ELSE).
+
+Essa regra é praticamente um reforço do estilo idiomático da linguagem.
+
+# 2. Não use else
+
+O else geralmente indica que você poderia ter retornado antes.
+
+Em Go isso é ainda mais evidente:
+
+```golang
+if err != nil {
+	return err
+}
+```
+
+Esse padrão não é só estilo, ele reduz:
+
+- Profundidade cognitiva
+- Complexidade ciclomática
+- Carga mental ao revisar código
+
+# 3. Encapsule todos os primitivos (Value Objects)
+
+Aqui começa a ficar interessante em Go.
+
+Problema comum:
+
+```golang
+func CreateUser(id int, age int, email string)
+```
+
+Nada impede você de trocar id e age.
+
+Agora:
+
+```golang
+type UserID int
+type Age int
+type Email string
+```
+
+Ou melhor:
+
+```golang
+type Email struct {
+	value string
+}
+
+func NewEmail(v string) (Email, error) {
+	if !strings.Contains(v, "@") {
+		return Email{}, ErrInvalidEmail
+	}
+	return Email{value: v}, nil
+}
+```
+
+Agora o erro é impossível de existir fora da criação.
+
+Esse padrão é poderoso especialmente em sistemas de domínio rico, algo comum em produtos SaaS complexos.
+
+# 4. Coleções como cidadãos de primeira classe
+
+Se você tem isso:
+
+```golang
+func CalculateTotal(prices []float64) float64
+```
+
+Você espalha lógica por todo lugar.
+
+Prefira:
+
+```golang
+type Prices []float64
+
+func (p Prices) Total() float64 {
+	var total float64
+	for _, price := range p {
+		total += price
+	}
+	return total
+}
+```
+
+Agora o comportamento mora com o dado.
+
+Isso reduz:
+
+- Vazamento de regras
+- Duplicação de loops
+- Inconsistência
+
+# 5. Um ponto por linha (Lei de Demeter)
+
+Evite isso:
+
+```golang
+order.Customer.Address.City.Name
+```
+
+Isso cria acoplamento estrutural profundo.
+
+Prefira:
+
+```golang
+order.CityName()
+```
+
+Se amanhã, a estrutura de City mudar, só um lugar precisa ser alterado.
+
+# 6. Não abrevie nomes
+
+Go aceita variáveis curtas.
+Mas isso não significa que tudo deve ser abreviado.
+
+Existe diferença entre:
+
+```golang
+i, r, w
+```
+
+E:
+
+```golang
+usrSvcProcMgr
+```
+
+Se o nome precisa ser abreviado para caber, talvez a responsabilidade esteja grande demais.
+
+# 7. Entidades pequenas
+
+Structs grandes quase sempre indicam:
+
+- Baixa coesão
+- Muitas razões para mudar
+- Violação de SRP ([tenho um artigo antigo sobre o assunto](https://rifeli.dev/blog/2017-03-25-principios-solid-srp-e-sopa-de-letrinhas/))
+
+Se você tem:
+
+```golang
+type UserService struct {
+	repo Repository
+	cache Cache
+	mailer Mailer
+	logger Logger
+	metrics Metrics
+}
+```
+
+Talvez você tenha:
+
+- Um Service Orquestrador
+- Um Service de Notificação
+- Um Service de Persistência
+
+> Composição > concentração.
+
+# 8. Sem Getters e Setters
+
+Go já não força encapsulamento clássico.
+
+Mas o problema real não é o método.
+É o modelo anêmico.
+
+Em vez de:
+
+```golang
+if order.Status() == Pending {
+	order.SetStatus(Paid)
+}
+```
+
+Prefira:
+
+```golang
+order.Pay()
+```
+
+Isso mantém regras de negócio dentro da entidade.
+
+# 9. No máximo dois campos por struct
+
+Essa é a mais polêmica. Ela força alta coesão.
+
+Mas em Go isso precisa ser interpretado com cuidado.
+
+DTOs de transporte? Podem ter muitos campos.
+Entidades de domínio? Devem ter poucos e bem relacionados.
+Essa regra não é literal, é um detector de alerta.
+
+### Onde Object Calisthenics NÃO funciona bem em Go:
+
+- Código de infraestrutura
+- Adaptadores HTTP
+- Serialização
+- Mappers
+- DTOs de banco
+
+Aplicar rigor extremo ali gera abstração artificial.
+
+Object Calisthenics brilha em:
+
+- Domínio rico
+- Lógica de negócio
+- Regras complexas
+- Sistemas que vivem muitos anos
+
+### O Verdadeiro Valor
+
+Object Calisthenics não é sobre OO.
+
+É sobre:
+
+- Coesão
+- Encapsulamento
+- Redução de acoplamento
+- Fluxos simples
+- Modelagem intencional
+
+Go não impõe arquitetura.
+
+Ele expõe seu design.
+
+E isso é perigoso.
+
+Porque você pode escrever código simples…
+ou simplesmente simplista.
+
+# Conclusão
+
+Aplicar as 9 regras ao mesmo tempo em produção pode ser exagero.
+
+Mas praticá-las:
+
+- Em refatorações
+- Em projetos paralelos
+- Em código crítico
+
+Treina seu cérebro para enxergar problemas antes deles virarem dívida técnica.
+
+Design em Go não é sobre herança.
+Não é sobre frameworks.
+Não é sobre patterns da moda.
+
+É sobre disciplina.
+E disciplina não é imposta pela linguagem.
+É escolhida pelo desenvolvedor.
+
+Na [Harmo](https://harmo.me), usamos Object Calisthenics como disciplina de modelagem para manter nosso domínio coeso, explícito e sustentável ao longo do tempo.
