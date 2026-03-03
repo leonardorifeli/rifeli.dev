@@ -80,7 +80,7 @@ func Process(order Order) error {
 
 Versão idiomática em Go:
 
-```
+```golang
 func Process(order Order) error {
 	if !order.IsValid() {
 		return ErrInvalidOrder
