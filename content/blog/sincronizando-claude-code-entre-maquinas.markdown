@@ -33,15 +33,30 @@ tags:
 
 # Introdução
 
-Você abre o Claude Code no desktop de trabalho pela primeira vez na semana e percebe que ele não lembra de nada: nem das permissões que você aprovou trabalhando no laptop no fim de semana, nem das memórias sobre o projeto, nem das skills customizadas. O CLI não tem sync nativo. Cada máquina é uma ilha.
+Você abre o Claude Code no desktop de trabalho pela primeira vez na semana e percebe que ele não lembra de nada: as skills customizadas que você criou, os slash commands que refinou, as memórias acumuladas sobre cada projeto. O CLI não tem sync nativo do diretório `~/.claude/`. Cada máquina é uma ilha.
+
+# "Mas eu só preciso commitar o `.claude/` do projeto, né?"
+
+Essa é a primeira reação de quem lê o título — e ela ignora o problema. Claude Code guarda config em **dois lugares diferentes**, e só um deles é resolvido versionando o `.claude/` dentro do repo:
+
+**Por projeto (`<repo>/.claude/`)** — mora dentro de cada repositório. Tem o `settings.json` (compartilhável com o time) e o `settings.local.json` (permissões pessoais de tool use). Esse caso é fácil: basta versionar o que for compartilhado e adicionar `settings.local.json` ao `.git/info/exclude` local se você não quiser mesclar permissões com o time.
+
+**Global do usuário (`~/.claude/`)** — mora no seu home, fora de qualquer repo. Inclui:
+
+- Skills customizadas (`~/.claude/plugins/`)
+- Slash commands customizados (`~/.claude/commands/`)
+- Config global do CLI (`~/.claude/settings.json`)
+- Memórias de contexto por projeto (`~/.claude/projects/<path-encoded>/memory/`)
+
+Este artigo é sobre o segundo caso. Versionar o `.claude/` do repo não transfere nenhum dos itens acima, porque eles não vivem dentro do repo — vivem no seu `$HOME`. E é ali que mora o grosso do trabalho de configuração que você acumula ao longo de meses.
 
 # Por que isso importa
 
 Na Harmo adotamos o Claude Code como ferramenta default de AI para o time de engenharia, então essa dor de sync entre máquinas aparece no dia a dia e não é hipotética.
 
-Quem usa Claude Code a sério acumula configuração rapidamente: permissões de tool use aprovadas por projeto, memórias de contexto construídas ao longo de semanas, skills customizadas, `settings.local.json` com regras específicas de cada repo. Recriar isso manualmente numa segunda máquina custa horas e é o tipo de tarefa que ninguém faz — simplesmente se trabalha pior do outro lado.
+Quem usa Claude Code a sério acumula configuração global rapidamente: skills que você escreveu pra adequar o comportamento do agente ao seu stack, slash commands que automatizam fluxos repetidos, memórias construídas por semanas de conversa sobre cada projeto. Recriar isso manualmente numa segunda máquina custa horas e é o tipo de tarefa que ninguém faz — simplesmente se trabalha pior do outro lado.
 
-O problema é agravado por um detalhe pouco documentado: memórias de projeto são indexadas pelo path absoluto do diretório. Se no laptop o projeto está em `/Users/rifeli/work/harmo` e no desktop em `/home/rifeli/projects/harmo`, as memórias não se transferem mesmo que você copie o diretório inteiro.
+O problema é agravado por um detalhe pouco documentado: memórias de projeto são indexadas pelo path absoluto do diretório. Se no laptop o projeto está em `/Users/rifeli/work/harmo` e no desktop em `/home/rifeli/projects/harmo`, as memórias não se transferem mesmo que você copie o diretório `~/.claude/` inteiro.
 
 # Sync também é backup
 
@@ -51,15 +66,23 @@ A diferença entre um backup que salva sua pele e um que não salva é o que voc
 
 # O que é portável e o que não é
 
-O `~/.claude/` tem conteúdo misturado. Separar o que faz sentido sincar evita dor de cabeça depois.
+O `~/.claude/` tem conteúdo misturado. Separar o que faz sentido sincar evita dor de cabeça depois. A tabela abaixo está agrupada por escopo — note que só as duas primeiras linhas são o famoso "basta commitar no repo":
+
+**Escopo por-projeto (dentro do repo):**
+
+| Caminho                                  | Portável?                      | Por quê                                             |
+| ---------------------------------------- | ------------------------------ | --------------------------------------------------- |
+| `<repo>/.claude/settings.json`           | Sim, via git do próprio repo   | Config compartilhada com o time                     |
+| `<repo>/.claude/settings.local.json`     | Sincar por repo                | Permissões pessoais, ignorar no git do time         |
+
+**Escopo global (`~/.claude/`, fora de qualquer repo):**
 
 | Caminho                                  | Portável?         | Por quê                                             |
 | ---------------------------------------- | ----------------- | --------------------------------------------------- |
-| `~/.claude/settings.json`                | Sincar            | Config global, estável entre máquinas               |
-| `~/.claude/plugins/`                     | Sincar            | Skills e plugins customizados                       |
+| `~/.claude/settings.json`                | Sincar            | Config global do CLI, estável entre máquinas        |
+| `~/.claude/plugins/`                     | Sincar            | Skills customizadas                                 |
 | `~/.claude/commands/`                    | Sincar            | Slash commands customizados                         |
 | `~/.claude/projects/<path>/memory/`      | Sincar com cuidado| Path-encoded, ver seção dedicada                    |
-| `<repo>/.claude/settings.local.json`     | Sincar por repo   | Permissões e overrides do projeto                   |
 | `~/.claude/cache/`                       | Nunca             | Dados locais pesados e efêmeros                     |
 | `~/.claude/sessions/`                    | Nunca             | Estado de conversa ativa                            |
 | `~/.claude/history.jsonl`                | Nunca             | Log local, não faz sentido mesclar                  |
@@ -67,7 +90,7 @@ O `~/.claude/` tem conteúdo misturado. Separar o que faz sentido sincar evita d
 | `~/.claude.json` (credentials)           | Nunca             | Token expira, risco de vazamento                    |
 | `~/.claude/statsig/`                     | Nunca             | Telemetria/feature flags locais                     |
 
-A regra prática: sincar o que você configurou conscientemente, ignorar o que o CLI gerou para si próprio.
+A regra prática: sincar o que você configurou conscientemente, ignorar o que o CLI gerou para si próprio. E, importante, o problema deste artigo é o segundo grupo — o primeiro já é resolvido pelo fluxo normal de git do repo.
 
 # Três abordagens
 
