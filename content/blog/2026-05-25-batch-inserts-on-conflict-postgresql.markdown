@@ -1,7 +1,7 @@
 ---
 title: "Batch inserts e ON CONFLICT no PostgreSQL: saindo do single-row em consumers de alta frequência"
 draft: true
-date: 2026-04-29T00:00:00.000Z
+date: 2026-05-25T00:00:00.000Z
 description: "Por que single-row inserts matam performance em alta frequência, como estruturar batch inserts corretamente, e a semântica do ON CONFLICT DO NOTHING vs DO UPDATE — com benchmarks reais."
 comments: true
 keywords: [

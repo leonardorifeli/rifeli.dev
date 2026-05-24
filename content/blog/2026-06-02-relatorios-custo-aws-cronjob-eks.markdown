@@ -1,7 +1,7 @@
 ---
 title: "Relatórios de custo AWS com CronJob no EKS: automatizando o que ninguém gosta de fazer manualmente"
 draft: true
-date: 2026-05-05T00:00:00.000Z
+date: 2026-06-02T00:00:00.000Z
 description: "Como construí um sistema de relatórios diários de custo AWS com CronJob no EKS, Python, Cost Explorer API e ClickUp — com detecção simples de anomalia e IRSA pra credenciais sem segredos hardcoded."
 comments: true
 keywords: [

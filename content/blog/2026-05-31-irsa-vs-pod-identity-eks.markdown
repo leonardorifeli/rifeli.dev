@@ -1,7 +1,7 @@
 ---
 title: "IRSA vs Pod Identity no EKS: diferenças, armadilhas e um bug silencioso que me custou duas horas"
 draft: true
-date: 2026-05-02T00:00:00.000Z
+date: 2026-05-31T00:00:00.000Z
 description: "Como IRSA funciona no EKS, o que mudou com Pod Identity, quando preferir um sobre o outro, e um bug real: AccessDeniedException causado por webhook de Pod Identity não instalado no cluster."
 comments: true
 keywords: [
