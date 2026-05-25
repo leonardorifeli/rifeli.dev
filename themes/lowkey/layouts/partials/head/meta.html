@@ -1,52 +1,111 @@
+{{- $defaultImage := "https://avatars.githubusercontent.com/u/6767689?v=4" -}}
+{{- $image := or .Params.image $defaultImage -}}
+{{- $description := or .Params.description .Summary .Site.Params.description -}}
+{{- $title := cond .IsHome .Site.Title (printf "%s | rifeli.dev" .Title) -}}
+
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}</title>
-<meta name="description" content="{{ if .IsPage }}{{ or .Params.description .Summary }}{{ else if .IsHome }}{{ .Site.Params.description }}{{ else if .IsNode }}{{ or .Params.description .Summary }}{{ end }}">
+<title>{{ $title }}</title>
+<meta name="description" content="{{ $description }}">
 <link rel="canonical" href="{{ .Permalink }}">
-<link rel="robots" href="/robots.txt" />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
 {{ with .Params.keywords }}
 <meta name="keywords" content="{{ delimit . ", " }}">
 {{ end }}
-<meta property="og:title" content="{{ .Title }} | rifeli.dev">
-<meta property="og:description" content="{{ if .Params.description }}{{ .Params.description }} | rifeli.dev{{ else }}{{ site.Params.description }}{{ end }}">
-<meta property="og:type" content="article">
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="rifeli.dev">
+<meta property="og:title" content="{{ $title }}">
+<meta property="og:description" content="{{ $description }}">
+<meta property="og:type" content="{{ cond (eq .Section "blog") "article" "website" }}">
 <meta property="og:url" content="{{ .Permalink }}">
-{{ with .Params.image }}
-<meta property="og:image" content="{{ . | absURL }}">
+<meta property="og:image" content="{{ $image | absURL }}">
+{{ if eq .Section "blog" }}
+<meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">
+{{ with .Lastmod }}<meta property="article:modified_time" content="{{ .Format "2006-01-02T15:04:05Z07:00" }}">{{ end }}
+<meta property="article:author" content="Leonardo Rifeli">
+{{ range .Params.tags }}<meta property="article:tag" content="{{ . }}">
 {{ end }}
+{{ end }}
+
+<!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{{ .Title }} | rifeli.dev">
-<meta name="twitter:description" content="{{ if .Params.description }}{{ .Params.description }}{{ else }}{{ site.Params.description }}{{ end }}">
-{{ with .Params.image }}
-<meta name="twitter:image" content="{{ . | absURL }}">
+<meta name="twitter:title" content="{{ $title }}">
+<meta name="twitter:description" content="{{ $description }}">
+<meta name="twitter:image" content="{{ $image | absURL }}">
+
+<!-- Schema.org JSON-LD -->
+{{ if eq .Section "blog" }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": {{ .Title | jsonify }},
+  "description": {{ $description | jsonify }},
+  "image": {{ ($image | absURL) | jsonify }},
+  "datePublished": "{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}",
+  "dateModified": "{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}",
+  "author": {
+    "@type": "Person",
+    "name": "Leonardo Rifeli",
+    "url": "https://rifeli.dev"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Leonardo Rifeli",
+    "url": "https://rifeli.dev"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": {{ .Permalink | jsonify }}
+  }
+}
+</script>
+{{ else if .IsHome }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Leonardo Rifeli",
+  "url": "https://rifeli.dev",
+  "image": {{ $defaultImage | jsonify }},
+  "sameAs": [
+    "https://github.com/leonardorifeli",
+    "https://www.linkedin.com/in/leonardorifeli"
+  ],
+  "jobTitle": "CTO & Co-Founder",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Harmo"
+  }
+}
+</script>
 {{ end }}
-<link rel="icon" type="image/png" href="https://avatars.githubusercontent.com/u/6767689?v=4">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+<!-- Icons / Favicon -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
-<!-- Favicon -->
-<link rel="icon" type="image/svg+xml" href="static/images/favicon.svg">
-<link rel="canonical" href="https://rifeli.dev/">
-<meta name="google-site-verification" content="google8e7c3f2f9c1b4e3d">
+<!-- Geo (Brazil / Santa Catarina) -->
 <meta name="geo.region" content="BR-SC">
 <meta name="geo.placename" content="Antônio Carlos">
 <meta name="geo.position" content="-27.5197;-48.7662">
 <meta name="ICBM" content="-27.5197, -48.7662">
-<!-- Open Graph / Social Media -->
-<meta property="og:title" content="Leonardo Rifeli | Consultoria Tech & Mentoria">
-<meta property="og:description" content="Consultoria especializada em Engenharia de Dados, IA e Arquitetura de Software. Transforme dados complexos em insights acionáveis.">
-<meta property="og:image" content="https://avatars.githubusercontent.com/u/6767689?v=4">
-<meta property="og:url" content="https://rifeli.dev">
-<meta name="twitter:card" content="summary_large_image">
+
+<!-- Analytics (Plausible) -->
+<script defer data-domain="rifeli.dev" src="https://plausible.io/js/script.js"></script>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   const backToTopButton = document.getElementById("back-to-top");
-
+  if (!backToTopButton) return;
   window.addEventListener("scroll", function () {
     if (window.scrollY > 300) {
       backToTopButton.classList.add("show");
@@ -54,7 +113,6 @@ document.addEventListener("DOMContentLoaded", function () {
       backToTopButton.classList.remove("show");
     }
   });
-
   backToTopButton.addEventListener("click", function () {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });

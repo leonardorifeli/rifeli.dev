@@ -26,7 +26,7 @@ tags:
   - sql
 ---
 
-<img id="image-custom" src="/images/posts1ab616ab-fb3a-44ee-8f01-a97f4bd668c5.png" alt="" />
+<img id="image-custom" src="/images/posts/1ab616ab-fb3a-44ee-8f01-a97f4bd668c5.png" alt="" />
 <p id="image-legend">Single-row vs batch de 500: mesma carga de 10 mil eventos, mesmo schema, mesmo Aurora. 47 segundos contra 1,4.</p>
 
 # Introdução
