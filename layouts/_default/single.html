@@ -33,6 +33,25 @@
 			{{ .Content }}
 		</section>
 
+		{{ $related := .Site.RegularPages.Related . | first 3 }}
+		{{ if not $related }}
+			{{ $candidates := where (where .Site.RegularPages "Section" "blog") "Permalink" "ne" .Permalink }}
+			{{ $related = first 3 $candidates }}
+		{{ end }}
+		{{ with $related }}
+			<section class="related-posts">
+				<h3>Posts relacionados</h3>
+				<ul>
+				{{ range . }}
+					<li>
+						<a href="{{ .RelPermalink }}">{{ .Title }}</a>
+						<small>{{ .PublishDate.Format "02/01/2006" }}</small>
+					</li>
+				{{ end }}
+				</ul>
+			</section>
+		{{ end }}
+
 		{{ if .Params.Comments }}
 			{{ partial "single/comments/giscus.html" . }}
 		{{ end }}

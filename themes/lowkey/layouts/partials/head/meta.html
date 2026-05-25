@@ -37,50 +37,31 @@
 
 <!-- Schema.org JSON-LD -->
 {{ if eq .Section "blog" }}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": {{ .Title | jsonify }},
-  "description": {{ $description | jsonify }},
-  "image": {{ ($image | absURL) | jsonify }},
-  "datePublished": "{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}",
-  "dateModified": "{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}",
-  "author": {
-    "@type": "Person",
-    "name": "Leonardo Rifeli",
-    "url": "https://rifeli.dev"
-  },
-  "publisher": {
-    "@type": "Person",
-    "name": "Leonardo Rifeli",
-    "url": "https://rifeli.dev"
-  },
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": {{ .Permalink | jsonify }}
-  }
-}
-</script>
+  {{ $schema := dict
+    "@context" "https://schema.org"
+    "@type" "Article"
+    "headline" .Title
+    "description" $description
+    "image" ($image | absURL)
+    "datePublished" (.Date.Format "2006-01-02T15:04:05Z07:00")
+    "dateModified" (.Lastmod.Format "2006-01-02T15:04:05Z07:00")
+    "author" (dict "@type" "Person" "name" "Leonardo Rifeli" "url" "https://rifeli.dev")
+    "publisher" (dict "@type" "Person" "name" "Leonardo Rifeli" "url" "https://rifeli.dev")
+    "mainEntityOfPage" (dict "@type" "WebPage" "@id" .Permalink)
+  }}
+<script type="application/ld+json">{{ $schema | jsonify | safeJS }}</script>
 {{ else if .IsHome }}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Leonardo Rifeli",
-  "url": "https://rifeli.dev",
-  "image": {{ $defaultImage | jsonify }},
-  "sameAs": [
-    "https://github.com/leonardorifeli",
-    "https://www.linkedin.com/in/leonardorifeli"
-  ],
-  "jobTitle": "CTO & Co-Founder",
-  "worksFor": {
-    "@type": "Organization",
-    "name": "Harmo"
-  }
-}
-</script>
+  {{ $schema := dict
+    "@context" "https://schema.org"
+    "@type" "Person"
+    "name" "Leonardo Rifeli"
+    "url" "https://rifeli.dev"
+    "image" $defaultImage
+    "sameAs" (slice "https://github.com/leonardorifeli" "https://www.linkedin.com/in/leonardorifeli")
+    "jobTitle" "CTO & Co-Founder"
+    "worksFor" (dict "@type" "Organization" "name" "Harmo")
+  }}
+<script type="application/ld+json">{{ $schema | jsonify | safeJS }}</script>
 {{ end }}
 
 <!-- Fonts -->
@@ -99,8 +80,32 @@
 <meta name="geo.position" content="-27.5197;-48.7662">
 <meta name="ICBM" content="-27.5197, -48.7662">
 
-<!-- Analytics (Plausible) -->
-<script defer data-domain="rifeli.dev" src="https://plausible.io/js/script.js"></script>
+<!-- Analytics (Google Analytics 4 com Consent Mode v2)
+     IP anonimizado. Consent default = denied. Granted só depois do banner. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WVSWH9YP9C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('consent', 'default', {
+    'ad_storage': 'denied',
+    'analytics_storage': 'denied',
+    'ad_user_data': 'denied',
+    'ad_personalization': 'denied',
+    'wait_for_update': 500
+  });
+
+  gtag('config', 'G-WVSWH9YP9C', {
+    'anonymize_ip': true
+  });
+
+  try {
+    if (localStorage.getItem('consent') === 'granted') {
+      gtag('consent', 'update', { 'analytics_storage': 'granted' });
+    }
+  } catch (e) {}
+</script>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {

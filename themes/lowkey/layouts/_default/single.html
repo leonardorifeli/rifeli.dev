@@ -25,6 +25,25 @@
 
   <section>{{ .Content | emojify }}</section>
 
+  {{ $related := .Site.RegularPages.Related . | first 3 }}
+  {{ if not $related }}
+    {{ $candidates := where (where .Site.RegularPages "Section" "blog") "Permalink" "ne" .Permalink }}
+    {{ $related = first 3 $candidates }}
+  {{ end }}
+  {{ with $related }}
+    <section class="related-posts flex flex-col gap-3 pt-6 border-t border-zinc-300 dark:border-white/10">
+      <h3 class="text-lg font-semibold">Posts relacionados</h3>
+      <ul class="flex flex-col gap-2">
+      {{ range . }}
+        <li>
+          <a href="{{ .RelPermalink }}" class="hover:underline">{{ .Title }}</a>
+          <small class="opacity-60 block">{{ .PublishDate.Format "02/01/2006" }}</small>
+        </li>
+      {{ end }}
+      </ul>
+    </section>
+  {{ end }}
+
   {{ partial "single/comments/index" . }}
 
   <footer>

@@ -1,0 +1,45 @@
+<div id="consent-banner"
+     class="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:max-w-md
+            bg-white text-zinc-800 border border-zinc-300
+            dark:bg-zinc-900 dark:text-white dark:border-white/10
+            rounded-lg p-4 shadow-lg z-50 hidden">
+  <p class="text-sm mb-3 leading-relaxed">
+    Esse site usa Google Analytics com IP anonimizado para entender o que mais funciona aqui.
+    Sem cookies de publicidade.
+    <a href="/privacidade/" class="underline font-medium">Política de privacidade</a>.
+  </p>
+  <div class="flex gap-2">
+    <button id="consent-accept"
+            class="px-3 py-1 rounded text-sm font-medium
+                   bg-zinc-900 text-white
+                   dark:bg-white dark:text-black">
+      Aceitar
+    </button>
+    <button id="consent-deny"
+            class="px-3 py-1 rounded text-sm
+                   border border-zinc-400 text-zinc-700
+                   dark:border-white/20 dark:text-white">
+      Recusar
+    </button>
+  </div>
+</div>
+<script>
+(function() {
+  const banner = document.getElementById('consent-banner');
+  if (!banner) return;
+  let stored = null;
+  try { stored = localStorage.getItem('consent'); } catch (e) {}
+  if (stored === null) {
+    banner.classList.remove('hidden');
+  }
+  function setConsent(value) {
+    try { localStorage.setItem('consent', value); } catch (e) {}
+    if (value === 'granted' && typeof gtag === 'function') {
+      gtag('consent', 'update', { 'analytics_storage': 'granted' });
+    }
+    banner.classList.add('hidden');
+  }
+  document.getElementById('consent-accept').addEventListener('click', () => setConsent('granted'));
+  document.getElementById('consent-deny').addEventListener('click', () => setConsent('denied'));
+})();
+</script>

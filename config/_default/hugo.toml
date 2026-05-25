@@ -15,6 +15,27 @@ summaryLength = 15
 [pagination]
   pagerSize = 5
 
+[related]
+  threshold = 0
+  includeNewer = true
+  toLower = true
+
+  [[related.indices]]
+    name = "tags"
+    weight = 100
+
+  [[related.indices]]
+    name = "keywords"
+    weight = 80
+
+  [[related.indices]]
+    name = "categories"
+    weight = 50
+
+  [[related.indices]]
+    name = "date"
+    weight = 10
+
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
