@@ -305,10 +305,14 @@ Teste com `-race` sempre. O race detector é um dos melhores recursos do Go. CI 
 
 Concorrência é técnica, não filosofia. Vai longe mais rápido quem tem quatro ou cinco patterns na ponta da língua e os usa consistentemente em todo lugar. Channel pattern exótico e goroutine com sinal customizado ficam pra quem já passou da regra básica. A maioria do código de produção precisa só do básico bem feito.
 
-Se você está revendo um serviço crítico em Go essa semana, escolhe um worker pool da sua base e roda esse checklist mental: 
-1. tem limite? 
-2. aceita context? 
-3. propaga erro com `errgroup`? 
-4. tem teste com `-race`? 
+Se você está revendo um serviço crítico em Go essa semana, escolhe um worker pool da sua base e roda esse checklist mental:
+1. tem limite?
+2. aceita context?
+3. propaga erro com `errgroup`?
+4. tem teste com `-race`?
 
 Já está no 1.25 pra colher o **GOMAXPROCS** container-aware de graça? Cada "não" é dívida técnica esperando incidente.
+
+Pra fechar com uma curiosidade que me interessa de verdade: qual armadilha de concorrência em Go você já bateu em produção que não entrou nessa lista? Esse tipo de história, costuma valer mais que tutorial bem escrito. Vou ler os comentários abaixo com caderno em mãos, e provavelmente atualizando essa página com o que aparecer.
+
+Obrigado.
