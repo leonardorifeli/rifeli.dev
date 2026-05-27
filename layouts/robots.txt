@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Sitemap: {{ "sitemap.xml" | absURL }}
+
+# Legacy WP-style junk
+Disallow: /wp-admin/
+Disallow: /*?replytocom=
