@@ -1,6 +1,6 @@
 ---
 title: "Concorrência e worker pools em Go: o mínimo que você precisa ter na ponta da língua"
-draft: true
+draft: false
 date: 2026-05-27T00:00:00.000Z
 description: "Goroutines, channels, fan-out/fan-in, worker pool com errgroup e cancelamento via context. Os patterns de concorrência que realmente aparecem em código de produção."
 comments: true
