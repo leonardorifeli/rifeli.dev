@@ -1,7 +1,7 @@
 ---
 title: "4x mais entrega no mesmo mês: 30 dias dentro do Claude Code"
 draft: true
-date: 2026-05-27T00:00:00.000Z
+date: 2026-05-29T00:00:00.000Z
 description: "Em 30 dias dentro do Claude Code entreguei o equivalente a quatro meses de roadmap. O custo equivalente em tokens (USD 8.069 num plano fixo de assinatura) é só dimensão. O que importa é o que saiu do outro lado."
 comments: true
 keywords: [
@@ -86,7 +86,7 @@ A primeira foi começar a usar a ferramenta sem culpa de "isso vale o token?". P
 
 A segunda foi virar default ter Claude Code aberto no segundo monitor. Não como assistente eventual, mas como ambiente de trabalho. A fronteira de "isso eu faço, isso eu delego" se move sem decisão consciente. Você se pega delegando algo que no mês passado teria escrito à mão.
 
-A terceira foi escrever ferramentaria em cima da ferramenta. Construí um slash command (`/save-session`) que destila o que vale carregar para a próxima conversa antes de fechar a sessão. Sem isso, contexto entre conversas virava arquivo morto. Esse é o tema do próximo post.
+A terceira foi escrever ferramentaria em cima da ferramenta. Construí um slash command (`/save-session`) que destila o que vale carregar para a próxima conversa antes de fechar a sessão. Sem isso, contexto entre conversas virava arquivo morto. Esse vira tema de um post próprio mais adiante na série.
 
 # Fechamento
 

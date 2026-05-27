@@ -1,7 +1,7 @@
 ---
 title: "Observabilidade e alertas no EKS: fechando o loop"
 draft: true
-date: 2026-06-06T00:00:00.000Z
+date: 2026-06-10T00:00:00.000Z
 description: "Métricas com Prometheus, logs centralizados, alertas de custo e performance — a camada que transforma um cluster cloud-native em operação real, e como evitar os alertas que só fazem você desligar o celular."
 comments: true
 keywords: [
