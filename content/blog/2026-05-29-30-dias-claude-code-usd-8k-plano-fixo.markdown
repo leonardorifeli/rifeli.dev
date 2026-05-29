@@ -1,6 +1,6 @@
 ---
 title: "4x mais entrega no mesmo mês: 30 dias dentro do Claude Code"
-draft: true
+draft: false
 date: 2026-05-29T00:00:00.000Z
 description: "Em 30 dias dentro do Claude Code entreguei o equivalente a quatro meses de roadmap. O custo equivalente em tokens (USD 8.069 num plano fixo de assinatura) é só dimensão. O que importa é o que saiu do outro lado."
 comments: true
@@ -35,6 +35,8 @@ Em 30 dias dentro do Claude Code, entreguei o equivalente a **quatro meses de ro
 
 Não é métrica de IDE. É auto-observação calibrada por anos no mesmo conjunto de projetos. O que normalmente levaria 8 meses, coube em 2.
 
+A maior parte desse roadmap aconteceu dentro da Harmo, infraestrutura Drive-to-Store que opera +60 mil lojas, processa +10 milhões de pesquisas e +300 mil avaliações por mês. Esse é o terreno em que esses 30 dias foram medidos.
+
 Pra calibrar o tamanho do uso: rodei o equivalente a USD 8.069 em tokens nesses 30 dias, pagando um plano fixo de assinatura. Esse número não é a tese. É dimensão, ajuda a entender quanto a ferramenta esteve no fluxo. O que conta é o que saiu do outro lado.
 
 # Como cheguei nesses números
@@ -43,20 +45,33 @@ O Claude Code persiste cada sessão em `~/.claude/projects/<encoded-cwd>/<sessio
 
 Escrevi um script Python pequeno que soma sessões, turnos humanos, respostas, tokens por categoria e estima custo equivalente em USD usando a tabela pública da Anthropic. Roda local, sem mandar nada pra fora, com sanitização automática de credenciais antes de gravar relatório. Detalhes no apêndice.
 
-Rodei nas duas máquinas que uso ativamente (desktop e notebook) e somei.
+Rodei nas duas máquinas que uso ativamente (desktop e notebook) e somei. Isso só funciona porque mantenho Claude Code sincronizado entre elas (com a pegadinha das memórias `path-encoded` resolvida), setup que detalhei em [Sincronizando Claude Code entre máquinas](https://rifeli.dev/blog/sincronizando-claude-code-entre-maquinas/).
 
 # O que saiu desses 30 dias
 
 Em ordem de impacto, e citando só o que pode ir publicamente:
 
-- Diagnóstico e ações ao vivo de uma crise de performance no Aurora PostgreSQL (CPU 90% sustentada, 18 índices mortos, write amplification gratuita), com runbook documentado para o próximo incidente.
-- Refator de consumer single-row para batch insert com `ON CONFLICT`, levando o gargalo de 47 segundos para 1,4 segundo em 10 mil eventos. Eliminou uma classe inteira de incidentes futuros.
-- Avanços em produto equivalentes a meses do roadmap normal. Não dá para detalhar publicamente, mas é a maior parte do ×4 que abriu esse post.
-- Dois posts no blog publicados (Aurora e batch inserts), com derivativos de LinkedIn para cada um.
+- Diagnóstico e ações ao vivo de uma crise de performance no Aurora PostgreSQL da Harmo (CPU 90% sustentada, 18 índices mortos, write amplification gratuita), com runbook documentado para o próximo incidente.
+- Refator de consumer single-row para batch insert com `ON CONFLICT` num pipeline crítico da Harmo, levando o gargalo de 47 segundos para 1,4 segundo em 10 mil eventos. Eliminou uma classe inteira de incidentes futuros.
+- Avanços no produto principal da Harmo equivalentes a meses do roadmap normal. Não dá para detalhar publicamente, mas é a maior parte do ×4 que abriu esse post. Inclui evolução da FloraAI (plataforma de chat conversacional com LLM, MCP, tools, etc), a camada de inteligência transversal que atravessa todos os planos da plataforma.
+- Várias contribuições com comunidade tech.
+- Mais de 10 reports internos + Gestão estratégica do nosso cluster EKS.
 - Reforma da infraestrutura de SEO, analytics e privacidade do próprio blog rifeli.dev: canonical e Open Graph dinâmicos, JSON-LD Article, banner LGPD, política de privacidade. Coisa que estava em backlog há meses, fechada numa sessão.
-- Um slash command custom no Claude Code (`/save-session`) e o script de análise (`claude-code-stats.py`) que gerou os próprios números desse post.
+- Um slash command custom no Claude Code (`/save-session`) e o script de análise (`claude-code-stats.py`) que gerou os próprios números desse post (vai pra outro artigo falando sobre ele).
+- O [clawtop](https://github.com/leonardorifeli/clawtop), meu primeiro open source de verdade: dashboard TUI multi-host pra acompanhar uso da subscription Claude, com daemon em cada máquina e renderização centralizada num servidor de casa. Vai virar post próprio mais adiante na série \o/.
 
-Nem tudo isso "veio do Claude Code". Mas todos vieram mais rápido porque ele estava aberto no segundo monitor o tempo todo.
+Nem tudo isso "veio do Claude Code". Mas todos vieram mais rápido porque ele estava aberto no segundo monitor o tempo todo. No final, cada commit precisa carregar uma assinatura né.
+
+### Sobre nosso EKS
+
+A espinha dorsal da Plataforma Harmo é um cluster Kubernetes gerenciado na AWS (EKS). São cerca de 90 microsserviços rodando em torno de 250 pods, a maior parte sobre instâncias ARM/Graviton, escolha que nos dá melhor relação custo por desempenho. Em vez de manter um parque fixo de servidores, usamos [Karpenter](https://karpenter.sh/) para provisionar e consolidar nós automaticamente, de modo que a capacidade acompanha a carga minuto a minuto. Isso sustenta o volume de processamento da operação, na casa de entenas de milhares de avaliações e milhões de pesquisas por mês, mantendo a conta de infraestrutura sob controle.
+
+### Contribuições no período:
+
+- 1407 commits.
+- 189 PRs envolvidos no período.
+- 50 code reviews em 40 dias, espalhados em 16 repos. 64 PRs onde participei comentando.
+- 46+ repos diferentes tocados.
 
 # Anatomia do uso
 
@@ -64,7 +79,7 @@ Nem tudo isso "veio do Claude Code". Mas todos vieram mais rápido porque ele es
 
 Mediana de turnos humanos por sessão é baixa: 4 a 6. 52% das sessões são one-shot (≤ 4 turnos), 20% são ping-pong (> 10 turnos). A maioria das interações é cirúrgica, não conversa. Encomendo coisas. Quando preciso conversar, é em sessões de debug profundo, e essas pagam a fatura sozinhas.
 
-A sessão mais cara do mês teve 152 turnos, 59 horas de relógio e custo equivalente de USD 1.741. Foi diagnóstico de incidente que destravou uma feature em rota direta com o cliente. Em momentos assim, dimensão de uso vira diferencial de produto.
+A sessão mais cara do mês teve 152 turnos, 59 horas de relógio e custo equivalente de USD 1.741. Foi diagnóstico de incidente que destravou uma feature da Harmo em rota direta com o cliente. Em momentos assim, dimensão de uso vira diferencial de produto.
 
 # Por que isso comprime tempo
 
@@ -74,9 +89,9 @@ Não é "ChatGPT na linha de comando". É um orquestrador que recebe intenção 
 
 # Toquei em 13 projetos diferentes
 
-Oito com sessões reais. Os três que dominaram: a plataforma core da Harmo (mais de 70 microservices, +10 milhões de pesquisas e +300 mil avaliações por mês, em mais de 60 mil lojas), um motor de NLP da Harmo e um repositório pessoal. Contextos absurdamente diferentes em stack, domínio, vocabulário e decisões de arquitetura.
+Oito com sessões reais. Os três que dominaram: a plataforma core da Harmo (mais de 70 microservices, +10 milhões de pesquisas e +300 mil avaliações por mês, em mais de 60 mil lojas), um motor de NLP da camada FloraAI da Harmo (que transforma voz de cliente em decisão operacional), e um repositório pessoal (esse blog). Contextos absurdamente diferentes em stack, domínio, vocabulário e decisões de arquitetura.
 
-Parte do que descobri foi o quanto Claude Code consegue agarrar essas diferenças sem que eu reapresente o projeto a cada nova sessão. Pico de horário fica entre 12h-15h e 18h-21h, com cauda longa até depois das 23h. Quarta-feira é o dia mais ativo. Usei a ferramenta em cerca de 70% dos dias do mês.
+Variedade de stack e domínio que normalmente quebraria a coerência de qualquer assistente; o Claude Code carrega isso sem que eu reapresente o projeto a cada nova sessão. Pico de horário fica entre 12h-15h e 18h-21h (de manhã, geralmente em reuniões e análises estratégicas), com cauda longa até depois das 23h. Quarta-feira é o dia mais ativo. Usei a ferramenta em cerca de 70% dos dias do mês.
 
 # O que mudou no meu fluxo
 
