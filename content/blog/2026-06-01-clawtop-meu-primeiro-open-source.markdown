@@ -1,6 +1,6 @@
 ---
-title: "clawtop: meu primeiro projeto open source, e por que ele não é só mais um dashboard pro Claude"
-draft: true
+title: "clawtop: meu primeiro projeto open source, e por que ele não é só mais um dashboard pro Claude Code"
+draft: false
 date: 2026-06-01T00:00:00.000Z
 description: "Construí um dashboard TUI multi-host pra acompanhar uso da minha subscription Claude rodando em laptop, desktop e servidor de casa ao mesmo tempo, sem expor o token OAuth. Inspirado no Clawdmeter, posicionado contra ccusage. Conta como pensei a arquitetura, os tradeoffs, e por que decidi publicar mesmo já existindo opção parecida."
 comments: true
@@ -30,17 +30,20 @@ tags:
   - ferramentas
 ---
 
+<img id="image-custom" src="/images/posts/1219c4f3-2a22-45f8-b136-4f15c1a40288.png" alt="" />
+<p id="image-legend"></p>
+
 # A pergunta que me travou três dias
 
-Eu construí uma ferramenta. Mostro pra um amigo. Ele olha por cinco segundos e dispara: "era só dar `/usage` e boa, não?". Esse comentário me travou três dias. Não porque ele estivesse errado. Porque ele estava parcialmente certo, e eu precisava saber em que parte exatamente ele não estava, antes de seguir.
+Construí uma ferramenta e mostrei pra um amigo. Ele olhou cinco segundos e disparou: "era só dar `/usage` e boa, não?". Esse comentário me travou três dias. Não porque ele estivesse errado. Porque ele estava parcialmente certo, e eu precisava saber em que parte exatamente ele não estava, antes de seguir.
 
 Esse post é sobre essa investigação, e sobre o que ela me deixou no fim: meu primeiro projeto open source de verdade, o [clawtop](https://github.com/leonardorifeli/clawtop). Um dashboard TUI multi-host pra acompanhar uso da subscription Claude. Sim, já existem várias ferramentas pra isso. Não, ele não é redundante com elas. Vou contar o caminho.
 
 # Como começou
 
-Esses dias esbarrei no [Clawdmeter](https://github.com/HermannBjorgvin/Clawdmeter), um projetinho ESP32 que mostra o consumo da subscription Claude num display AMOLED de duas polegadas, com sprites pixel-art do Clawd ficando mais agitados conforme você queima cota. É charmoso, é desnecessário, é o tipo de coisa que eu queria ter feito. Só que eu não tenho ESP32 sobrando, não queria pedir mais um pacote pra Aliexpress, e o que eu tenho é o cypher, meu servidor de casa, com mais ciclos ociosos do que eu uso.
+Esses dias esbarrei no [Clawdmeter](https://github.com/HermannBjorgvin/Clawdmeter), um projetinho muito massa ESP32 que mostra o consumo da subscription Claude num display AMOLED de duas polegadas, com sprites pixel-art do Clawd ficando mais agitados conforme você queima cota. É charmoso, é desnecessário, é o tipo de coisa que eu queria ter feito. Só que eu não tenho ESP32 sobrando, não queria pedir mais um pacote pra Aliexpress, e o que eu tenho é o cypher, meu home-server, com mais ciclos ociosos do que eu uso.
 
-Mas tem um detalhe que ainda me incomodava antes mesmo de codar: eu uso Claude em três máquinas diferentes. Workstation principal, laptop de trabalho, eventualmente o próprio servidor pra testar coisa. Quando eu rodava `/usage` numa, via só o que aquela máquina sabia sobre a sessão local. O total da minha conta tava esparramado em três lugares, e nenhuma das ferramentas que olhei resolvia isso sem eu copiar o credencial OAuth pra um lugar central.
+Mas tem um detalhe que ainda me incomodava antes mesmo de codar: eu uso Claude em três máquinas diferentes. Workstation principal, laptop de trabalho, eventualmente o próprio servidor pra testar coisas em GPU. Quando eu rodava `/usage` numa, via só o que aquela máquina sabia sobre a sessão local. O total da minha conta tava esparramado em três lugares, e nenhuma das ferramentas que olhei resolvia isso sem eu copiar o credencial OAuth pra um lugar central.
 
 A primeira versão do clawtop nasceu pra resolver só o problema do display: rodar como TUI em vez de hardware. Aí veio a pergunta do amigo, eu fui investigar o que já existe, e percebi que o problema interessante não era o display. Era o que ele estava mostrando e em quantas máquinas ele estava vendo.
 
@@ -58,13 +61,13 @@ Lendo tudo isso, ficou claro que duas coisas ninguém estava cobrindo, ou estava
 
 # A arquitetura, e por que ela tem duas pontas
 
-O OAuth do Claude Pro/Max vive em `~/.claude/.credentials.json` na máquina onde você roda o CLI. Esse arquivo é o portão da conta: se vaza, o atacante usa tua subscription até o token expirar. Toda ferramenta que vi assume que o consumidor desse arquivo e o renderizador do dashboard rodam no mesmo lugar. Pra quem trabalha em laptop e olha o dashboard nesse mesmo laptop, isso não importa. Pra quem quer ver no servidor de casa, importa muito: o servidor tem tunnel Cloudflare aberto, mais superfície de ataque, mais pessoas com SSH eventual. Não dá vontade de copiar o credencial pra lá.
+O OAuth do Claude Pro/Max vive em `~/.claude/.credentials.json` na máquina onde você roda o CLI. Esse arquivo é o portão da conta: se vaza, o atacante usa tua subscription até o token expirar. Toda ferramenta que vi assume que o consumidor desse arquivo e o renderizador do dashboard rodam no mesmo lugar. Pra quem trabalha em laptop e olha o dashboard nesse mesmo laptop, isso não importa. Pra quem quer ver em uma máquina X, importa muito: o servidor tem tunnel Cloudflare aberto, mais superfície de ataque, mais pessoas com SSH eventual. Não dá vontade de copiar o credencial pra lá.
 
 Então o clawtop divide o sistema em duas peças. O daemon, chamado `clawtopd`, roda em cada máquina onde o credencial existe. Ele faz duas coisas a cada minuto: chama a API da Anthropic com Haiku e `max_tokens: 1` pra ler os headers de rate limit do response, e varre os transcripts locais em `~/.claude/projects/**/*.jsonl` agregando token por projeto, por modelo, por hora e por dia. O resultado vira um JSON pequeno que ele empurra pro servidor de visualização via SSH, escrita atômica via `mkdir -p && cat > tmp && mv`. Sem porta exposta, sem endpoint custom, sem autenticação pra eu errar. O TUI, chamado `clawtop`, roda no servidor dentro de um tmux, lê todos os JSONs da pasta e renderiza o merge.
 
 ```
 ┌──────────────┐                          ┌──────────────────┐
-│ laptop       │──clawtopd──┐             │ cypher           │
+│ laptop       │──clawtopd──┐             │ cypher (server)  │
 │              │            │             │                  │
 │ ~/.claude/   │            │             │  /var/lib/       │
 │ .credentials │            │   ssh push  │   clawtop/       │
@@ -83,17 +86,18 @@ Então o clawtop divide o sistema em duas peças. O daemon, chamado `clawtopd`, 
    api.anthropic.com
 ```
 
-O credencial nunca sai da workstation. Se o cypher for invadido amanhã, o atacante leva JSONs com percentuais e contadores. Não leva o token.
+O credencial nunca sai da workstation. Se o cypher for invadido amanhã, o atacante leva JSONs com percentuais e contadores. Não leva o token. Muito menos vai conseguir acessar as demais máquinas na rede.
 
 # A parte multi-host, que é o truque inteiro
 
 A sacada que tornou o projeto não-redundante foi perceber que o rate limit da Anthropic é por conta, não por máquina. Os três daemons rodando ao mesmo tempo veem todos o mesmo percentual de utilização nas janelas de cinco horas e sete dias. Mas o breakdown por projeto e por modelo vem dos transcripts locais e é por máquina. Cada um sabe só do que rodou ali.
 
-A combinação é que dá o ganho. O servidor de visualização recebe três JSONs diferentes, um por máquina. Na hora de renderizar, o TUI faz merge: pega o rate limit mais fresco, soma os tokens por projeto e por modelo, soma os buckets horários e diários elemento a elemento, e o detalhe que mais me deixou orgulhoso: preserva atribuição por host nos projetos que aparecem em mais de uma máquina. Se eu rodo `rifeli.dev` tanto no omen quanto no notebook, a linha aparece como `rifeli.dev 874k` no total, com uma sub-linha discreta embaixo dizendo `omen 800k · notebook 74k`. Em projetos single-host, a sub-linha mostra a contagem de sessões distintas no período.
+A combinação é que dá o ganho. O servidor de visualização recebe três JSONs diferentes, um por máquina. Na hora de renderizar, o TUI faz merge: pega o rate limit mais fresco, soma os tokens por projeto e por modelo, soma os buckets horários e diários elemento a elemento, e o detalhe que mais me deixou orgulhoso: preserva atribuição por host nos projetos que aparecem em mais de uma máquina. Se eu rodo `rifeli.dev` tanto no omen (PC1) quanto no notebook, a linha aparece como `rifeli.dev 874k` no total, com uma sub-linha discreta embaixo dizendo `omen 800k · notebook 74k`. Em projetos single-host, a sub-linha mostra a contagem de sessões distintas no período.
 
 Pra quem roda Claude numa máquina só, o merge de um elemento é identidade e tudo funciona igual. Pra quem roda em três, é a diferença entre ter três relatórios separados e ter uma resposta clara pra "onde foi minha cota essa semana, e em qual máquina".
 
-[FOTO: aqui vai a foto do cypher mostrando o dashboard no monitor físico — comprova que a parte "tela na prateleira" funciona]
+<img id="image-custom" src="/images/posts/2514427f-0305-4293-8bb5-9abd72ff33da.jpeg" alt="" />
+<p id="image-legend">Clawtop rodando no meu home-server</p>
 
 # O que o dashboard mostra hoje
 
@@ -121,7 +125,7 @@ A segunda foi **bubbletea pra TUI**. A primeira versão eu fiz com `fmt.Print` e
 
 A terceira foi **reler o credencial a cada poll**. A primeira tentativa carregava o credencial no startup e implementava refresh do OAuth no próprio daemon. Implementação chata, fácil de errar, e me deixaria com duas cópias do refresh logic, a do Claude CLI e a minha. Joguei tudo fora. Hoje o daemon reabre `~/.claude/.credentials.json` a cada chamada. Se o CLI refrescou, eu pego o novo. Se não, falho explicitamente e o systemd reinicia. Menos código, menos jeitos de quebrar.
 
-A quarta foi sobre **descobrir o nome real do projeto a partir dos transcripts**. Os diretórios em `~/.claude/projects` têm nomes tipo `-home-rifeli-projects-personal-rifeli-dev`, onde `-` codifica tanto `/` quanto `.`. Ou seja, dá pra ser tanto `/home/rifeli/projects/personal/rifeli/dev` quanto `/home/rifeli/projects/personal/rifeli.dev`. Tentei várias estratégias de heurística pra decodificar e todas erravam em alguns casos. Quase desisti. Aí olhei dentro do JSONL e vi que cada mensagem do tipo `user` tem um campo `cwd` com o path absoluto, exato. Joguei o decoder fora, passei a usar `cwd` como verdade. Lição: antes de inventar parser, leia o arquivo até o fim.
+A quarta foi sobre **descobrir o nome real do projeto a partir dos transcripts**. Os diretórios em `~/.claude/projects` têm nomes tipo `-home-rifeli-projects-personal-rifeli-dev`, onde `-` codifica tanto `/` quanto `.`. Ou seja, dá pra ser tanto `/home/rifeli/projects/personal/rifeli/dev` quanto `/home/rifeli/projects/personal/rifeli.dev`. Tentei várias estratégias de heurística pra decodificar e todas erravam em alguns casos. Quase desisti. Aí olhei dentro do JSONL e vi que cada mensagem do tipo `user` tem um campo `cwd` com o path absoluto, exato. Joguei o decoder fora, passei a usar `cwd` como verdade. Lição: antes de inventar parser, leia o arquivo até o fim \o/.
 
 A quinta foi **preservar último valor bom em caso de falha do probe**. Na primeira release multi-host, o daemon zerava os percentuais quando a Anthropic devolvia 429 ou caía momentaneamente. O dashboard piscava em zero, depois voltava no próximo poll. Bug ridículo. Hoje o daemon guarda o último probe bem-sucedido em memória; se o próximo falhar, ele reusa os valores anteriores no JSON que escreve. Resultado: dashboard não pisca, e quando você olha o log vê que houve falha mas a tela continua útil.
 
@@ -199,7 +203,7 @@ Quando estiver na máquina que tem Claude rodando:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/leonardorifeli/clawtop/main/install.sh | sh
-clawtopd doctor                            # confere creds, anthropic, destino
+clawtopd doctor # confere creds, anthropic, destino
 systemctl --user enable --now clawtopd-local
 clawtop --dir=~/.local/share/clawtop
 ```
