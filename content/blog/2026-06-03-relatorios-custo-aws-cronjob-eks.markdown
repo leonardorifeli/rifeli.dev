@@ -1,8 +1,8 @@
 ---
-title: "Relatórios de custo AWS com CronJob no EKS: automatizando o que ninguém gosta de fazer manualmente"
-draft: true
+title: "Relatório diário de custo AWS com CronJob no EKS: encurtando a demora entre a anomalia e alguém perceber"
+draft: false
 date: 2026-06-03T00:00:00.000Z
-description: "Como construí um sistema de relatórios diários de custo AWS com CronJob no EKS, Python, Cost Explorer API e ClickUp — com detecção simples de anomalia e IRSA pra credenciais sem segredos hardcoded."
+description: "Depois de um incidente em que a conta AWS sangrou por 76 horas sem ninguém perceber, construí um CronJob no EKS que roda toda manhã, puxa o Cost Explorer, detecta anomalia com regra simples e abre task no ClickUp. Arquitetura, código e as decisões que pouparam dor."
 comments: true
 keywords: [
   "AWS",
@@ -29,11 +29,14 @@ tags:
   - automação
 ---
 
+<img id="image-custom" src="/images/posts/0f89c5bf-73bd-4ab6-b7f9-f960619efc84.png" alt="" />
+<p id="image-legend"></p>
+
 # Introdução
 
-Relatório de custo AWS é aquele processo que todo mundo concorda que é importante, ninguém gosta de fazer manualmente, e por isso vira rotina abandonada até o mês em que chega uma fatura inesperada. Resolvi construir um CronJob no próprio EKS que roda toda manhã, puxa dados do Cost Explorer, detecta anomalias simples e posta num Doc no ClickUp junto com tasks pra o que precisa de ação.
+Em março, um loop improdutivo numa Step Function rodou por 76 horas e multiplicou a conta AWS do mês da Harmo por quase 6x. Vou falar sobre isso em um artigo aqui na sexta, mas um detalhe da detecção importa pra esse post: o consumo anômalo atravessou um final de semana inteiro sem ninguém perceber, porque a única linha de defesa que pegou o problema foi a revisão manual do dashboard de billing. E revisão manual não acontece no sábado. O anomaly detectou chegou na segunda.
 
-O resultado: passei de "olhar o billing quando lembro" pra "receber diariamente o que mudou e o que merece investigação". O setup todo levou uma tarde. Vou contar aqui a arquitetura, o código essencial e as decisões que pouparam dor.
+Esse post é sobre uma das contramedidas que nasceram dali: um CronJob no próprio EKS que roda toda manhã, inclusive sábado e domingo, puxa dados do Cost Explorer, compara com a média dos últimos 7 dias e posta o resultado num Doc no ClickUp. Quando detecta anomalia, abre task pra investigação. Roda há dois meses sem falhar e virou peça central da rotina de FinOps de uma operação que processa 10 milhões de pesquisas por mês. O setup todo levou uma tarde. Vou contar aqui a arquitetura, o código essencial e as decisões que pouparam dor.
 
 # Arquitetura
 
@@ -45,6 +48,8 @@ Quatro peças:
 4. **Secrets Manager** — guarda o token da API do ClickUp, lido em runtime.
 
 Output vai pra um Doc no ClickUp com histórico (append-only) e, quando detecta anomalia, cria uma task pra investigar.
+
+Por que ClickUp e não Slack, e-mail ou dashboard próprio? Porque é onde o time já trabalha. Relatório que mora fora da ferramenta do dia a dia vira aba esquecida em duas semanas. Task no board que todo mundo olha de manhã tem dono, prazo e cobrança natural. O destino do alerta importa tanto quanto o alerta.
 
 # IRSA pra credenciais AWS
 
@@ -71,7 +76,7 @@ Não precisa mais que isso. A role precisa de permissão pra Cost Explorer e pra
 }
 ```
 
-A Service Account no Kubernetes anotada com a ARN da role (já cobri IRSA no post anterior). Pod puxa credenciais via SDK sem código específico.
+A Service Account no Kubernetes anotada com a ARN da role (cobri IRSA em detalhe no [post sobre IRSA vs Pod Identity](/blog/2026-05-28-irsa-vs-pod-identity-eks/)). Pod puxa credenciais via SDK sem código específico.
 
 # O script Python
 
@@ -121,9 +126,17 @@ def detect_anomaly(today, baseline):
             })
     return anomalies
 
+def format_report(day, total, services, anomalies):
+    lines = [f"## {day.strftime('%d/%m/%Y')} — total USD {total:.2f}", ""]
+    for service, cost in sorted(services.items(), key=lambda s: -s[1]):
+        lines.append(f"- {service}: USD {cost:.2f}")
+    if anomalies:
+        lines.append("")
+        lines.append(f"**{len(anomalies)} anomalia(s) detectada(s), tasks criadas.**")
+    return {"date": day.strftime("%Y-%m-%d"), "markdown": "\n".join(lines)}
+
 def main():
     yesterday = date.today() - timedelta(days=1)
-    seven_days_ago = date.today() - timedelta(days=8)
 
     today_costs = get_cost_for_day(yesterday)
 
@@ -221,19 +234,17 @@ spec:
 # Detalhes que poupam dor depois
 
 - **Granularidade da Cost Explorer**: ficar em `DAILY` é mais barato e mais preciso pro que a gente quer. `HOURLY` custa mais e tem delay maior.
-- **Cost Explorer tem delay de ~24h**: dado de "ontem" às 8h da manhã ainda pode ser parcial em alguns serviços (Lambda, S3 Requests). Relatório é diretivo, não auditoria final.
+- **Cost Explorer tem delay de ~24h**: dado de "ontem" às 8h da manhã ainda pode ser parcial em alguns serviços (Lambda, S3 Requests). Relatório é diretivo, não auditoria final. Esse delay é estrutural: sinal financeiro nunca vai ser detecção em tempo real, e é por isso que o papel desse robô é encurtar a demora de detecção de dias pra no máximo um, não zerá-la.
 - **Separe Doc (histórico) de Tasks (ação)**: humano que vê Doc só no dia ignora; task aparece no board, é trackable.
 - **Tem custo a API do Cost Explorer**: USD 0.01 por chamada. 8 chamadas por dia (hoje + 7 dias) dá USD 2,40/mês. Piada de preço, mas vale saber.
-- **Alerta pra quando o próprio job falha**: se o CronJob não roda por 2 dias seguidos, você para de receber anomalias e pensa que está tudo bem. Um alert em cima do `failed jobs` do Kubernetes resolve. Vai entrar no último post dessa série.
+- **Alerta pra quando o próprio job falha**: se o CronJob não roda por 2 dias seguidos, você para de receber anomalias e pensa que está tudo bem. Um alert em cima do `failed jobs` do Kubernetes resolve. Detalho isso no post de observabilidade mais adiante na série.
 
 # Lições aprendidas
 
-- **Automatize o que você promete fazer manualmente.** O valor não está na sofisticação do script, está no fato de rodar sem você lembrar.
-- **Anomalia com dois guard-rails.** Percentual sozinho gera ruído em serviços baratos. Valor absoluto sozinho perde variações caras em serviços grandes. Combinar os dois é o mínimo pra o alerta ser útil.
-- **IRSA e Secrets Manager resolvem credenciais de forma limpa.** Nenhum segredo em env var, nenhum token em código.
-- **CronJob no próprio cluster é mais barato que Lambda pra esse caso.** Roda nos nós que você já paga. Pra job que leva segundos, é melhor caminho que Lambda + EventBridge.
-- **Detecção simples supera sofisticação ausente.** Dá pra evoluir pra média móvel exponencial, detecção sazonal, ML. Mas 50%/USD 5 captura 95% do que importa na prática, e foi escrito numa tarde.
+A lição central não é técnica: custo anômalo na AWS é assintomático. Não derruba serviço, não dispara exceção, não acorda ninguém de madrugada. Pressão arterial alta funciona igual. Não dói, não dá sinal, e por isso a medicina não espera sintoma: mede em toda consulta, de rotina. Quem só mede quando sente alguma coisa descobre tarde. O relatório diário é essa medição de rotina, transformando um problema invisível em número comparável todo dia, inclusive nos dias em que ninguém abriria o dashboard por conta própria.
 
-**💬 Como vocês monitoram custo AWS?**
+A segunda lição é que detecção simples supera sofisticação ausente. A regra de 50% sobre a média de 7 dias com piso de USD 5 foi escrita numa tarde e captura a maior parte do que importa. Dá pra evoluir pra média móvel exponencial, sazonalidade, ML. Mas o robô imperfeito rodando todo dia vence o sofisticado que ficou no backlog.
 
-Usam algum serviço third-party, Cost Anomaly Detection nativo, ou também construíram interno? Curioso pra comparar abordagens.
+E a terceira: sinal financeiro é backstop, não primeira linha de defesa. Ele chega com 24 a 48 horas de atraso por design. O papel dele é garantir que nenhuma anomalia atravessa um final de semana invisível, como aconteceu com a gente. A janela de minutos é trabalho de alarme técnico em cima de métrica de comportamento, e esse é assunto do post de observabilidade dessa série.
+
+Se você usa o Cost Anomaly Detection nativo da AWS, fica uma pergunta honesta: ele já pegou alguma anomalia sua em tempo útil? No nosso incidente ele estava habilitado e não disparou a tempo. O porquê disso fica pro postmortem, que sai aqui na sexta.

@@ -3,7 +3,7 @@ title: "O loop improdutivo que multiplicou nossa conta AWS por quase 6x em quatr
 draft: true
 date: 2026-06-05T00:00:00.000Z
 description: "Postmortem real de um incidente AWS: uma regressão sutil em uma lambda fez uma Step Function reinvocar a mesma tarefa por quatro madrugadas. A conta do mês saltou quase 6x (mesmo com AWS Cost Anomaly Detection habilitado). Como contivemos, como negociamos a concessão com a AWS via Infomach e TD Synnex, e quais guard rails entraram em pé. Postmortem público para que outros times não descubram essa categoria de falha do mesmo jeito que a gente descobriu."
-comments: true`
+comments: true
 keywords: [
   "AWS Step Functions",
   "AWS Lambda",
@@ -112,7 +112,7 @@ Na observabilidade, três alarmes CloudWatch entraram com prioridade alta: dura�
 
 E mais duas mudanças de processo: freeze de deploy às sextas-feiras e nos últimos cinco dias do mês para pipelines billing-sensitive, e checklist obrigatório de validação D+1 após merge em SFN ou lambda de alto volume (execuções, duração, transições, custo). Janela de deploy importa: merge na quarta à noite mais execução agendada de madrugada mais final de semana na frente totalizam ~72 horas de cegueira operacional antes da primeira oportunidade de observação crítica.
 
-Também construímos um robô diário de cost tracking rodando em EKS (CronJob Python via IRSA para credenciais AWS e Secrets Manager para o token do ClickUp). Ele posta o breakdown de custo por serviço e por dia no ClickUp e abre task automaticamente se houver anomalia. Sobre esse robô vou escrever em separado, ele virou peça central da rotina de FinOps.
+Também construímos um robô diário de cost tracking rodando em EKS (CronJob Python via IRSA para credenciais AWS e Secrets Manager para o token do ClickUp). Ele posta o breakdown de custo por serviço e por dia no ClickUp e abre task automaticamente se houver anomalia. Sobre esse robô [escrevi em separado no post anterior dessa série](/blog/2026-06-03-relatorios-custo-aws-cronjob-eks/), ele virou peça central da rotina de FinOps.
 
 # As lições que ficam
 
