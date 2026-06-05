@@ -1,61 +1,46 @@
 ---
-title: "About"
+title: "Sobre"
 draft: false
 date: 2020-03-07T00:00:00.000Z
-lastmod: 2025-03-19T00:00:00.000Z
-description: "About"
+lastmod: 2026-06-03T00:00:00.000Z
+description: "Leonardo Rifeli, CTO e co-founder da Harmo. Mais de 14 anos construindo sistemas escaláveis em Go, Python e AWS. Escrevo sobre engenharia, dados e cloud-native na prática."
 comments: false
 keywords: [
-  "Software",
-  "Develop",
-  "Setup DEV",
-  "rifeli",
-  "Software Developer",
-  "Data Science",
+  "Leonardo Rifeli",
   "CTO Harmo",
-  "scalable architectures",
-  "data engineering",
-  "cloud solutions"
+  "rifeli",
+  "Software Architect",
+  "Data Engineer",
+  "Golang",
+  "AWS",
+  "EKS",
+  "arquitetura escalável",
+  "engenharia de dados",
+  "consultoria técnica"
 ]
 ---
 
-<img id="image-custom" src="/images/about/me.png" alt="my desk, as of December, 2024" />
-<p id="image-legend">Talk on GopherCon LATAM 2024</p>
+<img id="image-custom" src="/images/about/me.png" alt="Leonardo Rifeli palestrando na GopherCon LATAM 2024" />
+<p id="image-legend">Palestra na GopherCon LATAM 2024</p>
 
-## 👋 Hey, I'm Leonardo Rifeli
+## Sobre mim
 
-🚀 **Co-Founder & CTO at [Harmo](https://harmo.me) | Data Engineer & Software Architect**  
-💡 Passionate about **scalable architectures, data engineering, and cloud solutions**  
+Sou Leonardo Rifeli, co-founder e CTO da [Harmo](https://harmo.me), onde lidero um time de mais de 12 engenheiros construindo a infraestrutura que processa +10 milhões de pesquisas e +300 mil avaliações públicas por mês, para mais de 60 mil lojas de varejo físico no Brasil.
 
-### 🏢 **Professional Background**
-I'm an **Experienced Software Developer and Data Engineer** with over **14 years** of expertise in **scalable systems** and **high-performance teams** leadership.  
+São mais de 14 anos construindo software, a maior parte deles em sistemas distribuídos e engenharia de dados. Antes da Harmo, co-fundei a Reviewr, reconhecida como uma das startups mais promissoras de Santa Catarina, incubada no MIDITEC e acelerada pela Darwin Startups.
 
-I co-founded **Reviewr** (reviewr.me), recognized as one of the most promising startups in **Santa Catarina, Brazil**, incubated at **MIDITEC** (5th best startup incubator in the world) and accelerated by **Darwin Startups**. Later, I co-founded **Harmo** (harmo.me), a fusion of Reviewr & Gorila, and a **partner company of ReclameAqui**.
+## O que eu faço no dia a dia
 
-### 🔥 **Tech Stack & Expertise**
-- **Backend Development**: Golang (since 2017), JavaScript (Node.js), Python  
-- **Cloud & Infrastructure**: AWS (Lambda, Step Functions, EKS, RDS Aurora, MWAA/Airflow, SQS, SES, OpenSearch, API Gateway)  
-- **Data Engineering**: Data pipelines, ETL, and AI-driven processing  
-- **System Scalability & DevOps**: SRE, Infrastructure as Code, and Serverless architectures  
+Foco total e atuação em uma plataforma AI-fist. Arquitetura de software, decisões técnicas e mão na massa. O dia típico mistura liderança do time de engenharia, desenho de pipelines de dados (extração, ETL e processamento com IA), backend em Go e Python, e operação de uma plataforma cloud-native na AWS: EKS, Lambda, Step Functions, Aurora, Airflow, SQS, OpenSearch. Boa parte do que aprendo operando isso em escala vira post aqui no blog.
 
-### 🎯 **What I Do**
+Também atendo um número limitado de projetos de [consultoria técnica](https://consultoria.rifeli.dev): arquitetura, cloud e engenharia de dados para times que precisam escalar.
 
-Every day, I work on:  
-✅ **Leading a team of 12+ engineers**  
-✅ **Software Architecture & Backend Development**  
-✅ **Data Engineering (Extractors, Pipelines, and AI Processing)**  
-✅ **Cloud & DevOps Strategies (AWS, Kubernetes, Serverless)**  
-✅ **Architecture Decision-Making & Problem Solving**  
+## Stack
 
-### 📍 **Location**
+Go desde 2017 (Gopher de carteirinha), Python para dados e automação, Node.js quando faz sentido. AWS como casa: Kubernetes, serverless, airflow, infraestrutura como código e SRE.
 
-🏡 I live in **Antônio Carlos - SC, Brazil 🇧🇷**, where I enjoy family time, nature, and building meaningful tech solutions.  
+## Fora do trabalho
 
-### ✨ **Beyond Work**
+Moro em Antônio Carlos, Santa Catarina, onde a vida é família, natureza e projetos de garagem — o atual é instrumentar uma S10 1995 com painel digital, que em algum momento vira série aqui no blog.
 
-- ❤️ **Gopher since 2017**  
-- 📝 **Writing at [rifeli.dev](https://rifeli.dev)**  
-- 📚 **Always learning & improving**  
-- 👰 **Happily married**  
-
-> 🏊‍♂️🚴‍♂️🏃‍♂️ *"Good dream is a dream lived" — Avelino, Thiago*  
+> "Bom sonho é sonho vivido." — Thiago Avelino
