@@ -64,10 +64,9 @@
 <script type="application/ld+json">{{ $schema | jsonify | safeJS }}</script>
 {{ end }}
 
-<!-- Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<!-- Fonts: Manrope self-hosted via @font-face em assets/css/tailwind.css -->
+<link rel="preload" href="/fonts/manrope-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/manrope-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
 
 <!-- Icons / Favicon -->
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">

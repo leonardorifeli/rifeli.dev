@@ -3,108 +3,79 @@
 @tailwind utilities;
 
 @layer base {
-  /* inter-100 - latin */
+  /* manrope-200 - latin */
   @font-face {
-    font-family: 'Inter';
-    font-style: normal;
-    font-display: swap;
-    font-weight: 100;
-    src: local(''),
-         url('../fonts/inter-v12-latin-100.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
-         url('../fonts/inter-v12-latin-100.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-  }
-
-  /* inter-200 - latin */
-  @font-face {
-    font-family: 'Inter';
+    font-family: 'Manrope';
     font-style: normal;
     font-display: swap;
     font-weight: 200;
     src: local(''),
-         url('../fonts/inter-v12-latin-200.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
-         url('../fonts/inter-v12-latin-200.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+         url('../fonts/manrope-latin-200-normal.woff2') format('woff2');
   }
 
-  /* inter-300 - latin */
+  /* manrope-300 - latin */
   @font-face {
-    font-family: 'Inter';
+    font-family: 'Manrope';
     font-style: normal;
     font-display: swap;
     font-weight: 300;
     src: local(''),
-         url('../fonts/inter-v12-latin-300.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
-         url('../fonts/inter-v12-latin-300.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+         url('../fonts/manrope-latin-300-normal.woff2') format('woff2');
   }
 
-  /* inter-regular - latin */
+  /* manrope-regular - latin */
   @font-face {
-    font-family: 'Inter';
+    font-family: 'Manrope';
     font-style: normal;
     font-display: swap;
     font-weight: 400;
     src: local(''),
-         url('../fonts/inter-v12-latin-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
-         url('../fonts/inter-v12-latin-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+         url('../fonts/manrope-latin-400-normal.woff2') format('woff2');
   }
-  
-  /* inter-500 - latin */
+
+  /* manrope-500 - latin */
   @font-face {
-    font-family: 'Inter';
+    font-family: 'Manrope';
     font-style: normal;
     font-display: swap;
     font-weight: 500;
     src: local(''),
-         url('../fonts/inter-v12-latin-500.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
-         url('../fonts/inter-v12-latin-500.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+         url('../fonts/manrope-latin-500-normal.woff2') format('woff2');
   }
 
-  /* inter-600 - latin */
+  /* manrope-600 - latin */
   @font-face {
-    font-family: 'Inter';
+    font-family: 'Manrope';
     font-style: normal;
     font-display: swap;
     font-weight: 600;
     src: local(''),
-         url('../fonts/inter-v12-latin-600.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
-         url('../fonts/inter-v12-latin-600.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+         url('../fonts/manrope-latin-600-normal.woff2') format('woff2');
   }
 
-  /* inter-700 - latin */
+  /* manrope-700 - latin */
   @font-face {
-    font-family: 'Inter';
+    font-family: 'Manrope';
     font-style: normal;
     font-display: swap;
     font-weight: 700;
     src: local(''),
-         url('../fonts/inter-v12-latin-700.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
-         url('../fonts/inter-v12-latin-700.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+         url('../fonts/manrope-latin-700-normal.woff2') format('woff2');
   }
 
-  /* inter-800 - latin */
+  /* manrope-800 - latin */
   @font-face {
-    font-family: 'Inter';
+    font-family: 'Manrope';
     font-style: normal;
     font-display: swap;
     font-weight: 800;
     src: local(''),
-         url('../fonts/inter-v12-latin-800.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
-         url('../fonts/inter-v12-latin-800.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-  }
-
-  /* inter-900 - latin */
-  @font-face {
-    font-family: 'Inter';
-    font-style: normal;
-    font-display: swap;
-    font-weight: 900;
-    src: local(''),
-         url('../fonts/inter-v12-latin-900.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
-         url('../fonts/inter-v12-latin-900.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+         url('../fonts/manrope-latin-800-normal.woff2') format('woff2');
   }
 
   body {
     @apply bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 text-lg text-justify;
-    font-family: "jost",Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-family: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
 
   iframe {
@@ -145,7 +116,7 @@
     justify-content: space-between;
     padding: 60px 10%;
     @apply intro-white dark:intro-dark;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Manrope', sans-serif;
     box-sizing: border-box;
     margin-bottom: 50px;
 
@@ -203,7 +174,7 @@
     justify-content: space-between;
     padding: 60px 10%;
     @apply intro-white dark:intro-dark;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Manrope', sans-serif;
     box-sizing: border-box;
     margin: 50px 0px 40px 0px;
 
