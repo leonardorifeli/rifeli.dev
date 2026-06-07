@@ -1,6 +1,6 @@
 # O loop improdutivo que multiplicou nossa conta AWS por quase 6x em quatro madrugadas
 
-Três variações para o LinkedIn. Link do blog no primeiro comentário. Primeira linha sempre narrativa, nunca bloco de código (lição do post de IRSA: bloco de código como hook custou o reach). Esse é o postmortem que o post de terça teaseou.
+Três variações para o LinkedIn. Link do blog no primeiro comentário. Primeira linha sempre narrativa, nunca bloco de código (lição do post de IRSA: bloco de código como hook custou o reach). Esse é o postmortem que o post de quarta teaseou.
 
 ---
 
@@ -8,7 +8,7 @@ Três variações para o LinkedIn. Link do blog no primeiro comentário. Primeir
 
 Toda invocação retornou HTTP 200. Nenhum erro, nenhuma exceção, nenhum stack trace. E mesmo assim a conta AWS do mês fechou quase 6x acima da baseline.
 
-Em março, mergeei numa quarta às 19h um PR que mudou a lógica de paginação de uma lambda. Passou no review, nos testes, na esteira. Não violava o contrato de I/O, todos os campos do payload continuavam com tipo certo e schema válido. Sob uma combinação rara de filtros, ela passou a retornar o mesmo payload a cada invocação: cursor=0, totalFetched=0, pageCount=1, isFinished=false. Sem variar entre chamadas consecutivas.
+Em março, mergeei numa quinta às 19h um PR que mudou a lógica de paginação de uma lambda. Passou no review, nos testes, na esteira. Não violava o contrato de I/O, todos os campos do payload continuavam com tipo certo e schema válido. Sob uma combinação rara de filtros, ela passou a retornar o mesmo payload a cada invocação: cursor=0, totalFetched=0, pageCount=1, isFinished=false. Sem variar entre chamadas consecutivas.
 
 Essa lambda alimenta uma Step Function de coleta paginada que tem um Choice state: enquanto isFinished=false, reinvoca. Do ponto de vista da máquina de estado, o payload era instrução pra continuar. Ela continuou. Cada execução rodava ~8h30 de loop até bater no teto hard de 25.000 eventos da Step Function e morrer com States.Runtime. Na madrugada seguinte, de novo. Quatro madrugadas, um final de semana no meio, 76 horas de sangria. A única defesa que pegou foi a revisão manual do billing na segunda de manhã.
 
@@ -64,10 +64,8 @@ Postmortem completo no rifeli.dev. Link no primeiro comentário.
 
 ## Notas operacionais
 
-- Recomendo Variação 1 como primária: o root cause é o gancho que o post de terça segurou de propósito, e a primeira linha (todo 200, e mesmo assim 6x) é o paradoxo que prende. Continuidade direta com o post do CronJob de custo.
+- Recomendo Variação 1 como primária: o root cause é o gancho que o post de quarta segurou de propósito, e a primeira linha (todo 200, e mesmo assim 6x) é o paradoxo que prende. Continuidade direta com o post do CronJob de custo.
 - Variação 2 pra C-level / champion: proporções, nunca dólar do incidente, e carrega a frente comercial (Infomach, TD Synnex, crédito AWS). Pré-flight: confirmar com a Infomach antes de publicar, são citados nominalmente.
 - Variação 3 carrega a analogia da esteira vs rua como hook e a lição central "sucesso técnico mascara falha de negócio". Leitor SRE / engenheiro sênior.
 - Números expostos: só proporções (6x, teto de 25.000 eventos que é público da AWS, 76h de janela) e os volumes aprovados (10M pesquisas, 300k avaliações). Nenhum dólar absoluto.
 - Link no primeiro comentário em até 60 segundos da publicação.
-</content>
-</invoke>
