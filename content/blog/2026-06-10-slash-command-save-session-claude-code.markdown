@@ -1,7 +1,7 @@
 ---
 title: "Slash commands no Claude Code: como construí o /save-session e por que ele virou ritual de fim de sessão"
 draft: true
-date: 2026-06-08T00:00:00.000Z
+date: 2026-06-10T00:00:00.000Z
 description: "Tutorial prático de slash command custom no Claude Code, com o caso real do /save-session. Por que precisei criar, como funciona o auto-memory que o Claude Code já dá de fábrica, o que o /save-session adiciona, e como compartilhar o skill entre múltiplas máquinas via dotfiles."
 comments: true
 keywords: [

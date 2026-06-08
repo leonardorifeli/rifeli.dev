@@ -1,8 +1,8 @@
 ---
 title: "Seis anos de Harmo: o que aprendi como CTO construindo infraestrutura Drive-to-Store"
-draft: true
+draft: false
 date: 2026-06-08T00:00:00.000Z
-description: "A Harmo faz seis anos. Escrevo como co-founder e CTO sobre o que custou caro construir: tratar ATRAIR, CONVERTER, ESCUTAR e ATIVAR como um sistema único em vez de quatro produtos costurados, processar 300 mil avaliações e 10 milhões de pesquisas por mês em mais de 60 mil lojas, e por que time e arquitetura são a mesma coisa. Decisões técnicas, lições de gestão e o diferencial que só aparece quando você constrói infraestrutura, não feature."
+description: "A Harmo fez seis anos. Escrevo como co-founder e CTO sobre o que custou caro construir: tratar pilares Drive-to-Store como um sistema único em vez de quatro produtos costurados, processar +300 mil avaliações e +10 milhões de pesquisas por mês em mais de +60 mil lojas, e por que time e arquitetura são a mesma coisa. Decisões técnicas, lições de gestão e o diferencial que só aparece quando você constrói infraestrutura/plataforma, não feature."
 comments: true
 keywords: [
   "Harmo",
@@ -29,22 +29,22 @@ tags:
   - drive-to-store
 ---
 
-<img id="image-custom" src="" alt="" />
-<p id="image-legend"></p>
+<img id="image-custom" src="/images/posts/f4160481-ac27-4807-a036-e04c1b394436.png" alt="" />
+<p id="image-legend">6 anos como CTO de uma infraestrutura Drive-to-Store</p>
 
 # Introdução
 
-A Harmo faz seis anos. Esse tipo de data costuma virar texto de marketing, mas eu queria escrever de outro lugar: o de quem assina o código e responde pelo time que o mantém. Então esquece o tom de release. Quero falar do que de fato custou caro construir, das decisões de arquitetura que sustentaram os outros cinco anos, e das lições de gestão que eu só aprendi errando.
+A Harmo fez seis anos no mês de junho. Esse tipo de data costuma virar texto de marketing, mas eu queria escrever de outro lugar: o de quem assina o código e responde pelo time que o mantém. Então esquece o tom de release. Quero falar do que de fato custou caro construir, das decisões de arquitetura que sustentaram os outros cinco anos, e das lições de gestão que eu só aprendi errando.
 
 A pergunta que a gente fazia no começo era simples e a resposta era difícil: por que a voz do cliente, que é o dado mais valioso que uma rede de varejo tem, vivia espalhada em ferramentas que não conversavam entre si? Avaliação num lugar, presença digital em outro, pesquisa em outro. Cada pedaço resolvido por uma solução isolada, nenhuma resolvendo o problema inteiro. A Harmo nasceu dessa inconformidade. Seis anos depois, ela não é uma ferramenta de GBP, não é uma plataforma de reputação e não é uma agência. É infraestrutura Drive-to-Store: um único sistema, integrado e governado, que transforma a voz do cliente em mais fluxo para a loja.
 
 # O problema técnico nunca foi o óbvio
 
-De fora parece que o desafio é integrar APIs e mostrar avaliação num painel bonito. Não é. O desafio real é manter um ciclo contínuo rodando em escala, com dados que chegam o tempo todo, de fontes que mudam as regras sem avisar, sobre uma base que hoje passa de 60 mil lojas. Processar mais de 300 mil avaliações e mais de 10 milhões de pesquisas por mês não é número de dashboard, é problema de arquitetura de verdade, com tudo que isso implica: idempotência, deduplicação, reprocessamento, e a disciplina chata de tratar fonte externa como algo que vai falhar, mudar de contrato e te surpreender no pior dia.
+De fora parece que o desafio é integrar APIs e mostrar avaliação num dash bonito. Não é. O desafio real é manter um ciclo contínuo rodando em escala, com dados que chegam o tempo todo, de fontes que mudam as regras sem avisar, sobre uma base que hoje passa de 60 mil lojas. Processar mais de 300 mil avaliações e mais de 10 milhões de pesquisas por mês não é número de dashboard, é problema de arquitetura de verdade, com tudo que isso implica: idempotência, deduplicação, reprocessamento, e a disciplina chata de tratar fonte externa como algo que vai falhar, mudar de contrato e te surpreender no pior dia.
 
-A decisão que sustentou todo o resto foi tratar ATRAIR, CONVERTER, ESCUTAR e ATIVAR como um sistema único, não como quatro produtos costurados depois. Isso significou pagar adiantado em complexidade de modelagem de dados para que cada avaliação, cada pesquisa e cada ponto de presença digital alimentassem o mesmo ciclo, com o mesmo identificador de loja, o mesmo conceito de evento, a mesma fonte de verdade. Foi mais difícil no começo e é exatamente o que hoje nos deixa entregar coisas que um amontoado de ferramentas isoladas nunca vai entregar. Inteligência de verdade não se pluga em dados desconectados.
+A decisão que sustentou todo o resto foi tratar pilares Drive-to-Store como um sistema único, não como quatro produtos costurados depois. Isso significou pagar adiantado em complexidade de modelagem de dados para que cada avaliação, cada pesquisa e cada ponto de presença digital alimentassem o mesmo ciclo, com o mesmo identificador de loja, o mesmo conceito de evento, a mesma fonte de verdade. Foi mais difícil no começo e é exatamente o que hoje nos deixa entregar coisas que um amontoado de ferramentas isoladas nunca vai entregar. Inteligência de verdade não se pluga em dados desconectados.
 
-Se você quer ver onde a matemática disso tudo mora na prática, já escrevi sobre [as oito famílias de fórmulas que rodam por trás da plataforma](/blog/2026-06-17-formulas-essenciais-data-science-harmo/) e sobre [como fazemos CI/CD na Harmo](/blog/como-fazemos-ci-cd-na-harmo/). Este post aqui é mais sobre as escolhas que vieram antes do código.
+Boa parte do que sustenta isso na prática é matemática: estatística, correlação e os modelos que ligam a nota da loja ao fluxo na porta. Já mostrei o lado de dados e Python disso em [como começamos com Python para IA e dados na Harmo](/blog/python-ia-dados-harmo-basico-ao-pratico/), e em breve vou dedicar um post inteiro às oito famílias de fórmulas que rodam por trás da plataforma. Do lado da entrega, já escrevi sobre [como fazemos CI/CD na Harmo](/blog/como-fazemos-ci-cd-na-harmo/). Este post aqui é mais sobre as escolhas que vieram antes do código.
 
 # Time é arquitetura
 
