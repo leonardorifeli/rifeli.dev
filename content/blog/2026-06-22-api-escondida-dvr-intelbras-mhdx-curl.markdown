@@ -28,6 +28,9 @@ tags:
   - engenharia-reversa
 ---
 
+<img id="image-custom" src="/images/posts/7c4e6bdc-21e4-4dde-8a66-73a75ee47222.png" alt="" />
+<p id="image-legend"></p>
+
 # Introdução
 
 Comecei a tarde de domingo querendo só arrumar uma câmera que estava com a imagem estranha e terminei com um script que lê e escreve a configuração das quatro câmeras do meu DVR direto pela linha de comando. No caminho descobri que o Intelbras MHDX 3004-C, como boa parte da linha, roda firmware OEM da Dahua e expõe uma API HTTP CGI que quase ninguém documenta em português.
@@ -168,9 +171,22 @@ curl -s "${AUTH[@]}" \
 # Bad Request!
 ```
 
-`Bad Request`. A tabela `VideoInExposure` não existe nesse firmware. Varri os nomes prováveis (`VideoInAntiFlicker`, `VideoInDayNight`, `VideoInNR`) e todos voltaram vazios. A conclusão, com evidência e não com achismo: **exposição, shutter e anti-flicker não são controláveis pela API neste DVR**. Faz sentido. Essas câmeras são analógicas HDCVI, e nesse mundo o controle de exposição em geral mora no menu OSD da própria câmera, navegado por sinal coaxial, não na config do gravador. O `coaxialControlIO.cgi` respondeu (consegui ler status de speaker e luz branca), o que confirma que o canal de controle pra câmera existe, só não passa pela config do encoder.
+`Bad Request`. A tabela `VideoInExposure` não existe nesse firmware. Varri os nomes prováveis (`VideoInAntiFlicker`, `VideoInDayNight`, `VideoInNR`) e todos voltaram vazios. A conclusão, com evidência e não com achismo: **exposição, shutter e anti-flicker não são controláveis pela API neste DVR**.
 
-Saber o limite da ferramenta é tão valioso quanto saber o que ela faz. Eu poderia ter perdido uma hora montando um `setConfig` de anti-flicker que o aparelho ia ignorar em silêncio. A leitura prévia matou essa ilusão em dois segundos.
+Pra não parar no "não achei a tabela", fui perguntar ao próprio aparelho o que ele suporta naquele canal, com `devVideoInput.cgi?action=getCaps`:
+
+```bash
+curl -g -s "${AUTH[@]}" \
+  "http://$DVR_IP:$PORT/cgi-bin/devVideoInput.cgi?action=getCaps&channel=2"
+# caps.Gain=false
+# caps.VideoInDenoise.2D.Support=true
+# caps.ImageEnhancement.Support=true
+# ... nenhuma linha de shutter, exposure, antiflicker ou WDR
+```
+
+Isso fecha a questão de um jeito mais forte que o `Bad Request`: não é que a API esconde o anti-flicker, é que **essa câmera não tem esse controle pra expor**. Faz sentido. São câmeras analógicas HDCVI baratas, exposição automática e ponto. Quando esse controle existe, em geral mora no menu OSD da câmera, navegado por sinal coaxial, não na config do gravador. O `coaxialControlIO.cgi` respondeu (consegui ler status de speaker e luz branca), então o canal de controle pra câmera até existe, só não tem o botão que eu queria do outro lado.
+
+Saber o limite da ferramenta é tão valioso quanto saber o que ela faz. Eu poderia ter perdido uma hora montando um `setConfig` de anti-flicker que o aparelho ia ignorar em silêncio, ou pior, subido numa escada pra caçar um menu OSD que essa câmera nem tem. Duas leituras de API mataram as duas ilusões em segundos.
 
 # Escrevendo a configuração (e a pegadinha do glob)
 
@@ -199,6 +215,6 @@ A primeira é que muito equipamento doméstico de prateleira esconde uma API per
 
 A segunda é o método: alcance, autenticação, leitura, mapeamento, e só no fim a escrita. A leitura não é só reconhecimento, é o que transforma chute em certeza e revela o que o aparelho nem suporta.
 
-A terceira é um pendência que esse exercício escancarou: o DVR está em DHCP. Toda essa automação aponta pra um IP que pode mudar quando o roteador resolver. Próximo passo é reservar um IP fixo pra ele no DHCP do roteador, pra que o script não quebre sozinho numa madrugada qualquer. Endereço de infraestrutura que você automatiza não pode ser volátil, e isso vale tanto pra um DVR de casa quanto pra qualquer serviço que a gente opera em produção.
+A terceira é uma pendência que esse exercício escancarou: o DVR está em DHCP. Toda essa automação aponta pra um IP que pode mudar quando o roteador resolver. Próximo passo é reservar um IP fixo pra ele no DHCP do roteador, pra que o script não quebre sozinho numa madrugada qualquer. Endereço de infraestrutura que você automatiza não pode ser volátil, e isso vale tanto pra um DVR de casa quanto pra qualquer serviço que a gente opera em produção.
 
-No fim das contas, a câmera com listra não tem conserto por API. A luz que causa o flicker é de um poste da rua, apagar não é opção, e o jeito certo é o anti-flicker no menu OSD da própria câmera, travando o obturador num múltiplo do ciclo de 60Hz da rede pra pulsação somar zero. É exatamente o ajuste que esse firmware não expõe pela API. Mas saí com as quatro padronizadas em segundos em vez de meia hora de clique, e com um mapa da API que vou reusar toda vez que precisar mexer nelas.
+No fim das contas, a câmera com listra não tem conserto por API. A luz que causa o flicker é de um poste da rua, apagar não é opção. O conserto de software seria o anti-flicker, travando o obturador num múltiplo do ciclo de 60Hz da rede pra pulsação somar zero, mas o próprio aparelho me disse, via `getCaps`, que essa câmera não tem esse controle. Então sobra o físico: tirar o poste do enquadramento direto e pôr um capuz na lente pra cortar a luz que entra reta no sensor. Anticlimático, mas é a verdade que a investigação entregou, e descobri isso sem subir escada nenhuma. Saí com as quatro câmeras padronizadas em segundos em vez de meia hora de clique, e com um mapa da API que vou reusar toda vez que precisar mexer nelas.

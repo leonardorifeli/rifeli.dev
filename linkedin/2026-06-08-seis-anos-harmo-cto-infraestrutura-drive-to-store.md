@@ -6,15 +6,15 @@ Três variações para o LinkedIn. Mesmo título do post no blog. Link do blog n
 
 ## Variação 1 — marco / lição de fundador (RECOMENDADA)
 
-A Harmo faz seis anos hoje.
+A Harmo faz seis anos esse mês.
 
-A decisão técnica que sustentou os outros cinco foi também a mais difícil de defender no começo: tratar ATRAIR, CONVERTER, ESCUTAR e ATIVAR como um sistema único, não como quatro produtos costurados depois.
+A decisão técnica que sustentou os outros cinco foi também a mais difícil de defender no começo: tratar pilares Drive-to-Store como um sistema único, não como produtos costurados depois.
 
-Isso significou pagar adiantado em complexidade de modelagem pra que cada avaliação, cada pesquisa e cada ponto de presença digital alimentassem o mesmo ciclo. Foi mais caro no início. É exatamente o que hoje deixa a plataforma processar 300 mil avaliações e 10 milhões de pesquisas por mês, em mais de 60 mil lojas, e ainda entregar inteligência por cima disso.
+Isso significou pagar adiantado em complexidade de modelagem pra que cada avaliação, cada pesquisa e cada ponto de presença digital alimentassem o mesmo ciclo. Foi mais caro no início. É exatamente o que hoje deixa a plataforma processar +300 mil avaliações e +10 milhões de pesquisas por mês, em mais de 60 mil lojas, e ainda entregar inteligência por cima disso.
 
-Funcionalidade isolada qualquer um copia. O difícil de copiar é a integração que faz as oito conversarem sobre a mesma base. Inteligência de verdade não se pluga em dado desconectado.
+Funcionalidade isolada qualquer um copia. O difícil de copiar é a integração que faz as todos conversarem sobre a mesma base. Inteligência de verdade não se pluga em dado desconectado.
 
-Escrevi do lugar de quem assina o código, não do release. Decisões de arquitetura, lições de gestão e o que custou caro no rifeli.dev.
+Escrevi do lugar de quem assina o código, não do release. Decisões de arquitetura, lições de gestão e o que custou caro.
 
 Link no primeiro comentário.
 
