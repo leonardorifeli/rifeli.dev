@@ -1,7 +1,7 @@
 ---
 title: "As oito famílias de matemática que rodam por trás da Plataforma Harmo todo dia"
 draft: true
-date: 2026-06-19T00:00:00.000Z
+date: 2026-06-26T00:00:00.000Z
 description: "Continuação do post sobre o alpinista cego. Existe um cheatsheet clássico de fórmulas essenciais de data science: estatística descritiva, probabilidade, álgebra linear, cálculo, machine learning, information theory, data science essentials e séries temporais. Cada uma dessas oito famílias tem aplicação direta na operação da Plataforma Harmo, todo dia. Esse post mapeia onde cada uma mora."
 comments: true
 keywords: [

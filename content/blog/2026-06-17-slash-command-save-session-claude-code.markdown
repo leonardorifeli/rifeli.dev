@@ -1,7 +1,7 @@
 ---
 title: "Slash commands no Claude Code: como construí o /save-session e por que ele virou ritual de fim de sessão"
-draft: true
-date: 2026-06-10T00:00:00.000Z
+draft: false
+date: 2026-06-17T00:00:00.000Z
 description: "Tutorial prático de slash command custom no Claude Code, com o caso real do /save-session. Por que precisei criar, como funciona o auto-memory que o Claude Code já dá de fábrica, o que o /save-session adiciona, e como compartilhar o skill entre múltiplas máquinas via dotfiles."
 comments: true
 keywords: [
@@ -25,12 +25,12 @@ tags:
   - anthropic
 ---
 
-<img id="image-custom" src="" alt="" />
-<p id="image-legend"></p>
+<img id="image-custom" src="/images/posts/e2cad8ae-006f-4dfc-970f-107334842be9.png" alt="" />
+<p id="image-legend">Um comando no fim da sessão: o contexto que importa vira memória, sincronizada entre as máquinas.</p>
 
 # Introdução
 
-Em 30 dias rodando dentro do Claude Code, atravessei 68 sessões. Em todas elas, no fechamento, o contexto morria. As decisões, as preferências reforçadas, os "não faz mais X assim" e os "esse padrão funcionou, repete depois" iam todos pro lixo. Na sessão seguinte, eu re-explicava. Sessenta e oito vezes.
+Em pouco mais de um mês rodando dentro do Claude Code, em duas máquinas, atravessei 180 sessões. Em todas elas, no fechamento, o contexto morria. As decisões, as preferências reforçadas, os "não faz mais X assim" e os "esse padrão funcionou, repete depois" iam todos pro lixo. Na sessão seguinte, eu re-explicava.
 
 Em um post anterior dessa série, sobre os [30 dias dentro do Claude Code](/blog/2026-05-29-30-dias-claude-code-usd-8k-plano-fixo/), deixei pendente a história do slash command que entrou pra resolver esse problema. Esse aqui é ele. Te conto a necessidade que me fez construir, como funciona, e te ensino a montar o seu próprio. No fim, falo de compartilhar entre máquinas, que foi a peça que destravou pra valer.
 
@@ -38,7 +38,7 @@ Em um post anterior dessa série, sobre os [30 dias dentro do Claude Code](/blog
 
 O Claude Code já tem um sistema de memória persistente que roda no fundo. É o que a Anthropic chama de auto-memory: durante a conversa, o modelo pode decidir salvar fatos relevantes em arquivos no diretório `~/.claude/projects/<encoded-cwd>/memory/`. Esses arquivos viram contexto carregado em conversas futuras no mesmo projeto. É bom, é automático, e cobre o caso óbvio.
 
-O problema é a passividade. O modelo só salva quando "decide" que algo é digno. Coisas que pra mim eram óbvias de carregar (uma decisão de arquitetura específica, uma preferência de escrita validada em três posts seguidos, o nome do nosso parceiro AWS que aparece em postmortems) ele às vezes salvava, às vezes não. E quando eu queria forçar, ficava digitando "salva isso na sua memória" no fim da sessão, sentindo como se estivesse instruindo um estagiário em três etapas.
+O problema é a passividade. O modelo só salva quando "decide" que algo é digno. Coisas que pra mim eram óbvias de carregar (uma decisão de arquitetura específica, uma preferência de escrita validada, etc) ele às vezes salvava, às vezes não. E quando eu queria forçar, ficava digitando "salva isso na sua memória" no fim da sessão, sentindo como se estivesse instruindo um estagiário em três etapas.
 
 A necessidade era simples: um comando que eu invocasse explicitamente no fim de qualquer sessão, com o entendimento de que naquele momento eu *quero* salvar, e o bar de "vale a pena guardar" pode ser mais baixo do que o automático. Esse é o `/save-session`.
 
@@ -46,12 +46,12 @@ A necessidade era simples: um comando que eu invocasse explicitamente no fim de 
 
 Antes de ir pro código, contexto pra quem nunca construiu. Slash commands no Claude Code são skills custom que você invoca digitando `/<nome>` na conversa. O Claude detecta o comando, carrega as instruções daquele skill, e executa o procedimento descrito. Skills vivem em duas hierarquias possíveis:
 
-- `~/.claude/skills/<nome>/SKILL.md` — disponível em todas as conversas, em todas as pastas do seu sistema.
-- `<projeto>/.claude/skills/<nome>/SKILL.md` — disponível só quando o Claude Code abre dentro daquele projeto.
+- `~/.claude/skills/<nome>/SKILL.md`: disponível em todas as conversas, em todas as pastas do seu sistema. (global no PC)
+- `<projeto>/.claude/skills/<nome>/SKILL.md`: disponível só quando o Claude Code abre dentro daquele projeto. (somente em projeto específico)
 
 Pra um comando utilitário como `/save-session`, que faz sentido em qualquer sessão, a hierarquia certa é a global em `~/.claude/skills/`.
 
-A estrutura mínima de um SKILL.md é frontmatter YAML mais corpo em markdown. O frontmatter declara o comando, o que ele faz e como o usuário interage. O corpo é o procedimento: a instrução em linguagem natural que o Claude vai executar quando você invocar.
+A estrutura mínima de um **SKILL.md** é frontmatter YAML mais corpo em markdown. O frontmatter declara o comando, o que ele faz e como o usuário interage. O corpo é o procedimento: a instrução em linguagem natural que o Claude vai executar quando você invocar.
 
 ```markdown
 ---
@@ -102,7 +102,7 @@ A primeira é o **description em inglês cobrindo aliases naturais em PT-BR**: "
 
 A segunda é o **argument-hint**. Você pode passar `/save-session só sobre Redis` e o skill respeita esse escopo, filtrando o que extrai. Sem isso, fica tudo-ou-nada.
 
-A terceira é a **disciplina de filtros explícitos no procedure**. O auto-memory também filtra, mas o `/save-session` adiciona pressão: "do NOT save code patterns, file paths, ephemeral numbers". O bar de relevância sobe, porque o usuário pediu — então o que entra precisa valer a pena ser carregado em todas as conversas futuras desse projeto.
+A terceira é a **disciplina de filtros explícitos no procedure**. O auto-memory também filtra, mas o `/save-session` adiciona pressão: "do NOT save code patterns, file paths, ephemeral numbers". O bar de relevância sobe, porque o usuário pediu, então o que entra precisa valer a pena ser carregado em todas as conversas futuras desse projeto.
 
 # Como ele funciona em uma sessão real
 
@@ -112,7 +112,7 @@ Primeiro, descobre o diretório de memória do projeto atual (`~/.claude/project
 
 Segundo, revisa a conversa em busca de candidatos divididos em quatro tipos: **user** (perfil, expertise, perspectiva), **feedback** (correções e validações com o `Why` e o `How to apply`), **project** (estado de trabalho com `Why` e `How to apply`), e **reference** (apontadores pra sistemas externos, URLs, hostnames).
 
-Terceiro, aplica os filtros. Coisas que estão no código não viram memória, porque o código é a fonte da verdade. Datas relativas viram absolutas. Numerose financeiros voláteis (vão mudar em semanas) ficam de fora.
+Terceiro, aplica os filtros. Coisas que estão no código não viram memória, porque o código é a fonte da verdade. Datas relativas viram absolutas. Números financeiros voláteis (vão mudar em semanas) ficam de fora.
 
 Quarto, escreve os arquivos novos, atualiza os existentes que precisam, e atualiza o índice `MEMORY.md`. No fim, reporta o que criou, o que mexeu, o que deixou de fora.
 

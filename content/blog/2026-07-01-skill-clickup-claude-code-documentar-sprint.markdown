@@ -1,7 +1,7 @@
 ---
 title: "Ensinei o Claude Code a documentar minha sprint no ClickUp (e ele abriu a última task sozinho)"
 draft: true
-date: 2026-06-24T00:00:00.000Z
+date: 2026-07-01T00:00:00.000Z
 description: "War story de produtividade: numa única conversa saíram 15 tasks pontuadas, 11 subtasks reestimadas e dois PRs, sem eu abrir o ClickUp na mão. Como transformei isso numa skill do Claude Code que fala com a API do ClickUp, as decisões de engenharia que apareceram no caminho (os dois campos de ponto, o cheiro do default, segredo por env var) e o limite que mantive: a skill propõe, eu aprovo."
 comments: true
 keywords: [
@@ -32,7 +32,7 @@ tags:
 
 Numa única conversa com o Claude Code saíram 15 tasks pontuadas, 11 subtasks reestimadas e dois pull requests. Eu não abri o ClickUp em momento nenhum. No fim, a parte que mais me marcou foi banal: a própria ferramenta que eu tinha acabado de construir criou a última task do board, sozinha, fechando o loop.
 
-Esse post é a história de como cheguei nisso, e principalmente das decisões de engenharia que apareceram no caminho. Não é um tutorial de "como criar uma skill" do zero. Esse eu já contei no post do [/save-session](/blog/2026-06-10-slash-command-save-session-claude-code/). Aqui o assunto é outro: o que acontece quando você dá a uma skill o poder de escrever num sistema externo de verdade, e o que você decide manter no controle humano.
+Esse post é a história de como cheguei nisso, e principalmente das decisões de engenharia que apareceram no caminho. Não é um tutorial de "como criar uma skill" do zero. Esse eu já contei no post do [/save-session](/blog/2026-06-17-slash-command-save-session-claude-code/). Aqui o assunto é outro: o que acontece quando você dá a uma skill o poder de escrever num sistema externo de verdade, e o que você decide manter no controle humano.
 
 # O problema que ninguém resolve
 

@@ -1,7 +1,7 @@
 ---
 title: "O alpinista cego: dez anos depois do Cálculo I, descobri que ele mora dentro de toda IA moderna"
 draft: true
-date: 2026-06-12T00:00:00.000Z
+date: 2026-06-19T00:00:00.000Z
 description: "Continuação espiritual do post de 2015 sobre Cálculo I. Como o gradiente descendente, ferramenta nascida das derivadas parciais do Cálculo II, virou a infraestrutura silenciosa que treina toda IA moderna. A intuição do alpinista no nevoeiro como metáfora central, fechando o arco com a minissérie recente sobre 30 dias dentro do Claude Code, slash commands e o dashboard Clawtop."
 comments: true
 keywords: [
@@ -27,14 +27,14 @@ tags:
   - educação
 ---
 
-<img id="image-custom" src="" alt="" />
-<p id="image-legend"></p>
+<img id="image-custom" src="/images/posts/b0c3e9bf-35a5-43c8-80a6-bdb15f71956b.png" alt="" />
+<p id="image-legend">Descer no escuro, um passo de cada vez: é assim que o modelo encontra o fundo do vale.</p>
 
 # Introdução
 
 Em 2015 escrevi [aqui no blog sobre como sobreviver a Cálculo I](/blog/2015-07-12-como-ir-bem-em-calculo-um/). Era um post de calouro recém-saído da prova final, ainda com a euforia de quem acabou de descobrir que dava pra passar mesmo numa matéria que metade da turma jurou ser impossível. Dez anos depois, releio aquele post com afeto. O autor de vinte anos não tinha como saber, mas estava aprendendo o vocabulário básico de uma coisa que dez anos no futuro ia ser a infraestrutura silenciosa de tudo que ele usa pra trabalhar.
 
-Nas últimas semanas escrevi por aqui sobre [os 30 dias que passei dentro do Claude Code](/blog/2026-05-29-30-dias-claude-code-usd-8k-plano-fixo/), rodando o equivalente a USD 8.069 em tokens e entregando quatro vezes mais que num mês normal. Escrevi também sobre [construir um slash command pra não perder contexto entre sessões](/blog/2026-06-10-slash-command-save-session-claude-code/), e sobre [o Clawtop, dashboard que montei pra acompanhar minha assinatura rodando em duas máquinas](/blog/2026-06-01-clawtop-meu-primeiro-open-source/). Tudo tratando IA como uma caixa preta sofisticada. Caixa que eu sei usar, que eu sei me beneficiar, que entrega leverage de outro patamar. Mas que, em algum nível, eu não tinha parado pra olhar por dentro.
+Nas últimas semanas escrevi por aqui sobre [os 30 dias que passei dentro do Claude Code](/blog/2026-05-29-30-dias-claude-code-usd-8k-plano-fixo/), rodando o equivalente a USD 8.069 em tokens e entregando quatro vezes mais que num mês normal. Escrevi também sobre [construir um slash command pra não perder contexto entre sessões](/blog/2026-06-17-slash-command-save-session-claude-code/), e sobre [o Clawtop, dashboard que montei pra acompanhar minha assinatura rodando em duas máquinas](/blog/2026-06-01-clawtop-meu-primeiro-open-source/). Tudo tratando IA como uma caixa preta sofisticada. Caixa que eu sei usar, que eu sei me beneficiar, que entrega leverage de outro patamar. Mas que, em algum nível, eu não tinha parado pra olhar por dentro.
 
 Esse post é o olhar por dentro. E o engraçado é que o que tem ali é exatamente o que eu jurei nunca mais ver na vida depois da prova final de Cálculo II. As derivadas parciais. Aquele negócio que parecia abstração pura pra atravessar prova, que envolvia gradiente, jacobiana, todo aquele vocabulário que o aluno guardava só pra devolver na avaliação e esquecer no semestre seguinte.
 

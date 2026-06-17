@@ -1,0 +1,38 @@
+PROMPTS DE CAPA — série técnica rifeli.dev
+Geradores: ChatGPT / DALL·E ou Microsoft Copilot / Designer.
+Avisos: peça landscape widescreen 16:9; peça "no text" (o gerador erra o wordmark);
+o wordmark "/ rifeli.dev" é sobreposto depois no canto inferior esquerdo.
+Estilo travado da série: fundo quase preto com tom azul escuro, grade hexagonal sutil,
+cor primária laranja neon (#ff7a00), acentos verdes, traços finos e luminosos, bloom suave, alto contraste.
+
+Status: [FEITA] já gerada e inserida no post | [PENDENTE] aguardando geração.
+
+================================================================
+17/06 — save-session  [FEITA: e2cad8ae-006f-4dfc-970f-107334842be9.png]
+Legenda: Um comando no fim da sessão: o contexto que importa vira memória, sincronizada entre as máquinas.
+----------------------------------------------------------------
+Create a widescreen 16:9 cover image in a minimalist tech style. Near-black background with a subtle dark-blue tint and a faint hexagonal grid texture. The primary color is bright neon orange, with small green accents. In the center, a glowing orange terminal prompt showing a "/" slash command. From it, a luminous flow line carries small stacked "session" blocks into a persistent memory core on the right, drawn as a neon-outline icon blending a database and a brain. Below, the outlines of a desktop and a laptop sync to that same core through orange arcs, showing one shared memory across two machines. Thin glowing strokes, soft bloom, high contrast, no text, with the bottom-left corner left clean and empty.
+
+================================================================
+19/06 — blind climber / gradient descent  [FEITA: b0c3e9bf-35a5-43c8-80a6-bdb15f71956b.png]
+Legenda: Descer no escuro, um passo de cada vez: é assim que o modelo encontra o fundo do vale.
+----------------------------------------------------------------
+Create a widescreen 16:9 cover image in a minimalist tech style. Near-black background with a dark-blue tint and a faint grid texture. Primary color neon orange, small green accents. The scene shows the silhouette of a lone blindfolded climber descending a dark mountain slope at night, feeling one step at a time downhill. The slope is rendered as a three-dimensional mathematical surface (a gradient / loss surface) made of thin neon-orange contour lines. Far below the climber, a single glowing green point marks the bottom of a valley. The feeling is of descending blind toward the lowest point. Thin glowing strokes, soft bloom, high contrast, no text, bottom-left corner left clean.
+
+================================================================
+22/06 — EKS observability and alerts  [PENDENTE]
+Legenda: O cluster fala o tempo todo. Observabilidade é parar de adivinhar e começar a escutar.
+----------------------------------------------------------------
+Create a widescreen 16:9 cover image in a minimalist tech style. Near-black background with a dark-blue tint and a faint grid texture. Primary color neon orange, with green and a touch of red accents. In the center, the Kubernetes helm-wheel icon as a glowing orange neon outline. Around it, three thin luminous dashboard panels with mini line charts, and one metric line that spikes and shifts from green to red as it crosses an alert threshold. A small alert bell icon pulses orange. Flow lines connect small hexagons (pods) to the central observability hub. Thin glowing strokes, soft bloom, high contrast, no text, bottom-left corner left clean.
+
+================================================================
+24/06 — Airflow + EKS + Go  [PENDENTE]
+Legenda: Orquestrar pipelines de verdade: o DAG decide a ordem, o EKS roda, o Go executa.
+----------------------------------------------------------------
+Create a widescreen 16:9 cover image in a minimalist tech style. Near-black background with a dark-blue tint and a faint grid texture. Primary color neon orange, small green accents. In the center, a directed acyclic graph (DAG): glowing orange circles connected by arrowed flow lines, branching and converging left to right, representing a data pipeline orchestration. One node rests on a Kubernetes hexagon and another hints at the Go gopher mascot, tying orchestration to the cluster. Clean, organized pipeline topology. Thin glowing strokes, soft bloom, high contrast, no text, bottom-left corner left clean.
+
+================================================================
+26/06 — essential data science formulas  [PENDENTE]
+Legenda: Não são centenas. É um punhado de fórmulas que sustenta quase toda decisão com dados.
+----------------------------------------------------------------
+Create a widescreen 16:9 cover image in a minimalist tech style. Near-black background with a dark-blue tint and a faint grid texture. Primary color neon orange, small green accents. In the center, a few elegant mathematical formula fragments in neon-orange strokes floating over the dark grid: a summation sigma symbol, a bell-shaped distribution curve, and a mean/probability symbol, connected by thin flow lines into a small cluster of glowing points forming a scatter plot with a trend line. Abstract and mathematical, uncluttered, conveying "the handful of formulas that actually matter". Thin glowing strokes, soft bloom, high contrast, no text, bottom-left corner left clean.

@@ -1,7 +1,7 @@
 ---
 title: "MWAA orquestrando workers em Go no EKS: a stack que sustenta nossos pipelines de dados"
 draft: true
-date: 2026-06-17T00:00:00.000Z
+date: 2026-06-24T00:00:00.000Z
 description: "A topologia que combina MWAA (Airflow gerenciado pela AWS) como scheduler em Python e EKS como runtime dos workers pesados em Go. Por que escolhemos esse split, como as DAGs disparam pods em Go via KubernetesPodOperator, e os gotchas operacionais específicos do MWAA + EKS."
 comments: true
 keywords: [

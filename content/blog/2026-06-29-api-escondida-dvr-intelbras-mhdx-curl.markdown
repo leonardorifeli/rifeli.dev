@@ -1,7 +1,7 @@
 ---
 title: "A API HTTP escondida do meu DVR Intelbras: ajustando 4 câmeras pela linha de comando"
 draft: true
-date: 2026-06-22T00:00:00.000Z
+date: 2026-06-29T00:00:00.000Z
 description: "Meu DVR Intelbras MHDX 3004-C expõe uma API CGI no estilo Dahua que ninguém documenta direito. Em vez de clicar canal por canal numa interface web pesada, li e ajustei a configuração das câmeras com curl e autenticação Digest. Conto o passo a passo real: como achei a porta, como autentiquei, como li as tabelas de config antes de escrever qualquer coisa, o que dá pra controlar (encoder, cor, redução de ruído) e o que NÃO dá (exposição e anti-flicker), e como mantive a senha fora do histórico."
 comments: true
 keywords: [
