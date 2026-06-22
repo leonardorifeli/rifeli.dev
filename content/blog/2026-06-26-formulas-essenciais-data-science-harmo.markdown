@@ -2,7 +2,7 @@
 title: "As oito famílias de matemática que rodam por trás da Plataforma Harmo todo dia"
 draft: true
 date: 2026-06-26T00:00:00.000Z
-description: "Continuação do post sobre o alpinista cego. Existe um cheatsheet clássico de fórmulas essenciais de data science: estatística descritiva, probabilidade, álgebra linear, cálculo, machine learning, information theory, data science essentials e séries temporais. Cada uma dessas oito famílias tem aplicação direta na operação da Plataforma Harmo, todo dia. Esse post mapeia onde cada uma mora."
+description: "Continuação do post sobre o alpinista no nevoeiro. Existe um cheatsheet clássico de fórmulas essenciais de data science: estatística descritiva, probabilidade, álgebra linear, cálculo, machine learning, information theory, data science essentials e séries temporais. Cada uma dessas oito famílias tem aplicação direta na operação da Plataforma Harmo, todo dia. Esse post mapeia onde cada uma mora."
 comments: true
 keywords: [
   "data science",
@@ -28,14 +28,14 @@ tags:
   - educação
 ---
 
-<img id="image-custom" src="" alt="" />
-<p id="image-legend"></p>
+<img id="image-custom" src="/images/posts/e7834d8b-c618-4db0-a1be-d685e1c8ad67.png" alt="" />
+<p id="image-legend">As oito famílias do cheatsheet não param na lousa: descem até a loja física e viram fluxo de gente na porta.</p>
 
 # Introdução
 
 Existe um cheatsheet clássico circulando pela internet com oito famílias de fórmulas essenciais de data science: estatística descritiva, probabilidade, álgebra linear, cálculo, machine learning, information theory, data science essentials e séries temporais. Na imagem, cada caixa traz três ou quatro fórmulas em notação acadêmica limpa. A reação mais comum de quem bate os olhos é "isso é coisa de pesquisador, eu só faço CRUD".
 
-Esse post amplia o que comecei a contar no [post do alpinista cego](/blog/2026-06-12-alpinista-cego-gradiente-descendente-ia/). Lá mostrei que uma única ferramenta de Cálculo II, o gradiente descendente, sustenta toda IA moderna. Aqui o quadro é maior. Cada uma das oito famílias do cheatsheet tem aplicação direta na operação da Plataforma Harmo, em volume que dá pra dimensionar: processamos 10 milhões de pesquisas, 1 milhão de eventos de performance de loja e 300 mil avaliações públicas por mês, em mais de 60 mil lojas físicas. Nada disso roda sem matemática trabalhando no background, mesmo quando o time que opera não chama as coisas por esses nomes.
+Esse post amplia o que comecei a contar no [post do alpinista no nevoeiro](/blog/2026-06-19-alpinista-nevoeiro-gradiente-descendente-ia/). Lá mostrei que uma única ferramenta de Cálculo II, o gradiente descendente, sustenta toda IA moderna. Aqui o quadro é maior. Cada uma das oito famílias do cheatsheet tem aplicação direta na operação da Plataforma Harmo, em volume que dá pra dimensionar: processamos 10 milhões de pesquisas, 1 milhão de eventos de performance de loja e 300 mil avaliações públicas por mês, em mais de 60 mil lojas físicas. Nada disso roda sem matemática trabalhando no background, mesmo quando o time que opera não chama as coisas por esses nomes.
 
 O objetivo aqui é mapeamento, não tutorial. Por onde cada família anda na operação, e como elas se conectam pra entregar coisas concretas. Vou seguir a ordem do cheatsheet só nas primeiras seções, depois agrupo por aplicação porque na vida real as fórmulas raramente aparecem sozinhas.
 
@@ -85,6 +85,6 @@ O cheatsheet tem oito caixinhas. Cada uma é uma família de ferramenta matemát
 
 Na Harmo, a estatística descritiva sustenta a Correlação de Ouro que orienta a proposta de valor inteira. A álgebra linear e o cálculo sustentam o motor de NLP que processa avaliações em escala. As séries temporais sustentam os alarmes operacionais que evitam que incidente vire desastre. A probabilidade e a information theory sustentam a decisão sob incerteza que define onde investir o tempo do time e o orçamento dos clientes. Cada caixinha do cheatsheet aparece em algum momento do dia operacional, mesmo quando ninguém chama as coisas por esses nomes.
 
-Fechando a amarração do post do alpinista cego: aquele aluno de Cálculo II que torcia o nariz pra derivada parcial estava aprendendo o motor de uma das oito famílias. As outras sete, ele já viu, em Cálculo I, em Estatística, em Álgebra Linear, em Probabilidade. Tudo o que parecia abstração de prova é, dez anos depois, infraestrutura silenciosa do que ele usa pra trabalhar. A diferença entre o aluno que aproveita isso na carreira e o que não aproveita é só saber onde olhar.
+Fechando a amarração do post do alpinista no nevoeiro: aquele aluno de Cálculo II que torcia o nariz pra derivada parcial estava aprendendo o motor de uma das oito famílias. As outras sete, ele já viu, em Cálculo I, em Estatística, em Álgebra Linear, em Probabilidade. Tudo o que parecia abstração de prova é, dez anos depois, infraestrutura silenciosa do que ele usa pra trabalhar. A diferença entre o aluno que aproveita isso na carreira e o que não aproveita é só saber onde olhar.
 
 Pergunta de fechamento, e essa é genuína: qual dessas oito famílias você tem aplicado em produção sem enxergar como matemática? Eu sei que tem aplicação que aparece sem o nome ser dito, regra de negócio que esconde uma probabilidade condicional, métrica de dashboard que esconde uma moving average, threshold de alarme que esconde um z-score. Curioso pra mapear as aparições disfarçadas que vocês encontram no dia a dia, e os comentários abaixo costumam ser bom lugar pra esse tipo de troca.

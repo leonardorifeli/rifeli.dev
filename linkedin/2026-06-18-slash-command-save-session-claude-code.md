@@ -12,9 +12,9 @@ Primeiro comentário (qualquer variação):
 
 180 sessões dentro do Claude Code em pouco mais de um mês, em duas máquinas. E em todas elas, no fechamento, o contexto morria.
 
-As decisões de arquitetura, as preferências de escrita que eu tinha validado, os "não faz mais X assim". Tudo ia pro lixo quando eu fechava a sessão. Na seguinte, eu re-explicava do zero. Cento e oitenta vezes.
+As decisões de arquitetura, as preferências de escrita que eu tinha validado, os "não faz mais X assim". Tudo ia pro lixo quando eu fechava a sessão. Na seguinte, eu re-explicava do zero.
 
-O Claude Code já tem auto-memory: ele salva fatos sozinho, quando "decide" que valem. O problema é exatamente esse "decide". Às vezes salvava, às vezes não. E quando eu queria forçar, ficava digitando "salva isso na memória" como quem instrui estagiário.
+O Claude Code já tem auto-memory: ele salva fatos sozinho, quando "decide" que vale. O problema é exatamente esse "decide". Às vezes salvava, às vezes não. E quando eu queria forçar, ficava digitando "salva isso na memória" como quem instrui estagiário.
 
 Então construí um slash command: /save-session. Eu invoco no fim da sessão, ele extrai o que vale carregar pra frente, filtra o que é código (que já é fonte da verdade) e grava na memória do projeto. Próxima sessão abre já me conhecendo.
 
