@@ -172,6 +172,4 @@ Seis posts cobriram um corte de cloud-native operado de verdade: banco sob press
 
 Nada disso é novo. O valor está em colocar tudo junto e defender a decisão de não sofisticar onde não precisa. Operação boa é repetível, e repetível é o que você consegue explicar pra alguém que entrou no time ontem.
 
-**💬 E no seu cluster, qual foi o último alerta que mudou como vocês operam?**
-
-Foi algo que você adicionou preventivamente ou um aprendizado de incidente? Conta nos comentários.
+E no seu cluster, qual foi o último alerta que mudou como vocês operam: um que você adicionou preventivamente, ou um que só existe porque um incidente já tinha acontecido?
