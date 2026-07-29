@@ -122,7 +122,7 @@ Cinco aprendizados que custaram tempo.
 
 **O retry do Airflow reinicia do zero.** Todos os nossos pods rodam com `retries=3`, e o incidente de eviction confirmou na prática: task despejada aos 90% refaz 100%. Isso transforma idempotência em pré-requisito de design, não em refinamento. Cada worker recebe um lote fechado via arquivo no S3 e precisa poder reprocessar o mesmo lote sem duplicar no destino. Não temos registro de duplicação em produção, e quero que continue assim, porque isso é propriedade de desenho, não de sorte.
 
-**O CLI do MWAA não conhece as suas DAGs.** Rodar `dags list` pelo endpoint de CLI do MWAA retornava 3 das nossas 24 DAGs, com um `ModuleNotFoundError: No module named 'airflow.providers.cncf'` pras outras. O container que atende o CLI não tem o provider do Kubernetes instalado, então falha ao parsear qualquer arquivo que use KubernetesPodOperator, enquanto o scheduler parseia e executa tudo normalmente. `dags details`, que consulta o banco de metadados em vez de parsear arquivo, funciona pra todas. Custa alguns minutos de pânico até perceber que é artefato do CLI, não DAG quebrada.
+**O CLI do MWAA não conhece as suas DAGs.** Rodar `dags list` pelo endpoint de CLI do MWAA retornava 3 das nossas DAGs, com um `ModuleNotFoundError: No module named 'airflow.providers.cncf'` pras outras. O container que atende o CLI não tem o provider do Kubernetes instalado, então falha ao parsear qualquer arquivo que use **KubernetesPodOperator**, enquanto o scheduler parseia e executa tudo normalmente. `dags details`, que consulta o banco de metadados em vez de parsear arquivo, funciona pra todas. Custa alguns minutos de pânico até perceber que é artefato do CLI, não DAG quebrada.
 
 **Logs em dois lugares por construção.** Com `get_logs=True`, o Airflow puxa o stdout do pod e reemite no log da própria task, que vai pro CloudWatch no log group de tasks do MWAA. Se o worker também envia log direto pro CloudWatch, a mesma linha passa a existir em dois grupos, com dois caminhos de busca diferentes. Vale decidir cedo qual é a fonte da verdade na hora do incidente, antes que a resposta seja descoberta às 3 da manhã.
 
@@ -142,6 +142,6 @@ Cinco aprendizados que custaram tempo.
 
 - Pod não é pra task trivial. Aqui, só uma em cada cinco tasks criadas vira pod; o resto roda em PythonOperator e afins dentro do próprio worker do MWAA. Subir pod, puxar imagem e inicializar runtime pra 200ms de trabalho transforma uma task rápida numa task de 30 segundos.
 
-# Fechamento
+# Conclusão
 
 A maior parte das empresas trata Airflow e Python como um pacote indivisível: orquestra em Python, executa em Python, escala em Python. Pra quem já opera workload pesado em Kubernetes, o desenho mais limpo é outro. O scheduler resolve o grafo, dispara o pod e cobra o exit code, e nesse papel restrito o Airflow é excelente. O trabalho pesado fica onde a operação já sabe rodar, observar e escalar: no cluster, em Go. A combinação dos três não é a mais óbvia. É a que deixa cada peça fazendo só o que faz melhor.
