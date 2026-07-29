@@ -66,7 +66,7 @@ Esse passo de confirmação é deliberado. A diferença entre uma ferramenta que
 
 # O loop que fecha sozinho
 
-No fim da sessão, fazendo a investigação de algumas tasks, descobri uma ação residual que não estava no board. Pedi pra registrar. A skill, agora pronta, criou a task. Foi a primeira vez que ela rodou em produção a partir de uma decisão tomada na própria conversa, em vez de um comando meu explícito de "cria task tal". Pequeno, mas é o sinal de que a ferramenta deixou de ser um experimento e virou parte do fluxo.
+No fim da sessão, investigando algumas tasks, descobri uma ação residual que não estava no board. Pedi pra registrar. A skill, agora pronta, criou a task. Foi a primeira vez que ela rodou em produção a partir de uma decisão tomada na própria conversa, em vez de um comando meu explícito de "cria task tal". Pequeno, mas é o sinal de que a ferramenta deixou de ser um experimento e virou parte do fluxo.
 
 # O que fica
 
