@@ -1,7 +1,7 @@
 ---
 title: "As oito famílias de matemática que rodam por trás da Plataforma Harmo todo dia"
-draft: true
-date: 2026-06-26T00:00:00.000Z
+draft: false
+date: 2026-07-27T00:00:00.000Z
 description: "Continuação do post sobre o alpinista no nevoeiro. Existe um cheatsheet clássico de fórmulas essenciais de data science: estatística descritiva, probabilidade, álgebra linear, cálculo, machine learning, information theory, data science essentials e séries temporais. Cada uma dessas oito famílias tem aplicação direta na operação da Plataforma Harmo, todo dia. Esse post mapeia onde cada uma mora."
 comments: true
 keywords: [
@@ -35,7 +35,7 @@ tags:
 
 Existe um cheatsheet clássico circulando pela internet com oito famílias de fórmulas essenciais de data science: estatística descritiva, probabilidade, álgebra linear, cálculo, machine learning, information theory, data science essentials e séries temporais. Na imagem, cada caixa traz três ou quatro fórmulas em notação acadêmica limpa. A reação mais comum de quem bate os olhos é "isso é coisa de pesquisador, eu só faço CRUD".
 
-Esse post amplia o que comecei a contar no [post do alpinista no nevoeiro](/blog/2026-06-19-alpinista-nevoeiro-gradiente-descendente-ia/). Lá mostrei que uma única ferramenta de Cálculo II, o gradiente descendente, sustenta toda IA moderna. Aqui o quadro é maior. Cada uma das oito famílias do cheatsheet tem aplicação direta na operação da Plataforma Harmo, em volume que dá pra dimensionar: processamos 10 milhões de pesquisas, 1 milhão de eventos de performance de loja e 300 mil avaliações públicas por mês, em mais de 60 mil lojas físicas. Nada disso roda sem matemática trabalhando no background, mesmo quando o time que opera não chama as coisas por esses nomes.
+Esse post amplia o que comecei a contar no [post do alpinista no nevoeiro](/blog/2026-06-19-alpinista-nevoeiro-gradiente-descendente-ia/). Lá mostrei que uma única ferramenta de Cálculo II, o gradiente descendente, sustenta toda IA moderna. Aqui o quadro é maior. Cada uma das oito famílias do cheatsheet tem aplicação direta na operação da Plataforma Harmo, em volume que dá pra dimensionar: processamos 10 milhões de pesquisas e 300 mil avaliações públicas por mês, em mais de 60 mil lojas físicas. Nada disso roda sem matemática trabalhando no background, mesmo quando o time que opera não chama as coisas por esses nomes.
 
 O objetivo aqui é mapeamento, não tutorial. Por onde cada família anda na operação, e como elas se conectam pra entregar coisas concretas. Vou seguir a ordem do cheatsheet só nas primeiras seções, depois agrupo por aplicação porque na vida real as fórmulas raramente aparecem sozinhas.
 
@@ -61,7 +61,7 @@ O cálculo entra no momento de treinar. Treinar um classificador de sentimento �
 
 A operação gera séries temporais o tempo inteiro. Volume de avaliações por hora, latência de microserviço, custo AWS por serviço por dia, NPS rolando ao longo da semana, taxa de resposta a avaliações por loja. Toda anomalia útil que disparou alarme operacional aqui dentro foi detectada por alguma combinação das três fórmulas da seção "Time Series" do cheatsheet, geralmente conversando com o z-score da seção de Data Science Essentials.
 
-Moving average é o ponto de partida. Você compara o valor de hoje com a média rolling de 7 ou 14 dias. Se o valor escapa de uma faixa razoável, é sinal. Aplicado: o [robô diário de cost tracking](/blog/2026-06-03-relatorios-custo-aws-cronjob-eks/) usa essa lógica pra abrir task automaticamente quando custo de um serviço foge da baseline. O alarme P1 sobre concorrência de lambda contra baseline rolling de 7 dias, que entrou em pé depois do [postmortem do loop em Step Functions](/blog/2026-06-05-loop-improdutivo-step-functions-42k-aws/), é literalmente moving average aplicado em métrica de invocação.
+Moving average é o ponto de partida. Você compara o valor de hoje com a média rolling de 7 ou 14 dias. Se o valor escapa de uma faixa razoável, é sinal. Aplicado: o [robô diário de cost tracking](/blog/2026-06-03-relatorios-custo-aws-cronjob-eks/) usa essa lógica pra abrir task automaticamente quando custo de um serviço foge da baseline. O alarme P1 sobre concorrência de lambda contra baseline rolling de 7 dias, que entrou em pé depois do [postmortem do loop em Step Functions](/blog/2026-06-05-loop-improdutivo-step-functions-6x-aws/), é literalmente moving average aplicado em métrica de invocação.
 
 Z-score é o irmão mais formal dessa abordagem. Normaliza o valor pelo desvio padrão da série e pergunta "quantos desvios padrão isso está fora da média?". Z-score acima de 3 é sinal forte, acima de 4 é gritante. Aplicação direta no nosso mundo: detectar avaliação suspeita (loja recebendo 50 avaliações em uma hora quando o normal seriam 5), flagrar comportamento de pesquisa anômalo, filtrar outlier antes de calcular correlação pra não contaminar a média com caso extremo.
 
@@ -87,4 +87,4 @@ Na Harmo, a estatística descritiva sustenta a Correlação de Ouro que orienta 
 
 Fechando a amarração do post do alpinista no nevoeiro: aquele aluno de Cálculo II que torcia o nariz pra derivada parcial estava aprendendo o motor de uma das oito famílias. As outras sete, ele já viu, em Cálculo I, em Estatística, em Álgebra Linear, em Probabilidade. Tudo o que parecia abstração de prova é, dez anos depois, infraestrutura silenciosa do que ele usa pra trabalhar. A diferença entre o aluno que aproveita isso na carreira e o que não aproveita é só saber onde olhar.
 
-Pergunta de fechamento, e essa é genuína: qual dessas oito famílias você tem aplicado em produção sem enxergar como matemática? Eu sei que tem aplicação que aparece sem o nome ser dito, regra de negócio que esconde uma probabilidade condicional, métrica de dashboard que esconde uma moving average, threshold de alarme que esconde um z-score. Curioso pra mapear as aparições disfarçadas que vocês encontram no dia a dia, e os comentários abaixo costumam ser bom lugar pra esse tipo de troca.
+Qual dessas oito famílias você aplica em produção sem enxergar como matemática? Aparição disfarçada é o caso comum: regra de negócio que esconde uma probabilidade condicional, métrica de dashboard que esconde uma moving average, threshold de alarme que esconde um z-score. Rastrear essas é o exercício mais útil que o cheatsheet permite.

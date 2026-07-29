@@ -1,10 +1,10 @@
 # As oito famílias de matemática que rodam por trás da Harmo
 
-Três variações para o LinkedIn. Post no blog datado 2026-06-26. Continuação do post do alpinista no nevoeiro. Link do blog no primeiro comentário. Primeira linha sempre narrativa, nunca bloco de código.
+Três variações para o LinkedIn. Post no blog datado 2026-07-27. Continuação do post do alpinista no nevoeiro. Link do blog no primeiro comentário. Primeira linha sempre narrativa, nunca bloco de código.
 
 Primeiro comentário (qualquer variação):
 
-> Post completo: https://rifeli.dev/blog/2026-06-26-formulas-essenciais-data-science-harmo/
+> Post completo: https://rifeli.dev/blog/2026-07-27-formulas-essenciais-data-science-harmo/
 
 ---
 
@@ -12,7 +12,7 @@ Primeiro comentário (qualquer variação):
 
 Tem um cheatsheet clássico de data science circulando com oito caixas de fórmulas. A reação mais comum de quem bate o olho é "isso é coisa de pesquisador, eu só faço CRUD". Mas as oito moram em produção, todo dia.
 
-Processamos 10 milhões de pesquisas, 1 milhão de eventos de performance de loja e 300 mil avaliações públicas por mês, em mais de 60 mil lojas físicas. Nada disso roda sem matemática trabalhando no background, mesmo quando o time que opera não chama as coisas por esses nomes.
+Processamos 10 milhões de pesquisas e 300 mil avaliações públicas por mês, em mais de 60 mil lojas físicas. Nada disso roda sem matemática trabalhando no background, mesmo quando o time que opera não chama as coisas por esses nomes.
 
 Estatística descritiva separa "achismo de loja" de "leitura de loja". Álgebra linear e cálculo são o motor do NLP que classifica sentimento de avaliação em escala, com a mesma derivada parcial de Cálculo II que vira retropropagação. Séries temporais disparam os alarmes operacionais via moving average e z-score. Probabilidade e information theory sustentam decisão sob incerteza, de churn a detecção de avaliação falsa.
 

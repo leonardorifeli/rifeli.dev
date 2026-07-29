@@ -1,10 +1,10 @@
 # MWAA orquestrando workers em Go no EKS
 
-Três variações para o LinkedIn. Post no blog datado 2026-06-24. Link do blog no primeiro comentário. Primeira linha sempre narrativa, nunca bloco de código.
+Três variações para o LinkedIn. Post no blog datado 2026-07-25. Link do blog no primeiro comentário. Primeira linha sempre narrativa, nunca bloco de código.
 
 Primeiro comentário (qualquer variação):
 
-> Post completo: https://rifeli.dev/blog/2026-06-24-airflow-eks-go-orquestracao-pipelines/
+> Post completo: https://rifeli.dev/blog/2026-07-25-airflow-eks-go-orquestracao-pipelines/
 
 ---
 

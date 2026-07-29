@@ -1,7 +1,7 @@
 ---
 title: "Ensinei o Claude Code a documentar minha sprint no ClickUp (e ele abriu a última task sozinho)"
 draft: true
-date: 2026-07-01T00:00:00.000Z
+date: 2026-07-31T00:00:00.000Z
 description: "War story de produtividade: numa única conversa saíram 15 tasks pontuadas, 11 subtasks reestimadas e dois PRs, sem eu abrir o ClickUp na mão. Como transformei isso numa skill do Claude Code que fala com a API do ClickUp, as decisões de engenharia que apareceram no caminho (os dois campos de ponto, o cheiro do default, segredo por env var) e o limite que mantive: a skill propõe, eu aprovo."
 comments: true
 keywords: [
