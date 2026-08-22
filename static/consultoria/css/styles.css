@@ -40,7 +40,7 @@ a:hover { color: var(--violet-deep); }
     border-radius: var(--r-sm);
 }
 
-::selection { background: var(--violet); color: #fff; }
+::selection { background: var(--violet); color: var(--on-violet); }
 
 h1, h2, h3, h4 {
     font-family: var(--font-display);
@@ -79,13 +79,13 @@ h1, h2, h3, h4 {
     top: -100px;
     z-index: 2000;
     background: var(--violet);
-    color: #fff;
+    color: var(--on-violet);
     padding: 10px 18px;
     border-radius: var(--r);
     font-weight: 600;
     transition: top .2s var(--ease);
 }
-.skip-link:focus { top: 12px; color: #fff; }
+.skip-link:focus { top: 12px; color: var(--on-violet); }
 
 /* --- Rotulo mono: o marcador que carrega unidade e medida ---------------- */
 .eyebrow {
@@ -141,12 +141,12 @@ h1, h2, h3, h4 {
 .btn-primary {
     background-color: var(--violet);
     border-color: var(--violet);
-    color: #fff;
+    color: var(--on-violet);
 }
 .btn-primary:hover {
     background-color: var(--violet-deep);
     border-color: var(--violet-deep);
-    color: #fff;
+    color: var(--on-violet);
     transform: translateY(-2px);
     box-shadow: var(--lift-2);
 }
@@ -888,8 +888,8 @@ a.servico-card:hover .card-more .icon { transform: translateX(4px); }
 
 /* --- CTA ----------------------------------------------------------------- */
 .cta {
-    background-color: var(--violet-ink);
-    color: #fff;
+    background-color: var(--band);
+    color: var(--on-band);
     position: relative;
     overflow: hidden;
     isolation: isolate;
@@ -916,7 +916,7 @@ a.servico-card:hover .card-more .icon { transform: translateX(4px); }
 .cta h2 {
     font-size: var(--step-3);
     margin-block: .9rem 1rem;
-    color: #fff;
+    color: var(--on-band);
 }
 
 .cta p:not(.eyebrow) {
@@ -933,14 +933,14 @@ a.servico-card:hover .card-more .icon { transform: translateX(4px); }
 }
 
 .cta .btn-primary {
-    background-color: #fff;
-    border-color: #fff;
-    color: var(--violet-ink);
+    background-color: var(--on-band);
+    border-color: var(--on-band);
+    color: var(--band);
 }
 .cta .btn-primary:hover {
-    background-color: #fff;
-    border-color: #fff;
-    color: var(--violet-ink);
+    background-color: var(--on-band);
+    border-color: var(--on-band);
+    color: var(--band);
     box-shadow: 0 18px 40px -18px rgba(0,0,0,.6);
 }
 
@@ -1206,7 +1206,7 @@ a.servico-card:hover .card-more .icon { transform: translateX(4px); }
 }
 
 .wa-float.is-visible { opacity: 1; transform: none; pointer-events: auto; }
-.wa-float:hover { background-color: var(--violet); color: #fff; }
+.wa-float:hover { background-color: var(--violet); color: var(--on-violet); }
 .wa-float .icon { width: 18px; height: 18px; }
 
 /* --- Notificacoes -------------------------------------------------------- */

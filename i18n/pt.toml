@@ -4,6 +4,12 @@
 [readMore]
     other = 'Ler mais'
 
+[olderPosts]
+    other = 'Posts anteriores'
+
+[newerPosts]
+    other = 'Posts mais recentes'
+
 [summary]
     other = 'Sumário'
 

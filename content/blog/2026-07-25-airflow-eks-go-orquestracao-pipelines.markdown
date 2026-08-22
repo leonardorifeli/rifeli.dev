@@ -32,7 +32,7 @@ tags:
 <img id="image-custom" src="/images/posts/b8dbce8d-80f0-41dd-ad4c-fde4573aef81.png" alt="" />
 <p id="image-legend">Um cérebro só decide a ordem; muitas mãos executam. O scheduler resolve o grafo de dependências e dispara os workers que fazem o trabalho pesado.</p>
 
-# Introdução
+## Introdução
 
 Airflow é Python por natureza. MWAA é o Airflow gerenciado da AWS. EKS é onde nossos workloads pesados rodam, em Go (cluster Kubernetes). A combinação dos três não é a mais óbvia, mas é a que sustenta hoje a maior parte dos pipelines de dados que rodam por trás da Plataforma Harmo. Esse post conta o porquê dessa escolha e como as peças se encaixam.
 
@@ -40,13 +40,13 @@ A escala que essa stack sustenta hoje: mais de 25 DAGs ativas em produção, exe
 
 Antes de entrar na arquitetura, vale dizer o que isso substituiu. A geração anterior era cronjobs agendando Lambdas em Node.js, coladas por filas SQS, e mais tarde Step Functions coordenando os fluxos de coleta. O MWAA entrou em março de 2024, mas não houve corte: parte do legado coexistiu por mais dois anos.
 
-# Por que Airflow
+## Por que Airflow
 
 DAG como código em Python virou o ganho mais imediato. Cadeias de dependência entre tasks que viravam código procedural feio em cron + script bash ganharam estrutura declarativa: quem depende de quem, qual o critério de sucesso, qual a política de retry, qual a janela de execução. UI nativa pra backfill, retry manual, visualização de dependências, gestão de SLA. Ecossistema maduro de operators que cobre a maioria dos casos de integração comum.
 
 A maturidade do Airflow trouxe um custo conhecido: ele assume Python no plano da orquestração. E aí entra a decisão de manter Python apenas no scheduler, deixando o trabalho pesado fora dele.
 
-# Por que MWAA pro scheduler e EKS pro runtime
+## Por que MWAA pro scheduler e EKS pro runtime
 
 A primeira pergunta foi onde hospedar o Airflow em si. Self-hosted via Helm chart oficial no EKS era opção possível, mas trazia operação inteira do Airflow pra dentro do time: upgrade de versão, gerenciamento de scheduler/web server/workers, backup de metadata DB, segurança. MWAA absorve boa parte dessa operação como serviço gerenciado, em troca de menos flexibilidade fina. Pra um time que quer Airflow como ferramenta e não como produto operado, vale a troca.
 
@@ -56,7 +56,7 @@ A segunda pergunta foi onde rodar o trabalho pesado. A Harmo já roda mais de 50
 
 O ponto que destrava a topologia é a integração entre os dois. MWAA tem permissão de chamar a API do EKS via execution role configurada com IAM. Isso permite que o **KubernetesPodOperator** dentro de uma DAG aponte pro nosso cluster EKS e suba pods lá, mesmo o Airflow não morando dentro do cluster. Cada task pesada vira um pod Go separado no EKS, disparado pelo MWAA via API call de pod create. O scheduler nunca hospeda o processo pesado: ele acompanha um pod e um estado.
 
-# Por que Go pros workers
+## Por que Go pros workers
 
 Workers do Airflow padrão em Python sustentam a coordenação, não o trabalho pesado. Pro perfil dos nossos workers, que é muito I/O concorrente, paginação e escrita em massa em banco, Go tem entregado throughput maior, consumo previsível e uma operação que o time já domina. Footprint de container fica pequeno, startup time fica curto, e o padrão de worker pool com errgroup, context e cancelamento limpo [já virou rotina por aqui](/blog/2026-05-27-concorrencia-worker-pools-go/).
 
@@ -64,7 +64,7 @@ Quatro categorias cobrem quase tudo que roda em Go por aqui. Coleta de avaliaç�
 
 Em paralelo, mantemos workers em Python pra coisas em que Python ganha de Go por bibliotecas (manipulação de DataFrame com pandas, ML clássico com scikit-learn, integrações com bibliotecas científicas). A escolha de linguagem por task é feita conscientemente, não por inércia.
 
-# A topologia
+## A topologia
 
 O fluxo típico de uma task pesada é o seguinte. DAG em Python define o **KubernetesPodOperator** com a imagem do worker em Go, parâmetros de entrada via variáveis de ambiente ou arquivo de config, e política de retry/timeout. Airflow dispara o pod no cluster, o pod roda o binário Go que faz o trabalho, escreve resultado em destino persistente (S3, Postgres, Kafka, dependendo da task) e termina. O operator acompanha o estado do pod até o fim e traduz esse término em sucesso ou falha da task, e é isso que decide se o fluxo segue pra próxima ou entra em retry.
 
@@ -115,7 +115,7 @@ As annotations de anti-disrupção e o requests igual ao limits não são decora
 
 Pra dados pequenos entre tasks (IDs, timestamps, métricas de resumo), usamos XCom. Pra dados grandes (datasets, payloads completos), o intermediário é storage externo: o pod escreve em S3, a próxima task lê o path do XCom e busca o conteúdo de lá. A regra por aqui é XCom carrega referência, não payload. Isso é decisão da nossa arquitetura, não limitação universal do Airflow: o XCom aguenta mais do que a gente deixa passar por ele, mas dado grande no metadata DB é acoplamento que a gente não quer.
 
-# As cicatrizes da arquitetura
+## As cicatrizes da arquitetura
 
 Cinco aprendizados que custaram tempo.
 
@@ -133,7 +133,7 @@ Na segunda onda, espelhamos as duas proteções nas duas coletoras mais longas d
 
 **A DAG que consulta a AWS no parse.** Nas DAGs de coleta, a lista de pods é montada no nível do módulo: a cada ciclo do DAG processor, o arquivo consulta o ECR pra resolver a versão da imagem e lê o lote no S3 pra decidir a topologia. Funciona, mas acopla o parse das DAGs à disponibilidade de duas APIs da AWS e paga essas chamadas continuamente, não só na execução. Se o ECR soluçar, o scheduler enxerga DAG quebrada. É dívida assumida, e registrar ela num post público é um jeito de não fingir que não existe.
 
-# Lições aprendidas
+## Lições aprendidas
 
 - Worker padronizado corta custo de manutenção. Cada worker é um binário Go compilado pra arm64 numa imagem mínima, com `./main` de entrypoint. Qualquer coisa além disso na imagem é sintoma de worker mal desenhado.
 
@@ -147,7 +147,7 @@ Na segunda onda, espelhamos as duas proteções nas duas coletoras mais longas d
 
 - Pod não é pra task trivial. Aqui, aproximadamente metade das execuções vira pod; o resto roda em PythonOperator e afins dentro do próprio worker do MWAA. Subir pod, puxar imagem e inicializar runtime pra 200ms de trabalho transforma uma task rápida numa task de 30 segundos.
 
-# Conclusão
+## Conclusão
 
 A maior parte das empresas trata Airflow e Python como um pacote indivisível: orquestra em Python, executa em Python, escala em Python. Pra quem já opera workload pesado em Kubernetes, o desenho mais limpo é outro. O scheduler resolve o grafo, dispara o pod e cobra o resultado, e nesse papel restrito o Airflow é excelente. O trabalho pesado fica onde a operação já sabe rodar, observar e escalar: no cluster, em Go.
 

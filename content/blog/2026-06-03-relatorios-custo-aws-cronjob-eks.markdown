@@ -32,13 +32,13 @@ tags:
 <img id="image-custom" src="/images/posts/0f89c5bf-73bd-4ab6-b7f9-f960619efc84.png" alt="" />
 <p id="image-legend"></p>
 
-# Introdução
+## Introdução
 
 Em março, um loop improdutivo numa Step Function rodou por 76 horas e multiplicou a conta AWS do mês da Harmo por quase 6x. Vou falar sobre isso em um artigo aqui na sexta, mas um detalhe da detecção importa pra esse post: o consumo anômalo atravessou um final de semana inteiro sem ninguém perceber, porque a única linha de defesa que pegou o problema foi a revisão manual do dashboard de billing. E revisão manual não acontece no sábado. O anomaly detectou chegou na segunda.
 
 Esse post é sobre uma das contramedidas que nasceram dali: um CronJob no próprio EKS que roda toda manhã, inclusive sábado e domingo, puxa dados do Cost Explorer, compara com a média dos últimos 7 dias e posta o resultado num Doc no ClickUp. Quando detecta anomalia, abre task pra investigação. Roda há dois meses sem falhar e virou peça central da rotina de FinOps de uma operação que processa 10 milhões de pesquisas por mês. O setup todo levou uma tarde. Vou contar aqui a arquitetura, o código essencial e as decisões que pouparam dor.
 
-# Arquitetura
+## Arquitetura
 
 Quatro peças:
 
@@ -51,7 +51,7 @@ Output vai pra um Doc no ClickUp com histórico (append-only) e, quando detecta 
 
 Por que ClickUp e não Slack, e-mail ou dashboard próprio? Porque é onde o time já trabalha. Relatório que mora fora da ferramenta do dia a dia vira aba esquecida em duas semanas. Task no board que todo mundo olha de manhã tem dono, prazo e cobrança natural. O destino do alerta importa tanto quanto o alerta.
 
-# IRSA pra credenciais AWS
+## IRSA pra credenciais AWS
 
 Não precisa mais que isso. A role precisa de permissão pra Cost Explorer e pra ler do Secrets Manager:
 
@@ -78,7 +78,7 @@ Não precisa mais que isso. A role precisa de permissão pra Cost Explorer e pra
 
 A Service Account no Kubernetes anotada com a ARN da role (cobri IRSA em detalhe no [post sobre IRSA vs Pod Identity](/blog/2026-05-28-irsa-vs-pod-identity-eks/)). Pod puxa credenciais via SDK sem código específico.
 
-# O script Python
+## O script Python
 
 Simplificado mas próximo do real:
 
@@ -161,7 +161,7 @@ if __name__ == "__main__":
 
 Regra de anomalia é intencionalmente simples: serviço que gastou 50% acima da média dos 7 dias anteriores **e** a diferença absoluta é maior que USD 5. Os dois guard-rails evitam alertar sobre variação percentual em serviços que custam centavos.
 
-# A publicação no ClickUp
+## A publicação no ClickUp
 
 A API do ClickUp tem endpoints pra Docs e pra Tasks. Pro relatório diário, append num Doc fixo. Pra anomalias, cria task num list específico. Pedaço relevante:
 
@@ -196,7 +196,7 @@ def post_to_clickup(report, anomalies, token):
 
 Doc ID e List ID vêm de variáveis de ambiente, definidas no manifest do CronJob. Token via Secrets Manager.
 
-# O manifest do CronJob
+## O manifest do CronJob
 
 ```yaml
 apiVersion: batch/v1
@@ -231,7 +231,7 @@ spec:
 
 `schedule` em UTC. 11h UTC = 8h em Brasília, chegando antes de qualquer standup da manhã. `concurrencyPolicy: Forbid` evita rodar dois jobs sobrepostos. `backoffLimit: 2` tenta no máximo 3 vezes em caso de falha — pra um relatório diário, basta.
 
-# Detalhes que poupam dor depois
+## Detalhes que poupam dor depois
 
 - **Granularidade da Cost Explorer**: ficar em `DAILY` é mais barato e mais preciso pro que a gente quer. `HOURLY` custa mais e tem delay maior.
 - **Cost Explorer tem delay de ~24h**: dado de "ontem" às 8h da manhã ainda pode ser parcial em alguns serviços (Lambda, S3 Requests). Relatório é diretivo, não auditoria final. Esse delay é estrutural: sinal financeiro nunca vai ser detecção em tempo real, e é por isso que o papel desse robô é encurtar a demora de detecção de dias pra no máximo um, não zerá-la.
@@ -239,7 +239,7 @@ spec:
 - **Tem custo a API do Cost Explorer**: USD 0.01 por chamada. 8 chamadas por dia (hoje + 7 dias) dá USD 2,40/mês. Piada de preço, mas vale saber.
 - **Alerta pra quando o próprio job falha**: se o CronJob não roda por 2 dias seguidos, você para de receber anomalias e pensa que está tudo bem. Um alert em cima do `failed jobs` do Kubernetes resolve. Detalho isso no post de observabilidade mais adiante na série.
 
-# Lições aprendidas
+## Lições aprendidas
 
 A lição central não é técnica: custo anômalo na AWS é assintomático. Não derruba serviço, não dispara exceção, não acorda ninguém de madrugada. Pressão arterial alta funciona igual. Não dói, não dá sinal, e por isso a medicina não espera sintoma: mede em toda consulta, de rotina. Quem só mede quando sente alguma coisa descobre tarde. O relatório diário é essa medição de rotina, transformando um problema invisível em número comparável todo dia, inclusive nos dias em que ninguém abriria o dashboard por conta própria.
 

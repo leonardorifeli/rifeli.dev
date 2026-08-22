@@ -24,13 +24,13 @@ tags:
   - gestao
 ---
 
-# Introdução
+## Introdução
 
 Ao longo da minha jornada como CTO da Harmo, mentor na ACATE e avaliador de startups no MIDITEC, percebi um padrão recorrente: times tecnicamente fortes enfrentando desafios estratégicos por falta de direcionamento claro. Em um mercado cada vez mais acelerado, tomar decisões técnicas sem contexto, profundidade ou visão de negócio pode custar caro, e isso me motivou a criar um espaço dedicado para ajudar quem está nesse momento decisivo.
 
 Essa não é uma consultoria genérica. É algo premium, pensado para founders, tech leads e CTOs que não podem errar. Aqui, o foco é destravar gargalos reais com experiência prática, análise estratégica e conversas que vão direto ao ponto. Se você sente que chegou a hora de elevar seu produto, stack ou time técnico a um novo nível, essa pode ser a parceria que estava faltando.
 
-# E, por que decidi oferecer consultoria técnica?
+## E, por que decidi oferecer consultoria técnica?
 
 Nos últimos anos, à frente da Harmo como CTO e Co-fundador, estive no centro de decisões críticas que impactaram diretamente o crescimento e a escalabilidade do nosso produto, decisões que envolvem arquitetura distribuída, engenharia de dados, IA aplicada e liderança técnica de alto nível.
 
@@ -38,7 +38,7 @@ Percebi que, embora existam muitos conteúdos técnicos por aí, são raros os m
 
 Ao longo da minha jornada, fui construindo essa autoridade com consistência. Sou mentor na **ACATE (Associação Catarinense de Tecnologia)**, participo de bancas e acelerações no programa **MIDITEC**, um dos mais tradicionais do Brasil, e atuo como CTO de uma plataforma AI-first que processa milhões de dados por dia. Além de 15+ anos de experiência, sou formado em **Ciência de Dados** e tenho pós-graduação em **Estatística Aplicada**, o que me permite aliar visão estratégica e profundidade técnica com decisões orientadas por dados, sempre com foco em impacto.
 
-# Para quem é essa consultoria?
+## Para quem é essa consultoria?
 
 Essa consultoria não é para quem busca fórmulas prontas ou implementações genéricas. Ela é pensada para quem está lidando com problemas reais, complexos e inadiáveis, como escalabilidade, gargalos técnicos, dúvidas arquiteturais, uso de IA com responsabilidade ou times que precisam evoluir com mais direção.
 
@@ -49,7 +49,7 @@ Essa consultoria não é para quem busca fórmulas prontas ou implementações g
 - Startups que estão escalando rápido e precisam de um olhar externo experiente
 - Times que querem implementar IA, dados ou LLMs com base sólida e visão de produto
 
-# Como funciona?
+## Como funciona?
 
 As consultorias são pagas, premium e personalizadas. Cada sessão é pensada para gerar resultado direto: mais clareza, melhores decisões e menos tempo perdido com dúvidas técnicas que te afastam daquilo que realmente importa.
 

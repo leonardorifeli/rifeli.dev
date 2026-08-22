@@ -29,7 +29,7 @@ tags:
 <img id="image-custom" src="/images/posts/e0f403dc-d31c-496e-a3f8-38f912b334d6.png" alt="" />
 <p id="image-legend">O que importa não é USD 8.069 em tokens. É comprimir quatro meses de roadmap em um.</p>
 
-# Introdução
+## Introdução
 
 Em 30 dias dentro do Claude Code, entreguei o equivalente a **quatro meses de roadmap**.
 
@@ -39,7 +39,7 @@ A maior parte desse roadmap aconteceu dentro da Harmo, infraestrutura Drive-to-S
 
 Pra calibrar o tamanho do uso: rodei o equivalente a USD 8.069 em tokens nesses 30 dias, pagando um plano fixo de assinatura. Esse número não é a tese. É dimensão, ajuda a entender quanto a ferramenta esteve no fluxo. O que conta é o que saiu do outro lado.
 
-# Como cheguei nesses números
+## Como cheguei nesses números
 
 O Claude Code persiste cada sessão em `~/.claude/projects/<encoded-cwd>/<session-uuid>.jsonl`. Cada linha é um evento estruturado: mensagem do humano, resposta do assistant, tool call, tool result. No caso do assistant, vem com contagem de tokens por categoria (input, output, cache write, cache read) e identificação do modelo usado.
 
@@ -47,7 +47,7 @@ Escrevi um script Python pequeno que soma sessões, turnos humanos, respostas, t
 
 Rodei nas duas máquinas que uso ativamente (desktop e notebook) e somei. Isso só funciona porque mantenho Claude Code sincronizado entre elas (com a pegadinha das memórias `path-encoded` resolvida), setup que detalhei em [Sincronizando Claude Code entre máquinas](https://rifeli.dev/blog/sincronizando-claude-code-entre-maquinas/).
 
-# O que saiu desses 30 dias
+## O que saiu desses 30 dias
 
 Em ordem de impacto, e citando só o que pode ir publicamente:
 
@@ -62,18 +62,18 @@ Em ordem de impacto, e citando só o que pode ir publicamente:
 
 Nem tudo isso "veio do Claude Code". Mas todos vieram mais rápido porque ele estava aberto no segundo monitor o tempo todo. No final, cada commit precisa carregar uma assinatura né.
 
-### Sobre nosso EKS
+#### Sobre nosso EKS
 
 A espinha dorsal da Plataforma Harmo é um cluster Kubernetes gerenciado na AWS (EKS). São cerca de 90 microsserviços rodando em torno de 250 pods, a maior parte sobre instâncias ARM/Graviton, escolha que nos dá melhor relação custo por desempenho. Em vez de manter um parque fixo de servidores, usamos [Karpenter](https://karpenter.sh/) para provisionar e consolidar nós automaticamente, de modo que a capacidade acompanha a carga minuto a minuto. Isso sustenta o volume de processamento da operação, na casa de entenas de milhares de avaliações e milhões de pesquisas por mês, mantendo a conta de infraestrutura sob controle.
 
-### Contribuições no período:
+#### Contribuições no período:
 
 - 1407 commits.
 - 189 PRs envolvidos no período.
 - 50 code reviews em 40 dias, espalhados em 16 repos. 64 PRs onde participei comentando.
 - 46+ repos diferentes tocados.
 
-# Anatomia do uso
+## Anatomia do uso
 
 68 sessões em 30 dias. 1.024 turnos humanos. 12.824 respostas do assistant. Em média, 12 respostas para cada coisa que eu digito. Bash domina como ferramenta usada (3.956 chamadas combinadas), seguido de Read (1.072) e Edit (969). Cache hit ratio de 96,6%.
 
@@ -81,19 +81,19 @@ Mediana de turnos humanos por sessão é baixa: 4 a 6. 52% das sessões são one
 
 A sessão mais cara do mês teve 152 turnos, 59 horas de relógio e custo equivalente de USD 1.741. Foi diagnóstico de incidente que destravou uma feature da Harmo em rota direta com o cliente. Em momentos assim, dimensão de uso vira diferencial de produto.
 
-# Por que isso comprime tempo
+## Por que isso comprime tempo
 
 O número que mais explica o ×4 não é leverage de preço. É a razão 1.024 turnos meus contra 12.824 respostas do assistant. Cada coisa que digito vira, em média, 12 etapas executadas para mim: leitura de arquivo, escrita, busca, decisão, execução de bash, novo prompt para si mesmo. Bash domina como ferramenta porque a maior parte do trabalho técnico real é orquestração de comandos, não geração de prosa.
 
 Não é "ChatGPT na linha de comando". É um orquestrador que recebe intenção e devolve cadeia de ações. Compressão de tempo vem dessa relação de leverage por turno, repetida ao longo de horas, repetida ao longo de semanas. No fim do mês, sobra uma diferença de patamar entre o que eu teria feito sozinho e o que entreguei.
 
-# Toquei em 13 projetos diferentes
+## Toquei em 13 projetos diferentes
 
 Oito com sessões reais. Os três que dominaram: a plataforma core da Harmo (mais de 70 microservices, +10 milhões de pesquisas e +300 mil avaliações por mês, em mais de 60 mil lojas), um motor de NLP da camada FloraAI da Harmo (que transforma voz de cliente em decisão operacional), e um repositório pessoal (esse blog). Contextos absurdamente diferentes em stack, domínio, vocabulário e decisões de arquitetura.
 
 Variedade de stack e domínio que normalmente quebraria a coerência de qualquer assistente; o Claude Code carrega isso sem que eu reapresente o projeto a cada nova sessão. Pico de horário fica entre 12h-15h e 18h-21h (de manhã, geralmente em reuniões e análises estratégicas), com cauda longa até depois das 23h. Quarta-feira é o dia mais ativo. Usei a ferramenta em cerca de 70% dos dias do mês.
 
-# O que mudou no meu fluxo
+## O que mudou no meu fluxo
 
 Três coisas, sem ordem de importância.
 
@@ -103,12 +103,12 @@ A segunda foi virar default ter Claude Code aberto no segundo monitor. Não como
 
 A terceira foi escrever ferramentaria em cima da ferramenta. Construí um slash command (`/save-session`) que destila o que vale carregar para a próxima conversa antes de fechar a sessão. Sem isso, contexto entre conversas virava arquivo morto. Esse vira tema de um post próprio mais adiante na série.
 
-# Fechamento
+## Fechamento
 
 O número que importa não é USD 8.069 em tokens. Nem 80x de leverage sobre o que pagaria via API. É que comprimi cerca de quatro meses de roadmap em um.
 
 A pergunta certa para quem avalia Claude Code não é "quanto custa por hora de uso", nem "quanto economiza em tokens". É "quanto avança o produto enquanto a equipe inteira vai dormir".
 
-# Apêndice: o script
+## Apêndice: o script
 
 O script Python que usei está em `.claude/scripts/claude-code-stats.py`. Lê `~/.claude/projects/` localmente, soma os últimos 30 dias (configurável), sanitiza credenciais detectadas em prompts e exporta markdown + JSON. Roda em Linux e macOS sem dependência externa além de Python 3.9+. Útil para rodar antes de qualquer conversa sobre "como você usa Claude Code" com o time. Os números reais costumam surpreender quem responde de cabeça.

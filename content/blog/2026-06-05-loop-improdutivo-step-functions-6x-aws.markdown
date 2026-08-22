@@ -31,7 +31,7 @@ tags:
 <img id="image-custom" src="/images/posts/8114554f-af51-4928-932f-a2bb01af2c38.png" alt="" />
 <p id="image-legend">Custo AWS mensal: pico de março com fator próximo de 6x sobre a baseline histórica.</p>
 
-# Introdução
+## Introdução
 
 Na manhã de uma segunda-feira de março, abri o dashboard de billing como de hábito e a conta AWS do mês estava quase 6x acima da baseline histórica. Nenhum alarme técnico tinha disparado. Zero impacto pra usuário final, zero perda de dado, zero degradação em serviços vizinhos. Mas o billing sangrou por 76 horas seguidas.
 
@@ -39,7 +39,7 @@ A Harmo é uma Plataforma Drive-to-Store que processa +10 milhões de pesquisas 
 
 Case público é prática consolidada na engenharia séria de software, e blameless é o nosso padrão interno. Resolvi escrever sobre esse case, porque a topologia da falha é generalizável: quem opera Step Functions, máquinas de estado ou qualquer fluxo com loop pode tropeçar na mesma armadilha. Foi o único evento desse perfil no histórico do ambiente, e a categoria de falha não tem mais como acontecer depois das contramedidas que descrevo abaixo.
 
-# A topologia do fluxo
+## A topologia do fluxo
 
 O fluxo afetado é uma Step Function de coleta paginada de dados via API externa, agendada para rodar de madrugada. O desenho é trivial em pseudocódigo:
 
@@ -51,7 +51,7 @@ O fluxo afetado é uma Step Function de coleta paginada de dados via API externa
 
 Um Choice state que retorna pra invocação da lambda enquanto `$.collector.isFinished == false`. Em operação normal, a lambda esgota a paginação da API de origem em 3 a 8 invocações por execução. Limpinho, funcionou estável por anos.
 
-# A regressão
+## A regressão
 
 Numa quinta-feira, 19h05, mergeei um PR que mudou a lógica de paginação dessa lambda. Passou no review, passou nos testes existentes, passou na esteira. Não violava o contrato de I/O da função, todos os campos do payload continuavam com o shape esperado, tipos corretos, schema válido.
 
@@ -68,13 +68,13 @@ Sob uma condição específica de entrada (combinação rara de filtros com jane
 
 Todos os sinais disponíveis indicavam ausência total de progresso: cursor não avança, nada acumulado, nada trazido, primeira página perpétua, e a chave de saída em `false`. Mas o payload era HTTP 200, bem-formado, schema-válido. Do ponto de vista do Choice state da Step Function, era instrução pra continuar. Ele continuou.
 
-# As quatro madrugadas
+## As quatro madrugadas
 
 Cada execução afetada consumia o teto de 25.000 eventos do histórico da Step Function antes de falhar com um erro `States.Runtime` cuja causa era literalmente `The execution reached the maximum number of history events (25000).`. Eram cerca de 8 horas e meia de loop, com a Step Function consumindo invocações Lambda (por 15min) e transições SFN em ritmo frenético até bater no limite hard da AWS. Esse teto de 25.000 eventos é quota hard de Standard Workflow, não dá pra aumentar via Service Quotas \o/.
 
 O padrão recorreu em quatro madrugadas consecutivas, atravessando um final de semana inteiro. No total, 76 horas de recorrência intermitente em que cada ciclo entregava `States.Runtime`.
 
-# Por que nada disparou
+## Por que nada disparou
 
 Três camadas falharam ao mesmo tempo, e cada uma vale comentar.
 
@@ -86,7 +86,7 @@ Três camadas falharam ao mesmo tempo, e cada uma vale comentar.
 
 Toda invocação retornou 200. Nenhum erro, nenhuma exceção, nenhum stack trace. O sistema estava funcionando, no sentido mais raso da palavra.
 
-# A detecção e a contenção
+## A detecção e a contenção
 
 Trinta de março, segunda-feira, ~9h. Anomalia de custo identificada na revisão matinal do dashboard de billing. Em 15 minutos de investigação, correlacionei invocações da lambda com transições da Step Function, vi a assinatura do loop, conferi os payloads. Trinta minutos depois do disparo, o fluxo estava contido. No mesmo dia, root cause analysis concluída, correção preparada, deploy com validação ativa.
 
@@ -94,7 +94,7 @@ A partir de 31 de março, monitoramento intensificado, zero recorrência. Abril 
 
 Todo o processo, contamos com a parceria de anos com a [Infomach](https://www.infomach.com.br/), o que foi primordial para um bom sucesso.
 
-# A frente comercial: Infomach, TD Synnex e AWS
+## A frente comercial: Infomach, TD Synnex e AWS
 
 O delta do incidente concentrou-se em três serviços. Lambda multiplicou cerca de 100x sobre a média histórica, Step Functions cerca de 50x, e CloudWatch entre 4 e 5x. Somados, o evento representou aproximadamente 80% da conta total do mês. Em quatro madrugadas.
 
@@ -102,7 +102,7 @@ Trabalhei com a [Infomach](https://www.infomach.com.br/), nossa parceira AWS, ar
 
 A lição operacional é direta: canal AWS bem ativado vira ativo estratégico. O blameless postmortem, com root cause clara e ações corretivas P0 já concluídas, foi o que sustentou a negociação. Documento técnico bem feito é insumo de negociação, não burocracia.
 
-# Os guard rails que entraram
+## Os guard rails que entraram
 
 Depois da contenção, o trabalho real começou. As ações P0 atacaram as três camadas que falharam.
 
@@ -116,7 +116,7 @@ E mais duas mudanças de processo: freeze de deploy às sextas-feiras e nos últ
 
 Também construímos um robô diário de cost tracking rodando em EKS (CronJob Python via IRSA para credenciais AWS e Secrets Manager para o token do ClickUp). Ele posta o breakdown de custo por serviço e por dia no ClickUp e abre task automaticamente se houver anomalia. Sobre esse robô [escrevi em separado no post anterior dessa série](/blog/2026-06-03-relatorios-custo-aws-cronjob-eks/), ele virou peça central da rotina de FinOps.
 
-# As lições que ficam
+## As lições que ficam
 
 A lição central é simples e desconfortável: sucesso técnico pode mascarar falha de negócio. Toda invocação retornou 200, nenhum erro foi registrado, nenhum stack trace apareceu em lugar nenhum. Monitoramento baseado só em erros e exceções é insuficiente para fluxos que podem falhar por ausência de progresso. É preciso monitorar comportamento, não apenas sucesso sintático.
 

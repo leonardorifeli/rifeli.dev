@@ -28,7 +28,7 @@ tags:
 <img id="image-custom" src="https://media.licdn.com/dms/image/v2/D4D22AQGyQghEaoshDw/feedshare-shrink_800/B4DZUzcgftHAAg-/0/1740324866771?e=2147483647&v=beta&t=knlon4niJAJCYOsK-dAKoa3rc0GmWlkpfxm_2baNaSY" alt="cloud-native" />
 <p id="image-legend"></p>
 
-# Introdução
+## Introdução
 
 Na Harmo, lidamos com grandes volumes de dados, modelos de IA e pipelines que precisam ser eficientes, escaláveis e fáceis de manter. Python surgiu como a linguagem principal por sua versatilidade, ecossistema maduro e fácil integração com ferramentas de ML/IA, como TensorFlow, PyTorch e LangChain. Utilizamos Python desde 2017 com foco em scrappings, ML e data pipelines (com Spark e EMR).
 
@@ -38,7 +38,7 @@ Na Harmo, lidamos com grandes volumes de dados, modelos de IA e pipelines que pr
 - Apresentar conceitos práticos usados no dia a dia da Harmo;
 - Demonstrar exemplos de código e pipelines reais.
 
-# 🧠 Por que Python para IA e Dados
+## 🧠 Por que Python para IA e Dados
 
 Python se tornou o padrão para IA e ciência de dados por:
 
@@ -53,7 +53,7 @@ Na Harmo, usamos Python em:
 - Orquestração de pipelines (Airflow / Prefect);
 - APIs de serviço inteligente.
 
-# 🔧 Começando com Python
+## 🔧 Começando com Python
 
 Antes de tudo, vamos configurar um ambiente de desenvolvimento.
 
@@ -78,11 +78,11 @@ Dependências comuns na Harmo
 pip install pandas numpy scikit-learn torch transformers fastapi uvicorn
 ```
 
-# 📊 Trabalhando com Dados
+## 📊 Trabalhando com Dados
 
 Na Harmo, muitos dados vêm de feedback de usuários, logs de uso e integrações externas. O Pandas é nossa ferramenta principal.
 
-#### Exemplo de carregamento e análise
+##### Exemplo de carregamento e análise
 
 ```python
 import pandas as pd
@@ -95,7 +95,7 @@ top_topics = df["topic"].value_counts().nlargest(10)
 print(top_topics)
 ```
 
-# 🤖 IA Prática em Python
+## 🤖 IA Prática em Python
 
 Modelos de NLP com Transformers
 
@@ -119,7 +119,7 @@ Esse tipo de análise é usado na Harmo para:
 - classificar comentários por sentimento;
 - alimentar dashboards de decisão.
 
-# 🚀 Orquestração de Pipelines
+## 🚀 Orquestração de Pipelines
 
 Usamos Airflow ou Prefect para agendar tarefas de dados e IA.
 
@@ -149,7 +149,7 @@ def etl_pipeline():
 
 PS.: Farei um artigo sobre como utilizar pipelines airflow pra orquestrar pods K8S para tarefas.
 
-# 📡 APIs Inteligentes com FastAPI
+## 📡 APIs Inteligentes com FastAPI
 
 Depois de treinar modelos, a próxima etapa é disponibilizar inferência via API:
 
@@ -167,7 +167,7 @@ def predict(text: str):
 
 Servimos essas APIs em containers Docker e fazemos deploy com CI/CD.
 
-# 🧪 Testes e Qualidade
+## 🧪 Testes e Qualidade
 
 No dia a dia da Harmo, código de dados e IA é coberto por testes unitários:
 
@@ -180,7 +180,7 @@ def test_model_output():
     assert model.predict("bom") == "positivo"
 ```
 
-# 📈 Métricas e Monitoramento
+## 📈 Métricas e Monitoramento
 
 Importante acompanhar:
 
@@ -194,14 +194,14 @@ Usamos ferramentas como:
 - Grafana
 - Newrelic
 
-# 🧪 Lições aprendidas na Harmo
+## 🧪 Lições aprendidas na Harmo
 
 1. **Comece simples:** protótipos ajudam validar modelos antes de escalar.
 2. **Automatize tudo:** da coleta de dados até o deploy.
 3. **Monitore em produção:** sem métricas, não há melhoria.
 4. **Código é arte e engenharia:** mantenha legível e testado.
 
-# 🔚 Conclusão
+## 🔚 Conclusão
 
 Python não é apenas uma linguagem, é a base sobre a qual construímos valor em IA e dados na Harmo. Seu ecossistema acelerou nossa entrega de soluções inteligentes e nos permitiu inovar constantemente.
 

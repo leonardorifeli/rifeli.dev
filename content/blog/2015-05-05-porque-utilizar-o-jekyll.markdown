@@ -12,7 +12,7 @@ tags:
 
 Neste post irei descrever por que optei por utilizar o Jekyll. Mostrarei como ele é e como funciona.
 
-# Introdução
+## Introdução
 
 Primeiramente irei explicar o que é o Jekyll.
 
@@ -20,7 +20,7 @@ Primeiramente irei explicar o que é o Jekyll.
 
 Mostrarei como o **Jekyll** funciona (o que eu aprendi até aqui) posteriormente como iniciar um projeto utilizando-o.
 
-# Estrutura de diretórios
+## Estrutura de diretórios
 
 Todo arquivo e/ou diretório que tiver **underscore (exemplo: _includes)** no começo, o **Jekyll** irá ignorar no pacote final, quando rodar o **`jekyll build`** para gerar os arquivos para o site (os arquivo do site ficarão dentro do diretório **_site**).
 
@@ -41,7 +41,7 @@ Há pessoas que preferem deixar o diretório **_site** versionável no GIT, e 
 |-- index.html # => http://projeto.com
 └── feed.xml # => http://projeto.com/feed.xml`
 
-# YAML
+## YAML
 
 O formato YAML foi desenvolvido para facilidar o entendimento e a escrita dentro dos arquivos no respectivo formato.
 
@@ -54,7 +54,7 @@ title: Home
 
 Restritamente deverá começar com os três traços e finalizar com os mesmos. Sem choro nem vela. O código YAML são as variáveis **`layout`** e **`title`**
 
-# Entendendo o arquivo _config.yml
+## Entendendo o arquivo _config.yml
 
 Tal arquivo é responsável por armazenar as variável que serão utilizadas dentro do site. Exemplo: Copyright do footer, link das redes sociais, e-mail, mensagens, etc.
 
@@ -63,7 +63,7 @@ Exemplo:
 `## SITE CONFIGURATION
 baseurl: ""
 url: "https://leonardorifeli.com"
-## THEME-SPECIFIC CONFIGURATION
+### THEME-SPECIFIC CONFIGURATION
 theme: title: Leonardo Rifeli email: leonardorifeli@gmail.com empresa: Wab <wab.com.br> facebook: false twitter: true twitter_base: leonardorifeli`
 
 Para utilizar as variáveis dentro do site, segue um exemplo implementado no arquivo **`_includes/head.html`**:
@@ -72,7 +72,7 @@ Para utilizar as variáveis dentro do site, segue um exemplo implementado no arq
 
 **Obs.:** Removendo as aspas simples, ele irá utilizar o valor que foi armazenado em cada respectiva variável.
 
-# Iniciando
+## Iniciando
 
 Bom, após uma descrição de como o Jekyll funciona (ou melhor, o que aprendi até agora). Irei demonstrar como iniciar um novo projeto utilizando o **Jekyll**. Irei demonstrar utilizando um repositório no **Github** e hospedando no **Github Pages**.
 
@@ -82,7 +82,7 @@ Em seguido acesse a página do repositório e vá em **“Settings”** e no b
 
 Após finalizar clone o repositório.
 
-# Dependências
+## Dependências
 
 Para iniciar um projeto com Jekyll será necessário instalar:
 
@@ -93,7 +93,7 @@ Para iniciar um projeto com Jekyll será necessário instalar:
 
 PS: Mais informações quanto a instalação das dependências, você encontra na [documentação oficial do **Jekyll**](http://jekyllrb.com/docs/installation/)
 
-# Instalando
+## Instalando
 
 Após ter instalado as dependências citadas acima, instale o **Jekyll**:
 
@@ -105,19 +105,19 @@ Após ter instalado as dependências citadas acima, instale o **Jekyll**:
 
 Você pode executar **`jekyll server`**, automaticamente ele executará **`jekyll build`** para gerar o diretório **_site** com os arquivos estátivos. Você poderá verificar acessando **localhost:4000**.
 
-# Recomendação
+## Recomendação
 
 Você pode apenas comitar as alterações, ou adicionar o diretório **_site** no ignore do GIT, criar um diretório **web** por exemplo, copiar/colar os arquivos gerados no diretório **_site** para o diretório **web** e comitar.
 
 A primeira opção é recomendada caso vá utilizar o Github Page e a segunda opção é recomendada caso vá utilizar um servidor mesmo assim.
 
-# Aparência
+## Aparência
 
 Quanto ao templete/tema você pode desenvolver um, apenas fique familiarizado com o Jekyll para entender toda a estrutura e desenvolver sem impecilios. Ou, na internet existe vários sites que disponibilizam e/ou vendem templates/temas para Jekyll.
 
 **Recomendação:** [jekyllthemes.org](http://jekyllthemes.org/)
 
-# Comandos
+## Comandos
 
 **`jekyll build`**: Irá gerar as páginas estáticas de acordo com os arquivos de configuração e os demais.
 
@@ -127,18 +127,18 @@ Quanto ao templete/tema você pode desenvolver um, apenas fique familiarizado co
 
 **`jekyll -h`**: Todos os demais comandos disponíveis.
 
-# Não recomendo
+## Não recomendo
 
 Nem pense em utiliza-lo com **sites** mais **robustos**, com **internacionalização**, **controle** disso, **controle** daquilo. O **Jekyll** é simples, objetivo e não é robusto nestes aspectos.
 
-# Referências
+## Referências
 
 1. **Outro artigo sobre o Jekyll:** [tableless.com.br/jekyll-servindo-sites-estaticos](http://tableless.com.br/jekyll-servindo-sites-estaticos/);
 2. **Documentação oficial:** [jekyllrb.com](http://jekyllrb.com/)
 3. **Github pages:** [pages.github.com](https://pages.github.com/)
 4. **Repositório:** [utilizado no artigo](https://github.com/leonardorifeli/leonardorifeli.github.io)
 
-# Conclusão
+## Conclusão
 
 Optei pela utilização do **Jekyll** pelo fato de não necessitar de um servidor robusto para o site funcionar e pela facilidade de alteração, inclusão de novos artigos e/ou páginas. É somente criar um arquivo em **YAML** e digitar o escopo utilizando **Markdown**, executar o **`jekyll build`** e comitar, pronto, sem dificuldades, resolvido. O Jekyll abre um leque de opções de personalização, agilidade no desenvolvimento de sites pequenos (sim, eu disse pequenos!).
 

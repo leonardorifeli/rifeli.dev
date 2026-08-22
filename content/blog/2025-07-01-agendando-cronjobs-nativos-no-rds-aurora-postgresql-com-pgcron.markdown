@@ -26,7 +26,7 @@ tags:
   - postgresql
 ---
 
-# Introdução
+## Introdução
 
 As pessoas que gostam do meio tecnológico, acabam esbarrando neste assunto, um conceito que existe antes dos anos 1970 - como deixar agendado a execução de taferas com SQL em minha base de dados?
 
@@ -38,17 +38,17 @@ Desde 2021, conseguimos fazer isso de forma nativa, sem precisar criar nenhuma e
 
 Neste artigo, mostro como ativar o **pg_cron**, criar tarefas agendadas e compartilhar dicas práticas para usar cronjobs diretamente no RDS Aurora PostgreSQL.
 
-# O que é cronjob
+## O que é cronjob
 
 Um cronjob é uma tarefa que roda automaticamente em horários definidos. É muito usado para tarefas recorrentes como backup, limpeza de dados e/ou geração de relatórios.
 
 Em ambientes Linux, cron é um agendador de processos do sistema. Mas em bancos PostgreSQL com pg_cron, conseguimos usar sintaxe semelhante ao crontab, com agendamento diretamente via comandos SQL, o que possibilita deixarmos queries agendadas, sem a necessidade do uso de máquinas+triggers.
 
-# Como funciona
+## Como funciona
 
 Desde a versão 12.5 é possível fazer de forma nativa no RDS Aurora PostgreSQL (antes a gente contornava com evento e lambda). Ou seja, é nativo e permite definir jobs que executam comandos SQL com agendamento cron (ex: todo dia às 2h). Um detalhe importante é que no RDS Aurora, ele roda no mesmo nó primário da instância, então não exige infraestrutura adicional.
 
-# Cenários
+## Cenários
 
 O recurso de cron pode ser utilizado em diversos cenários, principalmente com rotinas na base.
 
@@ -58,7 +58,7 @@ O recurso de cron pode ser utilizado em diversos cenários, principalmente com r
 - Detecção de anomalias ou padrões incomuns (agendar análise estatística e salvar alertas);
 - Manutenção preventiva (como REINDEX e VACUUM).
 
-# Como habilitar
+## Como habilitar
 
 Pra usar o recurso cron em seu cluster RDS Aurora PostgreSQL, segue alguns pontos:
 
@@ -79,7 +79,7 @@ SELECT cron.schedule(
 
 Pra gerenciar suas crons, basta validar o que tem: `SELECT * FROM cron.job;` e pra desativar `SELECT cron.unschedule(jobid);`
 
-# 🔐 Alguns cuidados
+## 🔐 Alguns cuidados
 
 Como sempre, nem tudo são flores, segue alguns avisos para você ficar alerta:
 
@@ -88,7 +88,7 @@ Como sempre, nem tudo são flores, segue alguns avisos para você ficar alerta:
 - Ele só roda no nó primário, não em réplicas;
 - Monitore uso de CPU/memória caso agende jobs pesados.
 
-# Conclusão
+## Conclusão
 
 A extensão `pg_cron` transforma o `RDS Aurora PostgreSQL` em um banco ainda mais poderoso, permitindo automação direta, sem precisar de infraestrutura externa. É ideal para tarefas periódicas como limpeza de dados, atualização de caches e envio de notificações.
 

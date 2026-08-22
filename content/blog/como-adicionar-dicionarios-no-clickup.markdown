@@ -18,7 +18,7 @@ tags:
 <img id="image-custom" src="https://clickup.com/images/clickup-v3/CU_3.0_Task_Types.png" alt="ClickUP Platform" />
 <p id="image-legend">ClickUp</p>
 
-# Introdução
+## Introdução
 
 Aqui na **Harmo**, migramos do Slack para o Discord em 2022. A mudança parecia ideal no início, afinal, conseguimos liberdade, integração com bots e boa performance.  
 Mas, com o tempo, os desafios de **governança, histórico e centralização da informação** começaram a pesar. Precisávamos de uma ferramenta que reunisse tudo: chat, tarefas, docs, dashboards e gestão, sem o custo de um carro por mês.
@@ -28,7 +28,7 @@ E não, este artigo não é patrocinado 😄, é apenas o relato de quem usa int
 
 Afinal, sempre uso OS em US.
 
-# O ClickUp como central de operações
+## O ClickUp como central de operações
 
 O ClickUp se posiciona como uma plataforma "tudo-em-um" para produtividade de times.  
 A ideia é simples: **um único lugar para conversar, planejar, fazer calls (isso é muit massa), documentar e acompanhar tudo o que acontece** dentro da empresa. Também tendo a opção de conectar tudo isso com modelos LLM.
@@ -46,7 +46,7 @@ Na Harmo, usamos o ClickUp como nossa central de operações para praticamente t
 Mas, ao instalar o aplicativo desktop Linux (o AppImage oficial), percebi um pequeno detalhe: o **dicionário de correção automática** vem apenas em inglês, e não há um menu visível para adicionar outros idiomas.  
 Foi o início de uma pequena investigação técnica. Afinal, ele é um Electron rodando a aplicação web 😄.
 
-# O problema: autocorreção em inglês
+## O problema: autocorreção em inglês
 
 Se você escreve em português dentro do ClickUp, especialmente em *docs* ou comentários, já deve ter notado:  
 > Tudo fica sublinhado em vermelho, inclusive palavras corretas (pra mim é depressivo isso haha).
@@ -55,11 +55,11 @@ Isso acontece porque o aplicativo desktop do ClickUp (assim como muitos *Electro
 
 Ou seja: mesmo que o seu sistema operacional esteja em português, o ClickUp ignora isso.
 
-# A solução: adicionando dicionários manualmente
+## A solução: adicionando dicionários manualmente
 
 Depois de algumas horas de experimentos (e erros), chegamos à solução definitiva para o **Linux**, que também funciona com pequenas variações no **Windows** e **macOS**.
 
-### 🔧 Passo a passo (Linux)
+#### 🔧 Passo a passo (Linux)
 
 1. **Localize a pasta de configuração do ClickUp:**
 
@@ -97,11 +97,11 @@ Agora o ClickUp reconhecerá automaticamente o novo idioma, e o corretor deixar�
 <img id="image-custom" src="/images/posts/clickup.png" alt="ClickUP Platform" />
 <p id="image-legend">ClickUp rodando em en-US, validando pt-BR</p>
 
-# Valores
+## Valores
 
 Aqui, conseguimos diversos contatos no BR para intermediar as assinaturas, mas como não temos tantas assinaturas (30 no total), resolvemos fazer direto com eles. Pagando o pricing atualizado de assinatura mensal.
 
-# Conclusão
+## Conclusão
 
 Pequenos detalhes fazem grande diferença no dia a dia de times técnicos.  
 Ao ativar o dicionário correto no ClickUp, eliminamos ruído visual, reduzimos erros em *docs* e ganhamos agilidade na comunicação escrita, especialmente em empresas com fluxo intenso de documentação, como a Harmo.

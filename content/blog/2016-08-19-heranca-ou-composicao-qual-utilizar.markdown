@@ -17,17 +17,17 @@ Enquanto escrevo este magnífico artigo, vou ouvindo um set **Progressive House
 
 Herança ou composição? E agora, José?
 
-# Introdução
+## Introdução
 
 Um assunto muito abordado e importante na programação orientada a objetos é a utilização de herança ou composição, porém, é visível que muitos programadores(as) optam por utilizar a herança sem mesmo validar as alternativas dentro de cada contexto.
 
 Pois bem, este artigo tem como objetivo colocar os dois assuntos na balança, com o intuito de que você entenda do que cada um é composto e qual utilizar dentro de cada contexto/relação.
 
-# Função
+## Função
 
 A herança e a composição são duas abordagens diferentes para obter-se a reutilização de funcionalidades.
 
-# Herança
+## Herança
 
 Na herança, uma classe herda (daí o termo herança) as propriedades e os métodos de sua classe pai, de modo transitivo, ou seja, uma classe pode herdar de outra classe que herda de outra, até uma classe que não possuí uma classe pai.
 
@@ -92,7 +92,7 @@ Por fim, repare que, no contexto exemplificado acima, o ideal é utilizar a hera
 
 Com a evolução, poderíamos ter a classe **Truck.java** que também poderia herdar a classe **Automobile.java**, pelo fato de existir uma relação **“é-um”**, neste outro contexto.
 
-# Composição
+## Composição
 
 Na composição, codificamos pequenos comportamentos, onde uma classe irá apenas instanciar outra classe e utilizar uma propriedade ou um método (claro, os que estão expostos), com isso, podemos usar a composição para comportamentos mais complexos, podendo ainda, alterar a associação entre as classes em tempo de execução da aplicação.
 
@@ -169,13 +169,13 @@ public class Job {
 
 Classe **Job.java** e suas propriedades e métodos.
 
-# Importância
+## Importância
 
 A herança e a composição são de extrema importância nas linguagens. Atualmente é raro encontrar linguagens que não as suportem. Caso contrário, seria quase impossível quebrarmos grandes soluções em soluções pequenas/modulares.
 
 Sem a reutilização de comportamentos/funcionalidades não teríamos códigos com responsabilidades únicas, que fazem somente uma coisa e fazem muito bem.
 
-# Qual utilizar?
+## Qual utilizar?
 
 Avalie qual é a relação de um determinado problema. Em caso que exista uma relação **“é-um”** utilizamos a herança, exemplo: banana É uma fruta, carro É um automóvel, pássaro É uma ave etc.
 
@@ -185,7 +185,7 @@ Pergunte-se sempre se em todo o ciclo de vida da aplicação ou do código, aque
 
 Não use a herança apenas para obter a reutilização de código se não existe uma relação “é-um”. Nestes casos é mais apropriado utilizar a composição.
 
-# Falando em Java
+## Falando em Java
 
 Apenas para abrir um parêntese no artigo, em Java, toda e qualquer classe possui uma herança, neste caso implicitamente. Toda classe em Java, sempre estenderá Object, com isso, alguns métodos são herdados.
 
@@ -214,7 +214,7 @@ Alguns métodos herdados da classe Object:
 
 Documentação da classe Object: [clique aqui](http://docs.oracle.com/javase/8/docs/api/java/lang/Object.html).
 
-# Referências
+## Referências
 
 - [Post de um amigo, Pedro Augusto](https://medium.com/@pedro.barros/heran%C3%A7a-ou-composi%C3%A7%C3%A3o-eis-a-quest%C3%A3o-7ce11fad4737#.ekombw2sy);
 - [Composition vs. Inheritance: How to Choose?](https://www.thoughtworks.com/pt/insights/blog/composition-vs-inheritance-how-choose);

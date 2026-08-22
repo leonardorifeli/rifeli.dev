@@ -27,13 +27,13 @@ tags:
 <img id="image-custom" src="https://media.licdn.com/dms/image/v2/D4E12AQG24U3aecIA1A/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1684491687372?e=2147483647&v=beta&t=QUlDIoctKT1ERNjUlU-rUk-tFEEDr7kW7BH074DO3Xg" alt="cloud-native" />
 <p id="image-legend"></p>
 
-# Introdução
+## Introdução
 
 Nos últimos anos, a forma como construímos e operamos sistemas evoluiu radicalmente (sou do tempo que subiamos arquivos via sFTP). A migração para a nuvem deixou de ser apenas um movimento tecnológico e passou a ser um movimento cultural, que redefine não só onde rodamos software, mas principalmente como pensamos, desenvolvemos, implantamos e mantemos aplicações em produção.
 
 Antes de entrar nas lições práticas sobre operar uma plataforma cloud-native na AWS, é fundamental alinhar dois conceitos que frequentemente são confundidos, mas que definem todo o restante da arquitetura moderna: Cloud e Cloud-Native.
 
-# O que é Cloud?
+## O que é Cloud?
 
 Cloud é um modelo de computação com base no acesso sob demanda a recursos de infraestrutura, armazenamento, redes, dados e serviços gerenciados através da internet.
 
@@ -48,7 +48,7 @@ A nuvem permite:
 
 Mais importante que isso: a nuvem muda o ritmo da engenharia, possibilitando uma velocidade que seria impossível em ambientes tradicionais.
 
-# O que é Cloud-Native?
+## O que é Cloud-Native?
 
 Cloud-native não significa simplesmente "estar na nuvem".
 Significa projetar e operar sistemas que exploram a nuvem ao máximo.
@@ -68,7 +68,7 @@ Em outras palavras:
 
 Cloud-native é a combinação de arquitetura, cultura e automação para que sistemas sobrevivam e evoluam em ambientes dinâmicos.
 
-# Lições Aprendidas
+## Lições Aprendidas
 
 Construir e operar uma plataforma verdadeiramente **cloud-native** vai muito além de rodar workloads em containers. Envolve pessoas, processos, arquitetura, governança, automação e uma disciplina contínua de observabilidade.
 
@@ -76,7 +76,7 @@ Nos últimos anos rodando uma stack distribuída na AWS, com EKS, Aurora Postgre
 
 Agora, trago as principais lições aprendidas em todo esse processo.
 
-## 1. Cloud-native não é Kubernetes: é um mindset
+### 1. Cloud-native não é Kubernetes: é um mindset
 
 Quando migramos nossos primeiros serviços para EKS, fizemos o clássico erro: tratamos Kubernetes como se fosse um datacenter com YAML.
 
@@ -89,7 +89,7 @@ Cloud-native é:
 
 A mudança mais impactante não foi a tecnologia, mas sim **abandonar o "servidorzão confiável" e abraçar o caos controlado**.
 
-## 2. Observabilidade é o que transforma caos em previsibilidade
+### 2. Observabilidade é o que transforma caos em previsibilidade
 
 Os maiores problemas vieram de **falta de visibilidade**.
 
@@ -104,7 +104,7 @@ Lições essenciais:
 
 PS.: Em outro artigo, falarei como nós fazemos.
 
-## 3. Custos se gerenciam no código, não no financeiro
+### 3. Custos se gerenciam no código, não no financeiro
 
 A AWS cobra por tudo que movimenta, armazena ou respira. Costumo dizer que AWS escala na mesma proporção que o limite do cartão de crédito.s
 
@@ -125,7 +125,7 @@ Estratégias que funcionaram:
 
 Busque alinhar o custo da infra com o business.
 
-## 4. Multi-account é segurança operacional
+### 4. Multi-account é segurança operacional
 
 O modelo multi-account trouxe:
 
@@ -136,7 +136,7 @@ O modelo multi-account trouxe:
 
 Ambientes independentes tornam incidentes muito menos catastróficos.
 
-## 5. Deploy contínuo só é bom com rollback contínuo
+### 5. Deploy contínuo só é bom com rollback contínuo
 
 CI/CD não é sobre deploy rápido, é sobre **desfazer rápido**.
 
@@ -149,7 +149,7 @@ Práticas essenciais:
 
 Um deploy não termina até existir rollback de código, infra e dados.
 
-## 6. O banco é o coração, mas também é o gargalo
+### 6. O banco é o coração, mas também é o gargalo
 
 Aurora PostgreSQL é poderoso, mas impõe lições:
 
@@ -160,7 +160,7 @@ Aurora PostgreSQL é poderoso, mas impõe lições:
 
 Quando o banco vira gargalo, quase sempre **a culpa é sua**.
 
-## 7. Autoscaling só funciona com stateless de verdade
+### 7. Autoscaling só funciona com stateless de verdade
 
 Problemas clássicos:
 
@@ -170,7 +170,7 @@ Problemas clássicos:
 
 Quando a plataforma virou 100% stateless, o HPA finalmente começou a funcionar como esperado.
 
-## 8. Segurança é atributo do design
+### 8. Segurança é atributo do design
 
 Funciona quando:
 
@@ -182,7 +182,7 @@ Funciona quando:
 
 Segurança não é time; **é arquitetura.**
 
-## 9. Testes em produção não são tabus, são obrigatórios
+### 9. Testes em produção não são tabus, são obrigatórios
 
 Claro, sempre com responsabilidade:
 
@@ -193,7 +193,7 @@ Claro, sempre com responsabilidade:
 
 Nada simula produção, então **teste em produção com método**.
 
-## 10. As maiores lições são humanas
+### 10. As maiores lições são humanas
 
 Nada substitui:
 
@@ -205,7 +205,7 @@ Nada substitui:
 
 Ferramentas viram plataforma quando existe **cultura**.
 
-# Conclusão
+## Conclusão
 
 Rodar uma plataforma cloud-native na AWS é uma jornada contínua.
 

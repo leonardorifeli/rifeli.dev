@@ -28,7 +28,7 @@ tags:
   <a href="https://github.com/golang/go" target="_blank">golang/go</a>
 </p>
 
-# Introdução
+## Introdução
 
 No meu último artigo, discutimos como Go lida com orientação a objetos através de composição ([veja aqui](https://rifeli.dev/blog/go-e-orientada-a-objetos-paradigmas/)). Mas composição sozinha não garante bom design.
 
@@ -43,7 +43,7 @@ A pergunta não é "Go suporta OO?". Ela precisa ser: Como manter disciplina arq
 
 É aqui que entra **Object Calisthenics**.
 
-# O que é Object Calisthenics?
+## O que é Object Calisthenics?
 
 Tem uma palestra que marcou minha carreira, é do Guilherme Blanco e foi [PHP para Adultos – Object Calisthenics e Clean Code - Guilherme Blanco no InterCon PHP 2014
 ](https://www.youtube.com/watch?v=u-w4eULRrr0) em set/2014 (entreguei a idade).
@@ -60,7 +60,7 @@ Mas aqui vai o ponto importante:
 
 Vamos adaptar as 9 regras para a realidade do Go.
 
-# 1. Apenas um nível de indentação por função
+## 1. Apenas um nível de indentação por função
 
 Se sua função parece uma pirâmide, ela já está fazendo coisa demais.
 
@@ -98,7 +98,7 @@ Go já incentiva isso naturalmente via guard clauses (Está PROIBIDO usar ELSE).
 
 Essa regra é praticamente um reforço do estilo idiomático da linguagem.
 
-# 2. Não use else
+## 2. Não use else
 
 O else geralmente indica que você poderia ter retornado antes.
 
@@ -116,7 +116,7 @@ Esse padrão não é só estilo, ele reduz:
 - Complexidade ciclomática
 - Carga mental ao revisar código
 
-# 3. Encapsule todos os primitivos (Value Objects)
+## 3. Encapsule todos os primitivos (Value Objects)
 
 Aqui começa a ficar interessante em Go.
 
@@ -155,7 +155,7 @@ Agora o erro é impossível de existir fora da criação.
 
 Esse padrão é poderoso especialmente em sistemas de domínio rico, algo comum em produtos SaaS complexos.
 
-# 4. Coleções como cidadãos de primeira classe
+## 4. Coleções como cidadãos de primeira classe
 
 Se você tem isso:
 
@@ -187,7 +187,7 @@ Isso reduz:
 - Duplicação de loops
 - Inconsistência
 
-# 5. Um ponto por linha (Lei de Demeter)
+## 5. Um ponto por linha (Lei de Demeter)
 
 Evite isso:
 
@@ -205,7 +205,7 @@ order.CityName()
 
 Se amanhã, a estrutura de City mudar, só um lugar precisa ser alterado.
 
-# 6. Não abrevie nomes
+## 6. Não abrevie nomes
 
 Go aceita variáveis curtas.
 Mas isso não significa que tudo deve ser abreviado.
@@ -224,7 +224,7 @@ usrSvcProcMgr
 
 Se o nome precisa ser abreviado para caber, talvez a responsabilidade esteja grande demais.
 
-# 7. Entidades pequenas
+## 7. Entidades pequenas
 
 Structs grandes quase sempre indicam:
 
@@ -252,7 +252,7 @@ Talvez você tenha:
 
 > Composição > concentração.
 
-# 8. Sem Getters e Setters
+## 8. Sem Getters e Setters
 
 Go já não força encapsulamento clássico.
 
@@ -275,7 +275,7 @@ order.Pay()
 
 Isso mantém regras de negócio dentro da entidade.
 
-# 9. No máximo dois campos por struct
+## 9. No máximo dois campos por struct
 
 Essa é a mais polêmica. Ela força alta coesão.
 
@@ -285,7 +285,7 @@ DTOs de transporte? Podem ter muitos campos.
 Entidades de domínio? Devem ter poucos e bem relacionados.
 Essa regra não é literal, é um detector de alerta.
 
-### Onde Object Calisthenics NÃO funciona bem em Go:
+#### Onde Object Calisthenics NÃO funciona bem em Go:
 
 - Código de infraestrutura
 - Adaptadores HTTP
@@ -302,7 +302,7 @@ Object Calisthenics brilha em:
 - Regras complexas
 - Sistemas que vivem muitos anos
 
-### O Verdadeiro Valor
+#### O Verdadeiro Valor
 
 Object Calisthenics não é sobre OO.
 
@@ -323,7 +323,7 @@ E isso é perigoso.
 Porque você pode escrever código simples…
 ou simplesmente simplista.
 
-# Conclusão
+## Conclusão
 
 Aplicar as 9 regras ao mesmo tempo em produção pode ser exagero.
 

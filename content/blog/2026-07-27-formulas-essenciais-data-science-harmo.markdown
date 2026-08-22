@@ -31,7 +31,7 @@ tags:
 <img id="image-custom" src="/images/posts/e7834d8b-c618-4db0-a1be-d685e1c8ad67.png" alt="" />
 <p id="image-legend">As oito famílias do cheatsheet não param na lousa: descem até a loja física e viram fluxo de gente na porta.</p>
 
-# Introdução
+## Introdução
 
 Existe um cheatsheet clássico circulando pela internet com oito famílias de fórmulas essenciais de data science: estatística descritiva, probabilidade, álgebra linear, cálculo, machine learning, information theory, data science essentials e séries temporais. Na imagem, cada caixa traz três ou quatro fórmulas em notação acadêmica limpa. A reação mais comum de quem bate os olhos é "isso é coisa de pesquisador, eu só faço CRUD".
 
@@ -50,7 +50,7 @@ O objetivo aqui é mapeamento, não tutorial. Por onde cada família anda na ope
 | Data science essentials | Similaridade de cosseno entre embeddings, z-score, leitura de outlier |
 | Séries temporais | Moving average nos alarmes de custo e de concorrência, suavização e previsão |
 
-# A correlação de ouro: estatística descritiva como bússola comercial
+## A correlação de ouro: estatística descritiva como bússola comercial
 
 Começo pelo caso mais simples e mais importante. Nas análises internas que deram origem ao que a gente chama de Correlação de Ouro, loja com nota média mais alta no Google Business Profile também aparece com mais pedidos de rota gerados (os cliques de "como chegar"). E o efeito observado é grande o bastante pra ninguém ignorar: a cada 0,1 estrela adicional, aparece em média uma diferença de 8,8% nos pedidos de rota.
 
@@ -60,7 +60,7 @@ A fórmula em si é trivial. Correlação de Pearson é a covariância entre as 
 
 Em paralelo a Pearson, a operação usa o resto da família descritiva o tempo inteiro. Média e desvio padrão pra entender distribuição de notas dentro de uma rede de cliente, identificando lojas que destoam pra cima ou pra baixo. Variância pra dimensionar o quanto os dados se espalham em volta da média, que é o insumo que depois alimenta erro padrão, intervalo de confiança e teste. Ela sozinha não responde se a diferença entre dois grupos é sinal ou ruído, mas sem ela não dá nem pra fazer a pergunta direito. Covariância pra rastrear como pares de variáveis se movem juntos. Estatística descritiva é o que separa "achismo de loja" de "leitura de loja", e essa diferença sustenta praticamente toda conversa estratégica entre Harmo e cliente.
 
-# Álgebra linear e cálculo: o motor de NLP por dentro
+## Álgebra linear e cálculo: o motor de NLP por dentro
 
 O motor de NLP da Harmo classifica sentimento de avaliação, extrai aspectos mencionados (atendimento, produto, preço, ambiente) e dá suporte a respostas em escala. Tudo isso é álgebra linear e cálculo combinados, em arquiteturas que aprenderam a fazer essas operações em paralelo na GPU.
 
@@ -70,7 +70,7 @@ A multiplicação de matrizes é a operação de base de tudo isso. Cada camada 
 
 O cálculo entra no momento de treinar. Treinar um classificador de sentimento é minimizar uma função de erro, e minimizar uma função de erro é exatamente o gradiente descendente que descrevi no post anterior, repetido numa escala que seria impossível acompanhar manualmente. Derivada parcial em cada peso da rede, retropropagada pela regra da cadeia, parâmetro por parâmetro, batch por batch. O Cálculo II da prova final virou infraestrutura silenciosa do classificador. A regra da cadeia que parecia exercício de aula virou o algoritmo de retropropagação que treina as redes neurais modernas.
 
-# Séries temporais e detecção de anomalia: matemática que dispara alarme
+## Séries temporais e detecção de anomalia: matemática que dispara alarme
 
 A operação gera séries temporais o tempo inteiro. Volume de avaliações por hora, latência de microserviço, custo AWS por serviço por dia, NPS rolando ao longo da semana, taxa de resposta a avaliações por loja. Boa parte das anomalias que disparam alarme operacional aqui dentro sai de alguma combinação das três fórmulas da seção "Time Series" do cheatsheet, quase sempre com uma comparação contra baseline em cima.
 
@@ -80,7 +80,7 @@ Z-score é o irmão mais formal dessa abordagem. Normaliza o valor pelo desvio p
 
 Exponential smoothing e autocorrelação entram na previsão. Estimar quantos pedidos de rota uma loja deve gerar nas próximas duas semanas, dado o histórico dela e a sazonalidade conhecida. Capacity planning de processamento em janelas de pico, baseado em volume previsto de avaliações. Quando o time fala em "previsão suavizada", está aplicando exponential smoothing, mesmo quando ninguém chama por esse nome.
 
-# Probabilidade e information theory: decisão sob incerteza
+## Probabilidade e information theory: decisão sob incerteza
 
 A última camada que vale destacar mistura as seções 2 e 6 do cheatsheet. Probabilidade e information theory são as ferramentas que sustentam decisão quando não há certeza completa, o que é praticamente sempre.
 
@@ -92,7 +92,7 @@ Entropy, cross-entropy e KL-divergence são onde a coisa fica densa, mas valem o
 
 Information theory parece esotérica até o momento em que você precisa selecionar features pra um modelo com centenas de candidatas. Aí ela vira ferramenta especialmente útil pra separar quais variáveis carregam informação relevante sobre o que você quer prever e quais são redundância cara de carregar. Registro honesto: aqui isso é aplicação possível da família, não etapa fixa do pipeline de hoje.
 
-# Fechamento
+## Fechamento
 
 O cheatsheet tem oito caixinhas. Cada uma é uma família de ferramenta matemática. A leitura mais útil dele não é "preciso decorar tudo isso pra fazer data science". É "cada uma dessas famílias tem aplicação concreta em produção, e a maioria delas é exatamente o que sustenta o que você consome hoje em qualquer plataforma SaaS séria".
 

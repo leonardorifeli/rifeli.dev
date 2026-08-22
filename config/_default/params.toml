@@ -25,5 +25,5 @@ enableEmoji = false
     reactionsEnabled = 0
     emitMetadata = 1
     inputPosition = "top"
-    lang = "en"
+    lang = "pt"
     lazyLoading = false

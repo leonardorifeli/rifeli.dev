@@ -1,24 +1,41 @@
 {{ if .Params.comments }}
-  <div class="giscus-comment">
-      <script
-        src="https://giscus.app/client.js"
-        data-repo="{{ .Site.Params.giscus.repo }}"
-        data-repo-id="{{ .Site.Params.giscus.repoId }}"
-        data-category="{{ .Site.Params.giscus.category }}"
-        data-category-id="{{ .Site.Params.giscus.categoryId }}"
-        data-mapping="{{ .Site.Params.giscus.mapping | default `pathname` }}"
-        data-strict="{{ (string .Site.Params.giscus.strict) | default 0 }}"
-        data-reactions-enabled="{{ (string .Site.Params.giscus.reactionsEnabled) |  default 0 }}"
-        data-emit-metadata="{{ (string .Site.Params.giscus.emitMetadata) | default 0 }}"
-        data-input-position="{{ .Site.Params.giscus.inputPosition | default `top` }}"
-        data-theme="{{ .Site.Params.giscus.theme | default `light` }}"
-        data-lang="{{ .Site.Params.giscus.lang | default `en` }}"
-        {{ if .Site.Params.giscus.lazyLoading }}
-          data-loading="lazy"
-        {{ end }}
-        crossorigin="anonymous"
-        async
-      >
-      </script>
-  </div>
+  <div class="giscus-comment"></div>
+
+  {{/* O iframe nasce com o tema ja resolvido aqui no cliente, usando o mesmo
+       default do baseof (dark). Antes o data-theme vinha cravado do config
+       (default "light") e a correcao dependia de um postMessage num setTimeout
+       de 1s: se o giscus ainda nao tivesse registrado o listener, a mensagem
+       morria sem retry e a caixa ficava clara em pagina escura ate o primeiro
+       toggle. Resolvendo antes de injetar, a corrida deixa de existir. O
+       postMessage segue vivo no theme-button, mas so pra troca ao vivo. */}}
+  <script>
+    (function () {
+      var theme = 'dark';
+      try {
+        if (localStorage.getItem('theme') === 'light') { theme = 'light'; }
+      } catch (e) {}
+
+      var s = document.createElement('script');
+      s.src = 'https://giscus.app/client.js';
+      s.async = true;
+      s.crossOrigin = 'anonymous';
+
+      s.setAttribute('data-repo', {{ .Site.Params.giscus.repo }});
+      s.setAttribute('data-repo-id', {{ .Site.Params.giscus.repoId }});
+      s.setAttribute('data-category', {{ .Site.Params.giscus.category }});
+      s.setAttribute('data-category-id', {{ .Site.Params.giscus.categoryId }});
+      s.setAttribute('data-mapping', {{ .Site.Params.giscus.mapping | default "pathname" }});
+      s.setAttribute('data-strict', {{ (string .Site.Params.giscus.strict) | default "0" }});
+      s.setAttribute('data-reactions-enabled', {{ (string .Site.Params.giscus.reactionsEnabled) | default "0" }});
+      s.setAttribute('data-emit-metadata', {{ (string .Site.Params.giscus.emitMetadata) | default "0" }});
+      s.setAttribute('data-input-position', {{ .Site.Params.giscus.inputPosition | default "top" }});
+      s.setAttribute('data-lang', {{ .Site.Params.giscus.lang | default "pt" }});
+      s.setAttribute('data-theme', theme);
+      {{ if .Site.Params.giscus.lazyLoading }}
+      s.setAttribute('data-loading', 'lazy');
+      {{ end }}
+
+      document.querySelector('.giscus-comment').appendChild(s);
+    })();
+  </script>
 {{ end }}

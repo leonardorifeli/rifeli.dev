@@ -29,7 +29,7 @@ tags:
 <img id="image-custom" src="/images/posts/5ba7c7c0-1ce0-4913-b12e-b004122025ef.png" alt="" />
 <p id="image-legend">Goroutines, channels, fan-out/fan-in, worker pool com errgroup e cancelamento via context</p>
 
-# Introdução
+## Introdução
 
 Na Harmo, +50 dos nossos microservices em produção rodam em Go. Eles atendem +10 milhões de pesquisas, +1 milhão de eventos de performance de loja e +300 mil avaliações públicas por mês em mais de 60 mil lojas físicas, com picos que estouram facilmente um worker pool mal dimensionado. Quando você opera nesse volume, um único serviço com goroutine sem limite vira gargalo da plataforma inteira em minutos, não em horas.
 
@@ -41,7 +41,7 @@ Esse post é o conjunto mínimo de patterns que eu uso e reviso em code review n
 
 Começamos a usar Go na Harmo em 2017, ainda na versão 1.7. Famosa frase: quando chegamos, era tudo mato haha.
 
-# Goroutines: mais é menos
+## Goroutines: mais é menos
 
 O instinto errado é "se goroutines são baratas, use muitas". Cada goroutine é barata sim (alguns KB iniciais), mas:
 
@@ -51,7 +51,7 @@ O instinto errado é "se goroutines são baratas, use muitas". Cada goroutine é
 
 A pergunta certa não é "como disparar muitas goroutines", é "quantas fazem sentido pra esse trabalho, e como limitar a esse número".
 
-# Worker pool: o padrão básico
+## Worker pool: o padrão básico
 
 O worker pool resolve o problema de limitar concorrência. Estrutura:
 
@@ -91,7 +91,7 @@ Três partes:
 
 Funciona, mas tem dois problemas: não propaga erro, e não cancela se algum worker falhar.
 
-# errgroup: o que worker pool moderno deveria ser
+## errgroup: o que worker pool moderno deveria ser
 
 `golang.org/x/sync/errgroup` resolve os dois problemas:
 
@@ -120,7 +120,7 @@ O que isso te dá:
 
 Se você ainda roda em Go anterior à 1.22, precisa de `item := item` dentro do loop pra escapar o shadowing clássico do `for/range` com closure. A partir do 1.22, cada iteração cria variável nova automaticamente e a linha extra deixou de ser necessária.
 
-# O que mudou em Go 1.25
+## O que mudou em Go 1.25
 
 Duas mudanças do Go 1.25 entram direto nessa conversa e valem incorporar.
 
@@ -166,7 +166,7 @@ No EKS, isso sempre foi armadilha clássica. A mitigação até 1.24 era importa
 
 E uma terceira que vale citar mesmo não sendo de concorrência direta: o pacote `testing/synctest` saiu de experimental e virou estável. Permite testar código concorrente de forma determinística, sem flakiness de teste que falha 1 em 100 execuções. Substitui boa parte dos `time.Sleep` feios que a gente colocava em teste de goroutine pra dar tempo da coisa rodar. Pelo menos aqui, fizemos festa por conta disso haha.
 
-# Fan-out / fan-in: quando tem transformação
+## Fan-out / fan-in: quando tem transformação
 
 Worker pool é bom pra processar items independentes. Fan-out/fan-in é pra pipeline: pegar entrada, transformar em paralelo, juntar resultados.
 
@@ -237,7 +237,7 @@ Mais verboso, mas o padrão é claro:
 
 Detalhe crítico: todo envio em channel deve ter um `select` com `ctx.Done()`. Sem isso, se o contexto cancela mas um worker está bloqueado tentando enviar em `out`, a goroutine vaza.
 
-# Cancelamento com context
+## Cancelamento com context
 
 `context.Context` é o mecanismo padrão de cancelamento em Go. Qualquer função que faz trabalho não-trivial deve aceitar `ctx` e respeitar `ctx.Done()` (mas não vai passar ctx default em cada chamada né).
 
@@ -263,7 +263,7 @@ O `default:` no `select` faz ele não bloquear quando o contexto não está canc
 
 Em I/O (HTTP, SQL, Redis), não precisa do check manual. As libs modernas respeitam `ctx` automaticamente, então o check só aparece em loops CPU-bound longos.
 
-# Armadilhas comuns
+## Armadilhas comuns
 
 **Goroutine leak por send em channel não drenado.** Se você sai de uma função e deixa uma goroutine bloqueada tentando enviar num channel sem leitor, ela vaza pra sempre. `defer close()` + `select` com `ctx.Done()` evita. Pra detectar leaks que já chegaram em produção, [`pprof`](/blog/tooling-nativo-go-produtividade-e-profiling-pprof/) (valida esse artigo massa na sequência) é a ferramenta padrão e cobri ela com detalhe num post separado sobre tooling nativo do Go.
 
@@ -291,7 +291,7 @@ go func() {
 
 **Channel sem buffer em fan-in.** Se o consumidor é mais lento que o produtor, produtores ficam bloqueados. Às vezes é o comportamento que você quer (backpressure). Às vezes não é, e nesses casos buffer pequeno (tamanho do número de workers) costuma ser um bom compromisso.
 
-# Lições aprendidas
+## Lições aprendidas
 
 Cinco fechamentos que valem internalizar antes de fechar essa aba.
 

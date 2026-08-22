@@ -16,7 +16,7 @@ Este é o terceiro post de uma série onde abordaremos todos os cinco princípio
 
 Para começar: falar de SOLID é falar de programação orientada a objetos e design (OOD). Tendo isso em mente, o princípio de substituição de Liskov traz outra perspectiva importante: classes filhas nunca deveriam inflingir as definições de tipo da classe pai.
 
-# **Contexto histórico**
+## **Contexto histórico**
 
 Este conceito foi apresentado por [Barbara Liskov](https://pt.wikipedia.org/wiki/Barbara_liskov) numa conferência em 1987, e depois foi publicado em um artigo científico, com o nome `[Family Values: A Behavioral Notion of Subtyping](http://reports-archive.adm.cs.cmu.edu/anon/1999/CMU-CS-99-156.ps)`, junto de [Jeannette Wing](https://en.wikipedia.org/wiki/Jeannette_Wing), em 1993. Com a seguinte definição original:
 
@@ -28,19 +28,19 @@ E após a publicação do livro [Agile Software Development, Principles, Patter
 
 Simples, uma subclasse deve poder sobrescrever os métodos da classe base, de modo com que não quebre suas funcionalidades, do ponto de vista do cliente.
 
-# **Problemas da violação do LSP**
+## **Problemas da violação do LSP**
 
 - Geração de problemas na classe cliente (pariticipante que está consumindo outro participante);
 - Comportamentos inesperados no software por suposições equivocadas;
 - Quebra de outros princípios.
 
-# **Exemplo**
+## **Exemplo**
 
 Seguindo o mesmo padrão do primeiro e segundo post, os exemplos (com exceções de alguns participantes) serão exibidos somente com as assinaturas, para reforçar a ideia que Uncle Bob traz, de que a implementação dos métodos é irrelevante para a análise. Somente com as assinaturas, conseguimos perceber se existe (ou não) a violação do princípio.
 
 Usaremos o clássico exemplo do `quadrado` e do `retângulo`.
 
-### Exemplo do quadrado e retângulo
+#### Exemplo do quadrado e retângulo
 
 No participante abaixo, temos a classe **`Rectangle`** e ela compõe as propriedades `width` (largura) e `height` (altura).
 

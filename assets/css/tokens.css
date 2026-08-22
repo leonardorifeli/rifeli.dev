@@ -17,11 +17,22 @@
     --line:         #E1DFEA;
     --line-strong:  #C9C5D8;
 
-    /* marca */
+    /* marca. ATENCAO: esse ramp inverte papel no dark, os violetas clareiam
+       pra virar tinta sobre superficie escura. Use como COR DE TEXTO ou como
+       fundo SEMPRE pareado com --on-violet, nunca com #fff cravado. */
     --violet:       #5B2BD9;
     --violet-deep:  #3D1B99;
     --violet-soft:  #EFE9FD;
     --violet-ink:   #2E1470;
+
+    /* tinta que vai em cima de --violet e --violet-deep. Inverte junto com
+       eles, e e isso que impede o fundo clarear e o texto ficar branco. */
+    --on-violet:    #FFFFFF;
+
+    /* faixa violeta cheia: NAO inverte, fica escura nos dois temas.
+       Pra bloco grande de destaque que e escuro por decisao de design. */
+    --band:         #2E1470;
+    --on-band:      #FFFFFF;
 
     /* sinal: usado so em medicao, estado e acento pontual */
     --signal:       #C4700A;
@@ -56,6 +67,10 @@
 /* dark explicito: data-theme (LP) ou classe .dark (Tailwind, blog) */
 :root[data-theme="dark"],
 html.dark {
+    /* --band e --on-band NAO entram aqui de proposito: a faixa violeta
+       continua escura no dark. Quem inverte e o par --violet/--on-violet. */
+    --on-violet:    #14101F;
+
     --paper:        #0E0C14;
     --surface:      #17141F;
     --surface-2:    #1D1928;
@@ -84,6 +99,7 @@ html.dark {
     /* [data-color-scheme="manual"] desliga o automatico em paginas
        que ja controlam o tema por classe, como o blog */
     :root:not([data-theme="light"]):not([data-color-scheme="manual"]) {
+        --on-violet:    #14101F;
         --paper:        #0E0C14;
         --surface:      #17141F;
         --surface-2:    #1D1928;

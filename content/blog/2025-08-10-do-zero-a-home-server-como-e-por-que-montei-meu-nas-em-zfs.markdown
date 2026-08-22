@@ -28,7 +28,7 @@ tags:
   - self-hosted
 ---
 
-# Introdução
+## Introdução
 
 <img id="image-custom" src="/images/posts/home-server/19.png" alt="" />
 <p id="image-legend">Sempre em busca da melhor versão</p>
@@ -48,18 +48,18 @@ Depois de quase dez anos, decidi montar novamente meu próprio **home server** p
 
 ---
 
-# O que é NAS e por que usar RAID/ZFS?
+## O que é NAS e por que usar RAID/ZFS?
 
 Antes de mergulhar na prática, vale entender alguns conceitos fundamentais.
 
-### 📦 O que é NAS?
+#### 📦 O que é NAS?
 **NAS (Network Attached Storage)** é basicamente um servidor de arquivos conectado à rede.
 
 - Funciona como uma **central de armazenamento**, acessível de qualquer dispositivo (PC, notebook, celular, TV etc).
 - Diferente de um HD externo, o NAS está sempre disponível, seja localmente ou pela internet (no nosso caso, via **Cloudflare Tunnel**).
 - É comum em empresas, mas também faz todo sentido em casa, para fotos, vídeos, documentos ou até para hospedar **Nextcloud** ou **Jellyfin/Plex**.
 
-### 🔄 O que é RAID?
+#### 🔄 O que é RAID?
 **RAID (Redundant Array of Independent Disks)** combina múltiplos discos em um volume lógico, trazendo:
 - **Redundância**: se um disco falhar, os dados continuam acessíveis.
 - **Performance**: alguns níveis distribuem dados entre discos, acelerando leitura/escrita.
@@ -71,7 +71,7 @@ Antes de mergulhar na prática, vale entender alguns conceitos fundamentais.
 
 ⚠️ **Importante**: RAID não substitui backup. Ele apenas protege contra falhas físicas. (aprendi isso da pior forma 😅)
 
-### 🛡️ E onde entra o ZFS?
+#### 🛡️ E onde entra o ZFS?
 O **ZFS (Zettabyte File System)** combina **filesystem + RAID + volume manager** em uma só solução.
 
 Ele oferece:
@@ -84,7 +84,7 @@ No meu setup, uso **ZFS com RAID-Z** (semelhante ao RAID 5), que equilibra espa�
 
 ---
 
-# O que é Cloudflare e por que usei no meu Home Server
+## O que é Cloudflare e por que usei no meu Home Server
 
 Quando expomos serviços caseiros na internet, temos duas grandes preocupações:
 - **Segurança** (não deixar a rede vulnerável)
@@ -92,10 +92,10 @@ Quando expomos serviços caseiros na internet, temos duas grandes preocupações
 
 É aí que entra o **Cloudflare**.
 
-### 🌍 O que é Cloudflare?
+#### 🌍 O que é Cloudflare?
 O **Cloudflare** é famoso pelo **CDN** e **proteção contra DDoS**, mas também oferece recursos que facilitam o self-hosting, como o **Cloudflare Tunnel**.
 
-### 🚇 O que é Cloudflare Tunnel?
+#### 🚇 O que é Cloudflare Tunnel?
 O **Cloudflare Tunnel** cria um túnel seguro entre meu servidor e a rede Cloudflare.
 
 **Benefícios:**
@@ -109,7 +109,7 @@ O **Cloudflare Tunnel** cria um túnel seguro entre meu servidor e a rede Cloudf
 
 Tudo isso sem precisar configurar NGINX ou Let's Encrypt manualmente.
 
-### 🎯 Por que escolhi o Cloudflare?
+#### 🎯 Por que escolhi o Cloudflare?
 - **Facilidade:** poucos comandos e já estava acessível.
 - **Segurança:** tráfego criptografado fim a fim.
 - **Custo baixo:** plano gratuito cobre bem (o Tunnel avançado custa ~US$10/mês).
@@ -117,12 +117,12 @@ Tudo isso sem precisar configurar NGINX ou Let's Encrypt manualmente.
 
 ---
 
-# Setup
+## Setup
 
 <img id="image-custom" src="/images/posts/home-server/18.png" alt="" />
 <p id="image-legend">Server com AMD-A8-5600k, 16GB RAM e NAS 5TB</p>
 
-### 🖥️ Servidor
+#### 🖥️ Servidor
 - **CPU**: AMD-A8-5600k
 - **RAM**: 16 GB
 - **NAS**: pool ZFS de múltiplos HDs (5 TB)
@@ -138,7 +138,7 @@ Os HDs estão ligados via **gaveta hot-swap**, e não diretamente à placa-mãe.
 <img id="image-custom" src="/images/posts/home-server/17.png" alt="" />
 <p id="image-legend">NAS com gavetas hot-swap</p>
 
-### ⚡ Gestão de energia
+#### ⚡ Gestão de energia
 
 Para mitigar quedas de energia, configurei:
 
@@ -146,7 +146,7 @@ Para mitigar quedas de energia, configurei:
 - **Nobreak SMS Lite 1200VA** (~6h autonomia)
 - **Nobreak SMS NET 4+ 1400VA** (~8h autonomia)
 
-### 💰 Custo de eletricidade
+#### 💰 Custo de eletricidade
 
 | Potência média | kWh/mês | Custo/mês (R\$ 1,00/kWh) |
 | -------------- | ------: | -----------------------: |
@@ -163,19 +163,19 @@ Em média, gasto **R\$ 60–110/mês**, dependendo da carga e da tarifa.
 
 ---
 
-# Arquitetura
+## Arquitetura
 
 <img id="image-custom" src="/images/posts/home-server/flow.jpeg" alt="" />
 <p id="image-legend">Arquitetura do Home Server</p>
 
-### 🔍 Como funciona o fluxo
+#### 🔍 Como funciona o fluxo
 1. **Usuário** → acessa pelo navegador
 2. **Internet** → tráfego normal pela rede pública
 3. **Cloudflare Tunnel** → cria ponte segura sem NAT/IP fixo
 4. **Servidor (Ubuntu 24.10)** → roda Docker + ZFS
 5. **NAS (ZFS Pool)** → armazena dados com redundância e snapshots
 
-### ✅ Benefícios
+#### ✅ Benefícios
 - **Segurança:** IP residencial não exposto
 - **Flexibilidade:** qualquer container pode virar subdomínio
 - **Resiliência:** ZFS garante integridade dos dados
@@ -183,9 +183,9 @@ Em média, gasto **R\$ 60–110/mês**, dependendo da carga e da tarifa.
 
 ---
 
-# 💡 Dicas
+## 💡 Dicas
 
-### 🔐 Segurança
+#### 🔐 Segurança
 - **Ative o fail2ban** para proteger o SSH:
   ```bash
   sudo apt install fail2ban -y
@@ -204,22 +204,22 @@ Em média, gasto **R\$ 60–110/mês**, dependendo da carga e da tarifa.
 - Use **chave SSH** em vez de senha.
 - **Cloudflare Access** (opcional): autenticação em duas etapas para subdomínios.
 
-### ⚡ Eficiência energética
+#### ⚡ Eficiência energética
 - Configure **spindown** para HDs pouco usados.
 - Ajuste CPU para modo `powersave`.
 
-### 🛡️ Resiliência
+#### 🛡️ Resiliência
 - Rode `zpool scrub` periodicamente.
 - Configure **snapshots automáticos** no ZFS.
 - Backup externo continua essencial.
 
-### 🧩 Automação
+#### 🧩 Automação
 - Configure o **cloudflared** para iniciar no boot.
 - Centralize logs dos containers via **Portainer**.
 
 ---
 
-# ✅ Conclusão
+## ✅ Conclusão
 
 Montar esse home server foi mais do que um exercício técnico: foi uma forma de ter **controle total dos meus dados**, aprendendo tecnologias enterprise como **ZFS, Docker e Cloudflare Tunnel** no meu próprio ambiente.
 
@@ -235,5 +235,5 @@ No fim, percebi que um **NAS caseiro pode ser tão poderoso quanto soluções co
 
 ---
 
-# 📌 Changelog
+## 📌 Changelog
 - **2025-08-10** → Versão inicial do setup publicada

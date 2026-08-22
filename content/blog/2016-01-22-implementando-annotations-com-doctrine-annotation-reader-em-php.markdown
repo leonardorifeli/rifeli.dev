@@ -19,13 +19,13 @@ Enquanto escrevo, vou ouvindo o álbum [As Daylight Dies](https://open.spotify.
 
 Enfim, vamos ao que interessa, vem comigo.
 
-# Introdução
+## Introdução
 
 Em um projeto recente do qual participei do processo de **refactoring**, o que me auxiliou bastante, foi a implementação de **annotations**, onde foi possível segregar informações estáticas e até atingir algumas práticas de **clean code**, salientando que isso foi uma solução que funcionou bem no respectivo projeto.
 
 Neste artigo eu não discutirei se é o correto, ou não, apenas demonstrarei como implementar **custom annotations** com o **doctrine reader**. Fica sobre teu critério meu chapa!
 
-# Escopo
+## Escopo
 
 No exemplo que mostrarei, utilizaremos os seguintes arquivos:
 
@@ -36,7 +36,7 @@ No exemplo que mostrarei, utilizaremos os seguintes arquivos:
 
 Irei demonstrar os códigos no artigo, caso necessário, você poderá verificar no [Gist](https://gist.github.com/leonardorifeli/9c12f94b109cb7859ca9).
 
-# Dependência, sim você precisará dela.
+## Dependência, sim você precisará dela.
 
 Para trabalhar com o **Doctrine Annotation Reader**, será necessário possuir a dependência **“doctrine/common”**, conforme o arquivo **composer.json** abaixo:
 
@@ -61,7 +61,7 @@ Para trabalhar com o **Doctrine Annotation Reader**, será necessário possuir 
 }
 ```
 
-# Desenvolvendo a classe da annotation.
+## Desenvolvendo a classe da annotation.
 
 Resumindo, esta classe será responsável pela **annotation**, ou seja, os atributos **públicos** da classe armazenarão informações que poderão ser informadas por quem irá consumir a **annotation** em questão. Segue abaixo o arquivo **PeopleAnnotation.php**, é a nossa annotation:
 
@@ -81,7 +81,7 @@ class PeopleAnnotation {
 
 Repare que, a classe em questão possui uma **annotation**, sendo ela **@Annotation**, isto é necessário para informar ao **Doctrine Annotation Reader** que a classe em questão, realmente é uma **annotation**.
 
-# Consumindo a annotation
+## Consumindo a annotation
 
 Nesta etapa, iremos consumir a annotation **PeopleAnnotation** e informaremos os valores que a annotation disponibiliza.
 
@@ -130,7 +130,7 @@ class People {
 
 Repare que, a classe **People** está consumindo a **annotation** tanto na respectiva classe, quanto nos atributos e métodos.
 
-# Vamos verificar a **People**. Finalizando a sopa de letrinhas
+## Vamos verificar a **People**. Finalizando a sopa de letrinhas
 
 Nesta etapa final, iremos instanciar a classe **AnnotationReader** para lermos as **annotations** extraídas da classe **People** (que está consumindo a **PeopleAnnotation**).
 
@@ -191,7 +191,7 @@ echo "Method ANNOTATIONS getBirthDate: ";
 var_dump($propertyAnnotations);
 ```
 
-# Resultados
+## Resultados
 
 ```php
 CLASS ANNOTATIONS:
@@ -232,13 +232,13 @@ array (size=1)
       public 'type' => string 'attribute' (length=9)
 ```
 
-# Referências
+## Referências
 
 1. [Artigo sobre o assunto em inglês](http://masnun.com/2012/08/12/using-annotations-in-php-with-doctrine-annotation-reader.html)
 2. [Doctrine - Documentação oficial](http://doctrine-common.readthedocs.org/en/latest/reference/annotations.html)
 3. [Documentação oficial PHP.net](http://php.net/)
 
-# Conclusão
+## Conclusão
 
 A utilização de **annotation** pode facilitar diversas condições, salientando que, a necessidade de implementar **custom annotation** varia de situação. Use o bom senso de programador.
 

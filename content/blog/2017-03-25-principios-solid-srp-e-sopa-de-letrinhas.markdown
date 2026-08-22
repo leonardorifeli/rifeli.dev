@@ -16,7 +16,7 @@ Esse é o primeiro post de uma série onde abordaremos todos os cinco princípio
 
 Para começar: falar de SOLID é falar de programação orientada a objetos e design (OOD). Tendo isso em mente, o Princípio de Responsabilidade única traz uma perspectiva diferente para a orientação a objeto: a **coesão**.
 
-# **Tá, e o que é coesão?**
+## **Tá, e o que é coesão?**
 
 Segundo o dicionário online [Dicio](https://www.dicio.com.br/coesao/):
 
@@ -32,7 +32,7 @@ E as vantagens de se ter alta coesão (ou “coesão forte”)?
 
 Redução da complexidade das classes e métodos (eles ficam mais simples, com menos operações).
 
-# **Definição de responsabilidade**
+## **Definição de responsabilidade**
 
 Segundo o dicionário online [Dicio](https://www.dicio.com.br/responsabilidade/):
 
@@ -44,22 +44,22 @@ E no contexto de um código?
 
 **Robert C. Martin**, em seu livro (Agile Software Development, Principles, Patterns, and Practices), define responsabilidade como: **uma classe deve ter apenas uma razão para ser alterada**.
 
-# **Problemas da violação do SRP**
+## **Problemas da violação do SRP**
 
 Se uma classe possui mais que uma razão para ser alterada, entende-se que ela possui mais que uma responsabilidade, tornando-a desconexa (não coesa).
 
-### Quais problemas uma classe desconexa poderá causar para a aplicação?
+#### Quais problemas uma classe desconexa poderá causar para a aplicação?
 
 - Dificuldade no reuso de suas responsabilidades;
 - Dificuldades na manutenção (dificuldade em manter e/ou evoluir por conta do excesso de responsabilidades);
 - Aumento na rigidez e fragilidade: quando alterar uma responsabilidade, outra pode ser comprometida;
 - Alto acoplamento da classe.
 
-# **Exemplos**
+## **Exemplos**
 
 Os códigos dos exemplos serão exibidos somente com as assinaturas, para reforçar a idéia que **Uncle Bob** traz, de que a implementação dos métodos é irrelevante para a análise. Somente com as assinaturas, conseguimos perceber se existe (ou não) a violação do princípio.
 
-### Exemplo 1
+#### Exemplo 1
 
 Considere o arquivo abaixo, onde temos a classe **`PopulationStandardDeviation`** e a sua responsabilidade é calcular o desvio padrão populacional.
 
@@ -81,7 +81,7 @@ Com o exemplo acima, podemos ver rapidamente a violação do princípio, onde el
 
 Neste caso, para que não haja a violação do SRP, deve-se deixar ambos os métodos (**`mean()`** e **`deviationSumSquare()`**) como **`private`** ou isolar eles em outras classes, injetando-as como dependência na **`PopulationStandardDeviation`**.
 
-### Exemplo 2
+#### Exemplo 2
 
 Neste segundo exemplo, considere o arquivo abaixo, onde temos a classe **`Report`** e a sua responsabilidade é gerar relatório.
 
@@ -103,18 +103,18 @@ Na visão do usuário, gerar relatório é apenas fazer com que os dados sejam e
 
 Perceba que para gerar um relatório são envolvidas várias responsabilidades. A classe **`Report`**, por exemplo, possui várias razões para ser alterada: como mudar o método **`find()`** para buscar os dados em outro lugar, mudar o método **`proccess()`** para alterar uma regra de domínio e até mesmo alterar o método **`print()`**.
 
-### Como poderíamos melhorar essa classe?
+#### Como poderíamos melhorar essa classe?
 
 Inicialmente, precisaríamos isolar o método **`find()`** em um contexto de repositório (outra classe que faça somente a busca dos dados no banco). Depois, poderíamos isolar o método **`proccess()`** noutra classe e que teria apenas uma responsabilidade, processar os dados que vieram do banco de dados e tratá-los de acordo com o domínio em questão. Finalmente, deixaremos a classe **`Report`** com a injeção das suas dependências, tendo somente o método **`generate()`**.
 
-# **Referências**
+## **Referências**
 
 - [Livro - Agile Software Development, Principles, Patterns, and Practices](https://www.amazon.com/dp/0135974445/);
 - [Article Cohesion - Computer Science](https://en.wikipedia.org/wiki/Cohesion_(computer_science));
 - [SOLID Principles with Uncle Bob - Robert C. Martin](http://www.hanselminutes.com/145/solid-principles-with-uncle-bob-robert-c-martin);
 - [Robert C Martin The Single Responsibility Principle](https://www.youtube.com/watch?v=dzawoPISdHc).
 
-# **Conclusão**
+## **Conclusão**
 
 O SRP é um dos princípios mais importantes da orientação a objetos. Atentando-se a ele, seus códigos ficarão mais coesos, simples e manuteníveis. É um princípio bem extenso e os exemplos tendem ao infinito.
 
@@ -122,6 +122,6 @@ Podemos continuar as discussões sobre este princípio nos comentários?
 
 Compartilhe conosco seus aprendizados.
 
-# **Agradecimentos**
+## **Agradecimentos**
 
 A ContaAzul, por proporcionar o espaço e me dar a oportunidade de compartilhar meu conhecimento. Ao **Leonardo Camacho**, pelo auxílio nas correções e incentivo para escrever. Para Carlos Becker, Lucas Merencia, Marcos Ferreira, Marcelo Ed. Junior e Jeferson Kersten pelo incentivo e auxílio dos assuntos aqui descritos.

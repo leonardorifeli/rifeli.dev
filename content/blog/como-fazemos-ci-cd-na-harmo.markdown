@@ -27,7 +27,7 @@ tags:
 <img id="image-custom" src="https://assets.primotech.com/wp-content/uploads/2022/07/CICD-Pipeline-Everything-You-Need-to-Know-1024x546.png" alt="cloud-native" />
 <p id="image-legend"></p>
 
-# Introdução
+## Introdução
 
 Construir uma plataforma cloud-native moderna não depende apenas de Kubernetes, observabilidade e arquitetura distribuída, mas sim de um **pipeline de entrega contínua confiável**, capaz de compilar, testar, versionar, empacotar e implantar aplicações de forma consistente.
 
@@ -40,7 +40,7 @@ Na Harmo, adotamos um fluxo que conecta:
 - **Jenkins** (orquestração do deploy)
 - **Amazon EKS** (execução final das aplicações)
 
-# Como fazemos
+## Como fazemos
 
 Buscamos ao longo dos anos, um fluxo confiável e robusto de entrega contínua.
 
@@ -63,7 +63,7 @@ Buscamos ao longo dos anos, um fluxo confiável e robusto de entrega contínua.
 
 Resultado: deploys previsíveis, auditáveis e rastreáveis.
 
-# Por que CI/CD é um pilar do cloud-native
+## Por que CI/CD é um pilar do cloud-native
 
 Cloud-native não significa simplesmente "estar na nuvem"s. Significa projetar e operar sistemas que exploram a nuvem ao máximo. Tendo autonomia e facilidade para entrega contínua de soluções.
 
@@ -79,7 +79,7 @@ Em uma filosofia Cloud-native exige:
 
 Na minha visão, sem um pipeline maduro, Kubernetes vira risco, não vantagem.
 
-# Visão geral da arquitetura do nosso pipeline
+## Visão geral da arquitetura do nosso pipeline
 
 Fluxo completo:
 
@@ -91,17 +91,17 @@ GitHub → Pull Request → Copilot AI → Code Review → Merge → CircleCI �
 - Toda imagem tem **tag semântica + tag por SHA**.
 - Todo deploy é rastreável até o commit original.
 
-# GitHub + Copilot AI: a primeira linha de defesa e automação
+## GitHub + Copilot AI: a primeira linha de defesa e automação
 
 O GitHub atua como centro de controle:
 
-### ✔️ Branching model padrão
+#### ✔️ Branching model padrão
 - `main` → produção
 - `develop` → staging (estamos em constante avanço nessa parte)
 - branches de feature: `feature/nome`
 - hotfixes controlados por tag
 
-### ✔️ O Copilot ajuda no PR
+#### ✔️ O Copilot ajuda no PR
 Usamos o Copilot para:
 
 - detectar código inseguro
@@ -111,7 +111,7 @@ Usamos o Copilot para:
 
 Ele não substitui a revisão humana, mas agiliza muito.
 
-# Template de Pull Request (padrão Harmo)
+## Template de Pull Request (padrão Harmo)
 
 Usamos um PR *enxuto, objetivo e baseado em engenharia madura*:
 
@@ -137,7 +137,7 @@ Serviço / namespace afetado:
 Como desfazer? (passo a passo)
 ```
 
-# CircleCI: build, scan e push para o ECR
+## CircleCI: build, scan e push para o ECR
 
 Quando o PR é aprovado e mergeado, pipeline CircleCI executa:
 
@@ -157,7 +157,7 @@ Chamada ao Jenkins:
 
 Temos um repositório interno de CLI, ele é clonado durante o build, e o jenkins é acionado via bash, usando a API do jenkins.
 
-# Jenkins: deploy seguro no EKS
+## Jenkins: deploy seguro no EKS
 
 O Jenkins recebe o trigger e roda o pipeline de deploy:
 
@@ -167,7 +167,7 @@ O Jenkins recebe o trigger e roda o pipeline de deploy:
 
 Utilizando a flag `--atomic`, o Helm reverte sozinho se algo falhar.
 
-# Rastreabilidade e confiabilidade
+## Rastreabilidade e confiabilidade
 
 Toda versão na produção possui:
 
@@ -180,7 +180,7 @@ Toda versão na produção possui:
 
 Isso facilita postmortems (fica pra um próximo artigo), auditorias e diagnósticos.
 
-# Benefícios reais
+## Benefícios reais
 
 - Deploys rápidos e previsíveis
 - Zero intervenção manual
@@ -192,7 +192,7 @@ Isso facilita postmortems (fica pra um próximo artigo), auditorias e diagnósti
 - Cultura de engenharia madura
 - Time mais rápido e com mais confiança
 
-# Conclusão
+## Conclusão
 
 CI/CD não é um acessório, é a coluna vertebral de uma plataforma cloud-native.
 Sem automação, sem padrões e sem disciplina, Kubernetes se torna uma fábrica de riscos.

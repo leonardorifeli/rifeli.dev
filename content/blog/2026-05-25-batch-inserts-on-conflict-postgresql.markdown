@@ -30,7 +30,7 @@ tags:
 <img id="image-custom" src="/images/posts/1ab616ab-fb3a-44ee-8f01-a97f4bd668c5.png" alt="" />
 <p id="image-legend">Single-row vs batch de 500: mesma carga de 10 mil eventos, mesmo schema, mesmo Aurora. 47 segundos contra 1,4.</p>
 
-# Introdução
+## Introdução
 
 Um consumer que lê de fila e grava um registro por vez no PostgreSQL é um erro que só aparece quando dá errado \o/. Em baixa frequência funciona bem, é código simples e cada evento é atômico. Em alta frequência, vira o gargalo do banco inteiro.
 
@@ -38,7 +38,7 @@ No post anterior da série, contei de um incidente no Aurora onde um consumer qu
 
 Pra dar tamanho ao contexto: a Harmo opera mais de 70 microservices em produção, e esse Aurora absorve na média 4.500 operações de escrita por segundo, com picos passando de 24 mil em hora cheia. Quando um único consumer dessa arquitetura grava evento-a-evento, o pedágio fixo do PostgreSQL por `INSERT` vira a maior parte do trabalho do banco. Single-row em alta frequência não é erro de iniciante. É erro de quem ainda não levou banco ao limite.
 
-# Por que single-row inserts matam em alta frequência
+## Por que single-row inserts matam em alta frequência
 
 Toda vez que você faz um `INSERT` único, o PostgreSQL paga um pedágio fixo:
 
@@ -52,7 +52,7 @@ Em baixa frequência (dezenas por segundo) esse pedágio é invisível. Quando o
 
 Um lote de 500 registros em um único `INSERT` paga esse pedágio **uma vez**. O `INSERT` em si fica maior, claro, mas a razão custo-fixo/trabalho-útil melhora drasticamente.
 
-# Estruturando o batch insert
+## Estruturando o batch insert
 
 Duas formas de montar um batch no PostgreSQL:
 
@@ -129,7 +129,7 @@ func InsertEvents(ctx context.Context, db DBTX, events []Event) error {
 
 Três detalhes que valem comentar. Primeiro, `DBTX` é uma interface mínima que aceita `*pgx.Conn`, `*pgxpool.Pool` e `pgx.Tx`, você passa qualquer um sem mudar a assinatura, e testar a função com transação fica trivial. Segundo, o cast `payload::jsonb` no `SELECT`: array de `jsonb` direto no `pgx` ainda dá fricção de encoding em algumas versões, então passar JSON como `text[]` e converter no SELECT funciona em qualquer setup, sem registrar tipo custom. Terceiro, o guard de `len(events) == 0` evita uma query desnecessária e uma mensagem de erro pouco amigável do `pgx` em array vazio.
 
-# ON CONFLICT: DO NOTHING vs DO UPDATE
+## ON CONFLICT: DO NOTHING vs DO UPDATE
 
 Quando o consumer pode receber eventos duplicados (e numa fila à-la-SQS com at-least-once, sempre pode), você precisa decidir o que fazer em colisão de chave única.
 
@@ -158,7 +158,7 @@ Uso: quando o registro mais novo sobrepõe o antigo. Note a cláusula `WHERE` na
 
 O `EXCLUDED` é uma pseudo-tabela que representa a linha que tentou entrar no `INSERT`. Fundamental pra diferenciar "o que está no banco" de "o que eu estou tentando gravar".
 
-# Armadilha: ON CONFLICT em batch com duplicatas dentro do próprio batch
+## Armadilha: ON CONFLICT em batch com duplicatas dentro do próprio batch
 
 Essa pegou a gente de surpresa. Em um batch de 500 eventos, o consumer pode ter 2 ou 3 com a mesma chave (a fila entregou duplicatas no mesmo pull). O `ON CONFLICT` só age contra o que já está no heap, dentro do batch, ele não ajuda. O resultado é um erro:
 
@@ -182,7 +182,7 @@ for _, e := range events {
 
 Barato, defensivo, resolve.
 
-# Benchmarks
+## Benchmarks
 
 Teste sintético, mesma carga total de 10.000 eventos, mesmo schema, mesma tabela com 50M registros, Aurora PostgreSQL. Três cenários:
 
@@ -194,7 +194,7 @@ Teste sintético, mesma carga total de 10.000 eventos, mesmo schema, mesma tabel
 
 O salto de single-row pra batch de 100 é o que mais pesa. De 100 pra 500 o retorno é decrescente: você ganha throughput, mas aumenta o tamanho de lock e o custo de erro (se o batch falhar, 500 eventos precisam ser reprocessados).
 
-# Qual batch size escolher
+## Qual batch size escolher
 
 Sem regra universal, mas orientação prática. Lotes de 50 a 100 são conservadores e cabem bem em tabelas com muita contenção de lock. Entre 200 e 500 fica a faixa que a maioria dos consumers acerta sem precisar pensar muito, e é o que a gente roda em produção. Acima de 1000, só se a tabela é dedicada, sem contenção, e você tolera latência de processamento maior.
 
@@ -204,7 +204,7 @@ Falando em latência: nem mesmo o Sol é realtime. Se ele "sumir" agora, a gente
 
 A moral pro nosso problema é a mesma. A única coisa instantânea em qualquer sistema é a parte que cabe num único ciclo de CPU. Tudo que cruza barreira, rede, disco ou escala, paga latência. Quando você projeta um consumer pra batch de 500 em vez de single-row, está aceitando explicitamente o que sistemas distribuídos te impõem implicitamente. Realtime, no sentido estrito, é uma promessa que nem a física faz.
 
-# Lições aprendidas
+## Lições aprendidas
 
 - **Nunca nasça em single-row.** Qualquer consumer de fila deveria ter batch desde o dia um. É mais código, mas é o código certo.
 - **Dedup no cliente antes do batch.** `ON CONFLICT` não ajuda contra duplicatas internas ao batch.

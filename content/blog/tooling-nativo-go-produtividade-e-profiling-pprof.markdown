@@ -29,7 +29,7 @@ tags:
 <img id="image-custom" src="/images/posts/4550be14-d782-4e57-ab46-d5708eec30a8.png" alt="cloud-native" />
 <p id="image-legend"></p>
 
-# Introdução
+## Introdução
 
 A maioria das linguagens modernas prometem produtividade, mas poucas realmente entregam isso na prática sem depender de plugins, frameworks adicionais ou configurações complexas. Com Go, a história é diferente. Programo em Go desde a versão 1.7, e lá já tínhamos alguns recursos nativos, inclusive o próprio `pprof`. E atualmente, logo após instalar a linguagem, você descobre que não ganhou apenas um compilador, mas também um ecossistema completo de ferramentas, projetado para reduzir atrito, eliminar decisões desnecessárias e permitir que times construam software robusto com muito menos esforço.
 
@@ -40,7 +40,7 @@ E entre todas essas ferramentas, uma mega importante (que comentei no inicio), e
 Este artigo explora justamente isso:
 como o tooling nativo do Go multiplica produtividade desde o primeiro dia, e como o profiling com `pprof` te permite evoluir sua aplicação com decisões baseadas em evidência, não em achismo. Além, de passar por outras toolchains nativas que ajudam na produtividade.
 
-# Por que o tooling nativo do Go?
+## Por que o tooling nativo do Go?
 
 O Tooling nativo do Go é um divisor de águas para a produtividade, mas como usar o poder do profiling para ir além?
 
@@ -50,7 +50,7 @@ Enquanto outras linguagens dependem fortemente de bibliotecas externas para tare
 
 E isso muda o jogo.
 
-# profiling nativo
+## profiling nativo
 
 Você pode ter código limpo, testes robustos e dependências organizadas, mas sem medir performance, qualquer otimização é chute e mero achismo. É aí que entra o santo graal do ecossistema Go:
 
@@ -60,7 +60,7 @@ O Go inclui um profiler completo, extremamente eficiente e simples de usar. Nada
 
 Mas, vamos por partes.
 
-## O que você pode medir com o pprof?
+### O que você pode medir com o pprof?
 
 Com o profiler nativo, você consegue extrair insights críticos:
 
@@ -73,7 +73,7 @@ Com o profiler nativo, você consegue extrair insights críticos:
 
 Tudo isso com overhead extremamente baixo, adequado inclusive para produção.
 
-# Como utilizar o profiling
+## Como utilizar o profiling
 
 Para extrair o máximo de dados da sua aplicação é muito simples.
 
@@ -178,7 +178,7 @@ Resultado:
 
 Você pode fazer isso também:
 
-## Memória
+### Memória
 
 ```shell
 go tool pprof http://localhost:6060/debug/pprof/heap
@@ -190,7 +190,7 @@ Ideal para:
 - descobrir vazamentos;
 - otimizar estruturas de dados.
 
-## Goroutines
+### Goroutines
 
 ```shell
 curl http://localhost:6060/debug/pprof/goroutine?debug=2
@@ -202,7 +202,7 @@ Ideal para:
 - goroutines que nunca finalizam
 - fan-outs excessivos
 
-# Exemplo mais prático ainda
+## Exemplo mais prático ainda
 
 Imagine que sua função mais crítica está lenta:
 
@@ -240,7 +240,7 @@ Solução:
 
 Esse tipo de melhoria só aparece com profiler, dificilmente com "feeling".
 
-# Por que o profiler nativo é tão poderoso?
+## Por que o profiler nativo é tão poderoso?
 
 Porque ele é integrado ao runtime. Ele entende:
 
@@ -252,7 +252,7 @@ Porque ele é integrado ao runtime. Ele entende:
 
 Ferramentas externas jamais alcançam esse nível de precisão.
 
-# Toolchains nativas que também auxiliam
+## Toolchains nativas que também auxiliam
 
 🧰 O toolchain nativo que multiplica sua produtividade
 
@@ -288,7 +288,7 @@ Quando comecei em Golang, na v1.7 era punk rsrs!
 - Analisa código e binários;
 - Foco em vulnerabilidades reais, não ruído.
 
-# Conclusão
+## Conclusão
 
 Go te entrega uma caixa de ferramentas completa, use tudo.
 

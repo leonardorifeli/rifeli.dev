@@ -30,13 +30,13 @@ tags:
 <img id="image-custom" src="/images/posts/5e48087d-d8f7-4bb8-bef5-e013c9f238a3.png" alt="" />
 <p id="image-legend">IRSA vs Pod Identity</p>
 
-# Introdução
+## Introdução
 
 Na Harmo, +70 microservices (Golang, python e node.js) rodam em EKS atendendo +10 milhões de pesquisas e +300 mil avaliações públicas por mês. Cada um desses serviços precisa de credencial AWS pra acessar S3, Secrets Manager, SQS, DynamoDB, o que for. Por anos, IRSA foi a resposta: IAM Role atrelada a Service Account via OIDC, e fim. Em 2023 a AWS lançou Pod Identity, que faz a mesma coisa de forma mais simples. Hoje os dois coexistem, e a dúvida de qual usar aparece em cluster novo e em qualquer conversa de migração.
 
 Esse post é o destilado do que aprendi configurando, quebrando e migrando entre os dois nos últimos meses, incluindo um bug silencioso que me custou umas duas horas num cluster antigo. A mensagem de erro da AWS não ajudou em absolutamente nada.
 
-# Como IRSA funciona
+## Como IRSA funciona
 
 IRSA associa uma Service Account do Kubernetes a uma IAM Role usando o provedor OIDC do cluster EKS. Em uma frase: você registra o OIDC issuer do cluster como Identity Provider na conta AWS, cria uma IAM Role cuja trust policy aceita `sts:AssumeRoleWithWebIdentity` vindo desse issuer pra uma Service Account específica, e anota a SA no Kubernetes com `eks.amazonaws.com/role-arn`. O EKS injeta token projetado e variáveis de ambiente no pod, e o SDK AWS faz o `AssumeRoleWithWebIdentity` sozinho.
 
@@ -63,7 +63,7 @@ A trust policy da role é onde mora a complexidade:
 
 Qualquer vírgula fora do lugar no `sub` e você pega `AccessDenied` sem pista do porquê.
 
-# O que mudou com Pod Identity
+## O que mudou com Pod Identity
 
 Pod Identity tira o OIDC da equação. Você instala o **EKS Pod Identity Agent** como addon do cluster, cria uma Role com trust policy pro principal `pods.eks.amazonaws.com` (não mais federated OIDC), e registra um "Pod Identity Association" linkando role e Service Account. O agent, que roda como DaemonSet, intercepta as chamadas do SDK e injeta credenciais.
 
@@ -92,7 +92,7 @@ aws eks create-pod-identity-association \
 
 Nenhuma annotation na Service Account. A associação mora no plano de controle do EKS.
 
-# Diferenças práticas
+## Diferenças práticas
 
 | Critério                      | IRSA                            | Pod Identity                  |
 | ----------------------------- | ------------------------------- | ----------------------------- |
@@ -104,7 +104,7 @@ Nenhuma annotation na Service Account. A associação mora no plano de controle 
 | Região suportada              | Todas                           | Maioria (verificar)           |
 | Maturidade ecosistema         | Alta (todas as ferramentas)     | Crescente                     |
 
-# O bug silencioso
+## O bug silencioso
 
 Estava migrando um serviço de IRSA pra Pod Identity num cluster da Harmo criado há mais de um ano. Fiz tudo: nova role, associação via CLI, removi a annotation antiga. Rollout do pod. Resultado:
 
@@ -141,7 +141,7 @@ kubectl get daemonset -n kube-system eks-pod-identity-agent
 
 Se não retornar nada, está faltando.
 
-# Quando usar qual
+## Quando usar qual
 
 Recomendação pragmática:
 
@@ -150,7 +150,7 @@ Recomendação pragmática:
 - **Role compartilhada entre vários clusters**: Pod Identity ganha por muito. Com IRSA, cada OIDC provider precisa aparecer na trust policy, vira lista enorme. Com Pod Identity, uma trust policy serve todos.
 - **Ambiente multi-cloud ou precisa de OIDC issuer externo**: IRSA. Pod Identity é AWS-only.
 
-# Lições
+## Lições
 
 IRSA é sólido mas verboso. Trust policy com OIDC funciona bem até você precisar debugar, e qualquer erro de string no `sub` vira `AccessDenied` sem pista. Pod Identity simplifica o caminho feliz com menos peças móveis e trust policy legível, mas em troca depende de infraestrutura no cluster: o agent precisa estar rodando como DaemonSet, e se você está migrando cluster antigo, o primeiro passo é checar o addon, não a trust policy.
 

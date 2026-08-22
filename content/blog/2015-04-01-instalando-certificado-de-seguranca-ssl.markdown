@@ -11,9 +11,9 @@ tags:
 
 O SSL **(Secure Socket Layer)** é um protocolo desenvolvido para elevar a segurança dos dados transmitidos pela internet. O SSL pode ser usado em vários serviços, sendo que o mais comum é o acesso à páginas web.
 
-# Introdução
+## Introdução
 
-### Antes de tudo. O que é SSL?
+#### Antes de tudo. O que é SSL?
 
 O **SSL (Secure Socket Layer)** é um protocolo desenvolvido para elevar a segurança dos dados transmitidos pela internet. O SSL pode ser usado em vários serviços, sendo que o mais comum é o acesso à páginas web. Neste caso o endereço dos recursos acessados passa a ser feito no formato: `https://website`.
 
@@ -21,7 +21,7 @@ As conexões via SSL são particularmente recomendadas para envio de informaçõ
 
 O SSL faz uso de **criptografia** para garantir o sigilo das informações transferidas entre o navegador do usuário e o servidor web. Como consequência, mesmo que as informações sejam interceptadas elas não podem ser lidas sem que sejam **descriptografadas**.
 
-### O que é um certificado SSL?
+#### O que é um certificado SSL?
 
 O certificado SSL tem a função de certificar que o site que você está acessando é realmente ele mesmo. Este processo é realizado por empresas que emitem certificados SSL. Elas fazem a validação do domínio e, dependendo do tipo de certificado, também da entidade detentora do domínio.
 
@@ -33,11 +33,11 @@ O domínio leonardorifeli.com possuí o certificado SSL COMODO 256bits. Efetuei 
 
 **Obs.:** Salientando que não demonstrarei como efetuar a compra/solicitação do certificado.
 
-# Informações
+## Informações
 
 Sistema Operacional (servidor): Ubuntu Server 14.04; Dependências: apache2, openssl e ssl-cert;
 
-### Dependências
+#### Dependências
 
 As depências são os recursos/bibliotecas utilizadas para a gerar e configurar o certificado. Faça acesso SSH com o servidor, utilizando privilégios de root (oh my god! Yes!).
 
@@ -47,7 +47,7 @@ Execute os comandos abaixo para atualização de dependências já instaladas. P
 apt-get upgrade
 apt-get install apache2 openssl ssl-cert`
 
-# Gerando as chaves
+## Gerando as chaves
 
 Criando o diretório onde os certificados serão armazenados.
 
@@ -107,7 +107,7 @@ Os três primeiros arquivos serão utilizados para gerar o arquivo que será uti
 
 `cat AAddTrustCA.crt DomainValidationSecureServerCA.crt AddTrustExternalCARoot.crt > www.dominio.com.ca-bundle`
 
-# Configuração no Apache
+## Configuração no Apache
 
 Com o arquivo `.ca-bundle` criado, efetuaremos a configuração no arquivo `.conf` do respectivo domínio (no apache).
 
@@ -116,12 +116,12 @@ nano arquivo-configuracao-utilizado.conf`
 
 Segue abaixo um modelo em funcionamento (você poderá utilizá-lo como base).
 
-### Configuração da porta 80 para redirecionar os acessos http para https, porta 443;
+#### Configuração da porta 80 para redirecionar os acessos http para https, porta 443;
 
 `<VirtualHost *:80> ServerAdmin your@dominio.com ServerName dominio.com ServerAlias www.dominio.com RewriteEngine On RewriteCond %{HTTPS} off RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
 </VirtualHost>`
 
-### Configuração da porta 443, onde o site funcionará (acesso https);
+#### Configuração da porta 443, onde o site funcionará (acesso https);
 
 `<VirtualHost *:443> ServerName www.dominio.com:443 ServerAdmin your@dominio.com ServerName dominio.com ServerAlias www.dominio.com DocumentRoot /var/www/website DirectoryIndex index.php index.htm index.html TransferLog /var/log/apache2/website.log SSLEngine on SSLCertificateKeyFile /etc/apache2/ssl/www.dominio.com.key SSLCertificateFile /etc/apache2/ssl/www.dominio.com.crt SSLCertificateChainFile /etc/apache2/ssl/www.dominio.com.ca-bundle ServerSignature off <Directory "/var/www/website"> AllowOverride All </Directory> ErrorLog ${APACHE_LOG_DIR}/error.log CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>`
@@ -132,7 +132,7 @@ Após finalizar a configuração.
 
 Caso dê algum erro, verifique os logs (pois é para isso que eles existem). Brincadeiras, entre em contato, ficarei feliz em dar auxilio na medida do possível.
 
-# Conclusão
+## Conclusão
 
 A utilização de certificado de segurança em sites/sistemas que possuem tráfego de informações privilegiadas é imprescindível. Portanto, certifique-se que as informações contídas nas áreas restritas, encontram-se seguras.
 

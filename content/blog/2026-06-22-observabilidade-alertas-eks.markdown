@@ -31,13 +31,13 @@ tags:
 <img id="image-custom" src="/images/posts/a67480be-998f-4f5d-b948-24fe0b5c531b.png" alt="" />
 <p id="image-legend">Duzentos alertas piscando, e o que importa é aquele único sinal que você consegue enxergar no meio do ruído.</p>
 
-# Introdução
+## Introdução
 
 Essa é a última peça de uma série que caminhou por crise de performance no banco, batch inserts, IRSA e Pod Identity, relatórios de custo e concorrência em Go. Cada um desses posts resolveu um problema específico. Observabilidade é o que liga eles, o que transforma "consegui consertar" em "vou ver chegar da próxima vez".
 
 Vou falar do que realmente usamos na Harmo pra operar o cluster EKS: stack de métricas, estratégia de logs, e principalmente a filosofia de alerta, que é onde a maioria das operações se perde, seja por alertar demais, seja por alertar de menos.
 
-# Métricas: Prometheus + Grafana é o default por um motivo
+## Métricas: Prometheus + Grafana é o default por um motivo
 
 O stack Prometheus + Grafana é o default no Kubernetes por motivos práticos:
 
@@ -64,7 +64,7 @@ prometheus:
 
 30 dias de retention é suficiente pra investigar qualquer incidente recente. Pra análise de tendência mais longa, exporta pra S3 via Thanos ou Mimir, mas só se você tem caso real de uso. Não instala por instalar.
 
-# Logs: centralize, mas não tudo
+## Logs: centralize, mas não tudo
 
 Logs no Kubernetes têm três caminhos comuns:
 
@@ -83,7 +83,7 @@ O erro clássico: centralizar todo log de toda aplicação de todo nível. Você
 - **Audit log do Kubernetes**: sim, sempre.
 - **Debug logs**: só quando debug. Liga temporariamente via config, desliga depois.
 
-# A estratégia de alerta
+## A estratégia de alerta
 
 Aqui mora o que mais diferencia operação boa de operação ruim. A armadilha é simples: você começa com poucos alertas, eles avisam bem, você vai ganhando confiança e adicionando mais. Em 6 meses você tem 200 alertas, metade é falso positivo, você começa a ignorar. E no dia que alerta verdadeiro chega, ele some no meio do ruído.
 
@@ -116,7 +116,7 @@ Esses chegam em canal de Slack, sem on-call. Se ninguém olhar em 24h, não queb
 
 Esses viram tasks num board. Nunca alerta real, só coisa pra revisar no ritmo certo.
 
-# Exemplos de regra no Prometheus
+## Exemplos de regra no Prometheus
 
 ```yaml
 groups:
@@ -148,7 +148,7 @@ Três detalhes não-negociáveis:
 - **`severity`**: roteamento no Alertmanager. `page` acorda, `ticket` cria task, `warning` fica no Slack.
 - **`annotations.runbook`**: link pra o que fazer. Alerta sem runbook é alerta novo, e alerta novo nunca deveria ir pra `page` na primeira vez.
 
-# Fechando o loop com os posts anteriores
+## Fechando o loop com os posts anteriores
 
 Cada post da série deixou uma deixa pra cá:
 
@@ -158,7 +158,7 @@ Cada post da série deixou uma deixa pra cá:
 - **Relatório de custo**: o CronJob gera anomalia detectada, já é alerta estruturado.
 - **Worker pool em Go**: expor métricas de goroutines ativas, queue length e erros por worker torna o pool observável.
 
-# Lições aprendidas
+## Lições aprendidas
 
 - **Observabilidade é investimento contínuo.** Cada incidente é uma oportunidade de adicionar a métrica ou o alerta que teria avisado antes. Feito depois, ainda é feito.
 - **Menos alerta é mais alerta.** Alerta só existe se aciona humano e tem ação. Tudo outro é dashboard ou task.
@@ -166,7 +166,7 @@ Cada post da série deixou uma deixa pra cá:
 - **Custo também é métrica.** Tratar custo como sinal técnico, não como "problema do financeiro", reduz surpresa no fim do mês.
 - **Loop fechado vale mais que ferramenta cara.** Um stack simples e bem usado bate um stack sofisticado e abandonado.
 
-# Fechando a série
+## Fechando a série
 
 Seis posts cobriram um corte de cloud-native operado de verdade: banco sob pressão e como reagir, consumer eficiente, permissões de pod, visibilidade de custo, concorrência na ponta, e a camada que fecha o loop: observabilidade e alerta.
 

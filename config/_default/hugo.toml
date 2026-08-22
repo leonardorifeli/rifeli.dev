@@ -1,7 +1,7 @@
 baseURL = 'https://rifeli.dev/'
 copyright = "2015 - {year}"
 languageCode = 'pt-BR'
-defaultContentLanguage = 'en'
+defaultContentLanguage = 'pt'
 theme = 'lowkey'
 title = 'rifeli.dev'
 enableRobotsTXT = true

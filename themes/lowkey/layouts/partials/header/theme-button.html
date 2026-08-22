@@ -4,72 +4,59 @@
 </button>
 
 <script>
+  /* O default do site e dark, igual ao que o baseof pinta antes da primeira
+     tinta. Antes esse arquivo caia em 'light' quando o localStorage estava
+     vazio, o que forcava claro em visitante novo numa pagina que tinha
+     acabado de ser pintada de escuro. */
   document.addEventListener('DOMContentLoaded', function () {
-    const theme = localStorage.getItem('theme');
-
-    if (!theme || theme === 'light') {
-      setTheme('light');
-    } else {
-      setTheme(theme);
-    }
+    applyTheme(localStorage.getItem('theme') === 'light' ? 'light' : 'dark');
   });
 
-  function setTheme(theme) {
+  /* applyTheme mexe no DOM. setTheme mexe no DOM e persiste. A separacao
+     importa: o handler de storage precisa aplicar SEM escrever, senao as
+     abas ficam se re-notificando em loop. */
+  function applyTheme(theme) {
     const html = document.querySelector('html');
-    localStorage.setItem('theme', theme);
-
-    updateGiscusTheme()
 
     if (theme === 'light') {
-      if (html.classList.contains('dark')) {
-        document.querySelector('html').classList.remove('dark');
-      }
-
+      html.classList.remove('dark');
       document.querySelector('.theme-icon.light').style.display = 'none';
       document.querySelector('.theme-icon.dark').style.display = 'block';
     } else {
-      if (!html.classList.contains('dark')) {
-        document.querySelector('html').classList.add('dark');
-      }
-
+      html.classList.add('dark');
       document.querySelector('.theme-icon.dark').style.display = 'none';
       document.querySelector('.theme-icon.light').style.display = 'block';
     }
+
+    updateGiscusTheme(theme);
+  }
+
+  function setTheme(theme) {
+    localStorage.setItem('theme', theme);
+    applyTheme(theme);
   }
 
   function toggleTheme() {
-    const theme = localStorage.getItem('theme');
-    updateGiscusTheme();
-    if (theme === 'light') {
-      setTheme('dark');
-    } else {
-      setTheme('light');
-    }
+    setTheme(localStorage.getItem('theme') === 'light' ? 'dark' : 'light');
   }
 
-  function updateGiscusTheme() {
-    const theme = localStorage.getItem("theme") || "light";
-    const giscusTheme = theme === "dark" ? "dark" : "light";
+  /* Sincroniza o iframe do giscus numa troca ao vivo. A carga inicial nao
+     depende mais daqui: o partial do giscus injeta o script com o data-theme
+     ja resolvido, entao nao existe mais a corrida contra o listener. */
+  function updateGiscusTheme(theme) {
+    const iframe = document.querySelector('iframe.giscus-frame');
+    if (!iframe) { return; }
 
-    function sendMessage(message) {
-      const iframe = document.querySelector("iframe.giscus-frame");
-      if (!iframe) {
-        setTimeout(() => sendMessage(message), 500);
-        return;
-      }
-      iframe.contentWindow.postMessage({ giscus: message }, "https://giscus.app");
-    }
-
-    setTimeout(() => sendMessage({ setConfig: { theme: giscusTheme } }), 1000);
+    iframe.contentWindow.postMessage(
+      { giscus: { setConfig: { theme: theme === 'light' ? 'light' : 'dark' } } },
+      'https://giscus.app'
+    );
   }
 
-  document.addEventListener("DOMContentLoaded", function () {
-    updateGiscusTheme();
-  });
-
-  window.addEventListener("storage", function (event) {
-    if (event.key === "theme") {
-      updateGiscusTheme();
+  /* Troca de tema feita em outra aba. */
+  window.addEventListener('storage', function (event) {
+    if (event.key === 'theme') {
+      applyTheme(event.newValue === 'light' ? 'light' : 'dark');
     }
   });
 </script>

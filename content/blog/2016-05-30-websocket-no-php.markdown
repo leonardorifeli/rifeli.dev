@@ -15,15 +15,15 @@ Enquanto escrevo este magnífico artigo, vou ouvindo um **Tech House** do **[
 
 Bom, segue a primeira dica; o artigo será bem extenso, ou seja, corra e pegue uma caneca com muito café (o elixir da vida) e vem comigo que será bem divertido.
 
-# Introdução
+## Introdução
 
 Atualmente a web possuí um tema que é pouco estudado e há poucos artigos e informações na internet. O respectivo tema é **web socket**. Acredito que o tema é pouco falado, devido a sua complexidade. Portanto, não darei uma abordagem profunda neste artigo, será na prática, uma introdução.
 
-# Objetivo
+## Objetivo
 
 Este artigo tem como objetivo, descrever uma breve introducão teórica e prática sobre web socket.
 
-# Pauta
+## Pauta
 
 Neste artigo, acompanharemos a pauta abaixo:
 
@@ -35,7 +35,7 @@ Neste artigo, acompanharemos a pauta abaixo:
 6. casos de uso;
 7. conclusão.
 
-# 1. Navegadores
+## 1. Navegadores
 
 Sim, eles devem ser um grande ponto de atenção, não são todos os navegadores que dão suporte a **web socket**, você deve avaliar este ponto antes de qualquer outro. Para isso, o site [caniuse](http://caniuse.com/#feat=websockets) informa todos os navegadores bem como suas respectivas versões que possuem suporte a web socket. Como atalho, os navegadores e versões são esboçados na figura abaixo.
 
@@ -43,7 +43,7 @@ Sim, eles devem ser um grande ponto de atenção, não são todos os navegadores
 
 Como você observou, dependendo do seu público, este tópico não será uma pedra no seu sapato.
 
-# 2. Um pouco sobre HTTP
+## 2. Um pouco sobre HTTP
 
 Atualmente as requisições HTTP funcionam da seguinte maneira: o navegador abre uma porta de comunicação em um domínio específico, envia uma solicitação de cabeçalho HTTP para o servidor (apache ou nginx), o servidor envia a mensagem para a aplicação, que por sua vez, processa as informações, gera um documento (**HTML**, **JSON**, **XML** etc) e envia o respectivo documento para o servidor. Em seguida, o servidor adiciona os cabeçalhos HTTP apropriados para a requisição, envia de volta para o navegar e encerra a conexão.
 
@@ -51,7 +51,7 @@ Mais informações: [Wikipedia](https://pt.wikipedia.org/wiki/Hypertext_Transfe
 
 E o socket, como funciona? Veja abaixo.
 
-# 3. O que é Web Socket?
+## 3. O que é Web Socket?
 
 Web Sockets são um full-duplex, conexão persistente **bi-direcional** de um navegador web para um servidor. Depois que uma conexão socket é estabelecida a conexão permanece aberta até que o cliente ou servidor decide encerrar. Com esta conexão aberta, o cliente ou servidor pode enviar uma mensagem a qualquer outro cliente conectado. Sendo assim, neste momento, uma única aplicação de servidor em execução estará ciente de todas as conexões abertas, o que lhe permite comunicar com qualquer outra conexão aberta e a qualquer momento.
 
@@ -59,7 +59,7 @@ Adicional:
 
 > Web Socket foi desenvolvido para ser implementado em browsers web e servidores web, mas pode ser usado por qualquer cliente ou aplicação servidor. O protocolo Websocket é um protocolo independente baseado em TCP. Sua única relação com o HTTP é que seu handshake é interpretado por servidores HTTP como uma requisição de upgrade. Fonte: Wikipedia
 
-# 4. Sobre o Ratchet
+## 4. Sobre o Ratchet
 
 As aplicações de socket para servidor não tem acompanhado os navegadores. É aí que surgiu o **Ratchet**, uma ferramenta fantástica para a implementação de um servidor, por protocolo **TCP**. Você pode iniciar um servidor com o **Ratchet I/O Component Server**, tendo um código que implementa o respectivo componente e poderá gerenciar todas as conexões.
 
@@ -67,7 +67,7 @@ Fluxo de uma conexão:
 
 ![https://rifeli.me//img/posts/2016/05/11/RatchetFlow.png](https://rifeli.me//img/posts/2016/05/11/RatchetFlow.png)
 
-# 5. OK, Show me the code!
+## 5. OK, Show me the code!
 
 Como um amigo (o [Lucas Teles](https://www.facebook.com/lucasvst?fref=ts)) sempre fala nos eventos, **show me the code**, apresenta o código cara! No exemplo que irei demonstrar (com base na documentação do Ratchet), iremos seguir as implementações abaixo:
 
@@ -76,7 +76,7 @@ Como um amigo (o [Lucas Teles](https://www.facebook.com/lucasvst?fref=ts)) semp
 - o gerenciador de conexões;
 - consumir o web socket, utilizando o lindo Javascript.
 
-# 5.1 A Dependência
+## 5.1 A Dependência
 
 Sim, iremos utilizar uma dependência, afinal, quem vive sozinho?
 
@@ -95,7 +95,7 @@ Sim, iremos utilizar uma dependência, afinal, quem vive sozinho?
 
 Como você pode observar no arquivo **composer.json**, é requerido a dependência**`"cboden/ratchet": "0.3.*"`**.
 
-# 5.2 Implementando o servidor
+## 5.2 Implementando o servidor
 
 Analise o código abaixo, nele é implementado os recursos do Ratchet.
 
@@ -135,7 +135,7 @@ O que é implementado no arquivo **server.php**, é explicado abaixo:
 
 Dos itens que serão implementados, só entrarei em detalhes sobre o item quatro, do qual realmente nos interessa. Caso tenha curiosidade, procure como cada item funciona.
 
-# 5.3 Gerenciador das conexões
+## 5.3 Gerenciador das conexões
 
 Muito bem, o código abaixo, será o gerenciador das conexões, mensagens, encerramentos e erros.
 
@@ -203,7 +203,7 @@ Vamos falar sobre a responsabilidade de cada método. Primeiro, o construct; ao 
 
 **onOpen()**: É o método executado a cada nova conexão, nele você poderá resgatar informações da conexão, como: sala, nome etc, enviadas pelo protocolo GET. O método depende do serviço **[ConnectionInformationService](http://localhost:4000/development/websocket/php/2016/05/29/socket-no-php.html#connectionInformationService)** (exibido abaixo), que será o responsável por tratar as informações recebidas, via GET e retorna em um objeto. Ao receber o objeto, o método envia uma mensagem ao método **getNewUser()** ao serviço **UserService** requisitando uma nova instância de **user** e a adiciona ao storage de objetos.
 
-# O serviço Connection Information
+## O serviço Connection Information
 
 ```php
 <?php
@@ -247,7 +247,7 @@ PS.: O serviço **UserService**, pode ser visualizado [clicando aqui](https://
 
 **onError()**: Este método é para fins bem exclusivos, depende do domínio da aplicação, ele será executado sempre que uma conexão lançar uma exceção. Neste caso, a conexão é finalizada pelo servidor.
 
-# Consumindo o web socket.
+## Consumindo o web socket.
 
 Para consumir o servidor de web socket, será utilizado o construtor **WebSocket**. Conforme o exemplo abaixo.
 
@@ -280,7 +280,7 @@ Para consumir o servidor de web socket, será utilizado o construtor **WebSocke
 
 Com isso, você pode manipular mensagens para o servidor e, ele por sua vez, repassar para outras conexões.
 
-# Casos de uso
+## Casos de uso
 
 Sempre que precisar de uma conexão quase em tempo real de baixa latência entre o cliente e o servidor, você terá que implementar Web Socket. Isso pode envolver a reformulação do modo como você desenvolve as aplicações de servidor com um novo foco em tecnologias como filas de eventos.
 
@@ -292,13 +292,13 @@ Alguns exemplos de casos de uso:
 - jogos on-line de vários players;
 - atualização em tempo real de redes sociais.
 
-# Referências
+## Referências
 
 - [Apresentando WebSockets: trazendo soquetes para a web](http://www.html5rocks.com/pt/tutorials/websockets/basics/)
 - [Gist Completo](https://gist.github.com/leonardorifeli/037db591223698b96379935a2379f6b7)
 - [Introduction to WebSockets](http://socketo.me/docs)
 
-# Conclusão
+## Conclusão
 
 Chegamos a um ponto de tecnologias e exigências, onde, as aplicações estão cada vez mais complexas, mais inteligêntes, mais isoladas de acordo com suas responsabilidades. O tema do qual eu escrevi está sendo utilizado cada vez mais nas aplicações que necessitam de atualizações instantâneas de informações.
 

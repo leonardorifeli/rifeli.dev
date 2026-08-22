@@ -40,26 +40,27 @@ a:hover { color: var(--violet-deep); }
     border-radius: var(--r-sm);
 }
 
-::selection { background: var(--violet); color: #fff; }
+::selection { background: var(--violet); color: var(--on-violet); }
 
 .skip-link {
     position: absolute;
     left: 1rem; top: -100px;
     z-index: 2000;
     background: var(--violet);
-    color: #fff;
+    color: var(--on-violet);
     padding: 10px 18px;
     border-radius: var(--r);
     font-weight: 600;
     transition: top .2s var(--ease);
 }
-.skip-link:focus { top: 12px; color: #fff; }
+.skip-link:focus { top: 12px; color: var(--on-violet); }
 
 /* --- Header -------------------------------------------------------------- */
-.custom-header { padding: 3rem 0 2rem; }
+.custom-header { padding: clamp(3.25rem, 5vw, 4.5rem) 0 2.25rem; }
 
-.custom-header h1,
+.custom-header #site-title,
 .custom-header .title {
+    display: block;
     font-family: var(--font-display);
     font-size: 1.35rem;
     font-weight: 700;
@@ -109,9 +110,8 @@ a:hover { color: var(--violet-deep); }
 #intro-banner {
     display: block;
     width: 100%;
-    padding: 0 0 clamp(2.5rem, 6vw, 4rem);
-    margin: 0 0 clamp(2.5rem, 6vw, 3.5rem);
-    background: none;
+    padding: 0 0 clamp(2.25rem, 4vw, 3rem);
+    margin: 0 0 clamp(1.5rem, 2.5vw, 2rem);
     border-bottom: 1px solid var(--line);
     font-family: var(--font-body);
     position: relative;
@@ -156,10 +156,6 @@ a:hover { color: var(--violet-deep); }
     font-weight: 700;
     line-height: 1.03;
     letter-spacing: -0.035em;
-    /* mata o gradiente arco-iris do tema */
-    background: none;
-    -webkit-background-clip: border-box;
-    -webkit-text-fill-color: currentColor;
     color: var(--ink);
 }
 
@@ -227,11 +223,10 @@ a:hover { color: var(--violet-deep); }
     font-weight: 600;
     transition: background-color .18s var(--ease), border-color .18s var(--ease), color .18s var(--ease);
 }
-.btn-primary { background: var(--violet); border-color: var(--violet); color: #fff; }
-.btn-primary:hover { background: var(--violet-deep); border-color: var(--violet-deep); color: #fff; }
+.btn-primary { background: var(--violet); border-color: var(--violet); color: var(--on-violet); }
+.btn-primary:hover { background: var(--violet-deep); border-color: var(--violet-deep); color: var(--on-violet); }
 .btn-secondary { border-color: var(--line-strong); color: var(--ink); }
 .btn-secondary:hover { border-color: var(--violet); color: var(--violet); }
-html.dark .btn-primary, html.dark .btn-primary:hover { color: #14101F; }
 
 /* --- Lista de posts ------------------------------------------------------ */
 .title-small {
@@ -252,14 +247,14 @@ main article.flex.flex-col.gap-1 {
     border-bottom: 1px solid var(--line);
 }
 
-main article h1 {
+main article h2 {
     font-size: clamp(1.2rem, 2.2vw, 1.5rem);
     line-height: 1.24;
     letter-spacing: -0.025em;
     margin: 0;
 }
-main article h1 a { color: var(--ink); }
-main article h1 a:hover { color: var(--violet); }
+main article h2 a { color: var(--ink); }
+main article h2 a:hover { color: var(--violet); }
 
 .date, .meta, main article time {
     font-family: var(--font-mono);
@@ -454,9 +449,8 @@ section.body hr { border: 0; border-top: 1px solid var(--line); margin-block: 2.
 #footer-banner {
     display: block;
     width: 100%;
-    padding: clamp(2.5rem, 6vw, 3.5rem) 0 0;
-    margin: clamp(3rem, 7vw, 4.5rem) 0 0;
-    background: none;
+    padding: clamp(1.75rem, 3.5vw, 2.5rem) 0 0;
+    margin: clamp(2rem, 4vw, 3rem) 0 0;
     border-top: 1px solid var(--line);
     font-family: var(--font-body);
 }
@@ -473,12 +467,11 @@ section.body hr { border: 0; border-top: 1px solid var(--line); margin-block: 2.
 }
 
 #footer-text { float: none; width: auto; flex: 1; min-width: 240px; }
-#footer-text h1 {
+#footer-text .footer-name {
     font-family: var(--font-display);
     font-size: 1.05rem;
+    font-weight: 600;
     letter-spacing: -0.025em;
-    background: none;
-    -webkit-text-fill-color: currentColor;
     color: var(--ink);
 }
 #footer-text p { font-size: 0.9rem; color: var(--ink-3); margin-top: .3rem; max-width: 56ch; }
@@ -603,8 +596,8 @@ section.body hr { border: 0; border-top: 1px solid var(--line); margin-block: 2.
 }
 #content a:hover { color: var(--violet-deep); }
 
-#content article h1 a { color: var(--ink); font-weight: 700; }
-#content article h1 a:hover { color: var(--violet); }
+#content article h2 a { color: var(--ink); font-weight: 700; }
+#content article h2 a:hover { color: var(--violet); }
 
 #content .tag-chip { color: var(--ink-2); }
 #content .tag-chip:hover { color: var(--violet); }
@@ -626,6 +619,25 @@ section.body hr { border: 0; border-top: 1px solid var(--line); margin-block: 2.
     text-decoration-thickness: 1px;
     text-underline-offset: 3px;
 }
+
+/* O tema era o unico dono do botao de paginacao, com cinza proprio e
+   variante dark. Passa a ler token igual ao resto. */
+#content .pagination-button {
+    display: inline-flex;
+    align-items: center;
+    gap: .5em;
+    padding: 9px 16px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r);
+    background: transparent;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+}
+#content .pagination-button:hover { border-color: var(--violet); color: var(--violet); }
 
 #content .related-posts a { color: var(--ink); }
 #content .related-posts a:hover { color: var(--violet); }

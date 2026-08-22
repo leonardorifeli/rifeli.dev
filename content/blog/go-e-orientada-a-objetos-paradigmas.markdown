@@ -27,7 +27,7 @@ tags:
   <a href="https://github.com/golang/go" target="_blank">golang/go</a>
 </p>
 
-# Introdução
+## Introdução
 
 Se você perguntar para três desenvolvedores se Go é uma linguagem Orientada a Objetos (OO), você provavelmente receberá quatro respostas diferentes. Uns dirão que é procedural "com esteroides", outros que é funcional por causa das funções de primeira classe, e alguns defenderão que é OO purista.
 
@@ -37,7 +37,7 @@ A verdade? Go é o que você precisa que ela seja, mas ela odeia burocracia (iss
 
 Mas a realidade é mais sofisticada. Segundo o FAQ oficial do Go: "Sim e não". Go é OO, mas não da forma que você aprendeu na faculdade. Vamos entender os pilares da OO sob a ótica de um Gopher.
 
-# O que Go NÃO tem (e por que isso confunde)
+## O que Go NÃO tem (e por que isso confunde)
 
 Para quem vem do Java ou C#, a falta de certos pilares pode parecer estranha:
 
@@ -45,7 +45,7 @@ Para quem vem do Java ou C#, a falta de certos pilares pode parecer estranha:
 - **Não existe herança:** Você não pode fazer uma struct `Dog extends Animal`;
 - **Não existe polimorfismo de subtipo:** Esqueça as hierarquias complexas.
 
-# O que Go TEM (A alma da OO)
+## O que Go TEM (A alma da OO)
 
 Se definirmos OO como "objetos que encapsulam estado e expõem comportamento", Go é absolutamente OO:
 
@@ -53,11 +53,11 @@ Se definirmos OO como "objetos que encapsulam estado e expõem comportamento", G
 - **Métodos:** Você pode pendurar métodos em qualquer tipo, não só em structs;
 - **Interfaces (O superpoder):** Em Go, as interfaces são satisfeitas implicitamente. Se algo "caminha como um pato", ele é um pato. Não precisa de implements.
 
-#### O veredito: Composição sobre Herança
+##### O veredito: Composição sobre Herança
 
 Tenho um artigo antigo onde explico a diferença entre [Herança e Composição](https://rifeli.dev/blog/2016-08-19-heranca-ou-composicao-qual-utilizar/).
 
-# Sobre o Veredito: Go é Orientada a Objetos?
+## Sobre o Veredito: Go é Orientada a Objetos?
 
 Se você define OO como hierarquias de classes e herança de tipos, então não.
 Mas, se você define OO como um paradigma que permite:
@@ -70,9 +70,9 @@ Então Go é uma das linguagens OO mais pragmáticas e eficientes que existem. E
 
 Go força você a usar composição. Em vez de dizer que um Gerente é um Funcionario, em Go dizemos que um Gerente contém um Funcionario. É uma mudança de mindset que gera códigos mais flexíveis e fáceis de testar.
 
-# Exemplos
+## Exemplos
 
-### 1. Encapsulamento: O poder das iniciais
+#### 1. Encapsulamento: O poder das iniciais
 
 Em linguagens tradicionais, usamos **public**, **private** e **protected**. Em Go, o encapsulamento é resolvido no nível do package através da capitalização.
 
@@ -100,7 +100,7 @@ func (c *CheckingAccount) Deposit(amount float64) {
 }
 ```
 
-### 2. Métodos em qualquer lugar
+#### 2. Métodos em qualquer lugar
 
 Diferente do Java, onde métodos pertencem a classes, em Go você pode adicionar comportamento a qualquer tipo definido no seu package. Isso é OO puro: associar dado ao comportamento.
 
@@ -118,7 +118,7 @@ func main() {
 }
 ```
 
-### 3. Adeus Herança, Olá Composição
+#### 3. Adeus Herança, Olá Composição
 
 Este é o ponto onde muitos desenvolvedores "travam". Go não permite que uma struct herde campos e métodos de outra. Em vez disso, usamos Struct Embedding (composição).
 
@@ -150,7 +150,7 @@ func main() {
 }
 ```
 
-### 4.Interfaces: O Polimorfismo Implícito
+#### 4.Interfaces: O Polimorfismo Implícito
 
 O maior trunfo do Go é a interface. Em C#, você precisa declarar `class Pato: IPato`. Em Go, se a sua struct tem os métodos que uma interface pede, ela automaticamente satisfaz a interface.
 
@@ -178,13 +178,13 @@ func MakeItSpeak(s Speaker) {
 }
 ```
 
-# O que vem a seguir?
+## O que vem a seguir?
 
 Agora que entendemos que Go favorece a composição e o desacoplamento, como aplicamos regras rígidas de design para manter esse código limpo? No próximo artigo, vamos explorar o **Object Calisthenics** aplicado ao Go. 
 
 Mas, você já pode dar uma lida sobre, neste artigo do mestre Elton Minetto sobre o assunto: [Como melhorar seus códigos usando Object Calisthenics
 ](https://eltonminetto.dev/2016/06/24/como-melhorar-seus-codigos-usando-object-calisthenics/)
 
-# Conclusão
+## Conclusão
 
 Go é uma linguagem multiparadigma que abraça a simplicidade. Ela pega o melhor da OO (interfaces e encapsulamento) e joga fora o pior (hierarquias de herança profundas).

@@ -18,11 +18,11 @@ Iremos abordar os seguintes tópicos:
 3. Como iremos replicar (esquema)
 4. Replicando um banco de dados MySQL (prática)
 
-# Introdução
+## Introdução
 
 A replicação de bancos de dados tem como principal objetivo a **redundância**, onde torna-se uma aplicação mais segura contra falhas e **indisponibilidades de outras aplicações (como o respectivo banco de dados)** e por sua vez um backup online dos dados (em tempo real). Nos tópicos abaixo estaremos abordando todos os processos de replicação.
 
-# Como funciona a replicação?
+## Como funciona a replicação?
 
 O **MySQL** possui um recurso de comunicação (onde ocorrerá a replicação) modo **Master-Slave**. Sendo assim, um servidor poderá possuir um banco de dados MySQL rodando como **Master** e **N** bancos de dados atuando como **Slave** (em diferentes servidores).
 
@@ -34,7 +34,7 @@ Segue abaixo um esquema de replicação **Master-Slave**:
 
 **Figura 1.1 - Fonte: Google Images**
 
-# Como iremos replicar (esquema)
+## Como iremos replicar (esquema)
 
 Para a replicação do **MySQL**, será utilizado três instâncias **t2.micro** no **Amazon AWS**, conforme abaixo:
 
@@ -58,7 +58,7 @@ Conforme esquema abaixo:
 
 **PS**: Não entrarei em detalhes sobre o Amazon AWS.
 
-# Replicando um banco de dados MySQL
+## Replicando um banco de dados MySQL
 
 Vamos ao tão esperado tópico.
 
@@ -73,7 +73,7 @@ Iremos aplicar os seguintes passos:
 3. **Servidores Slaves:** Configurar o servidor (arquivo my.cnf)
 4. **Servidores Slaves:** Informar qual será o servidor **Master**
 
-### 1. Configuração do servidor Master
+#### 1. Configuração do servidor Master
 
 Após a instalação com sucesso do **MySQL Server 5.6** nas instâncias especificadas na **Figura 1.2**, vamos as respectivas configurações na instância **leonardorifeli-001** que atuará em modo **Master**.
 
@@ -93,7 +93,7 @@ Indicamos que o respectivo servidor será o **Master** (pelo server-id). Após
 
 `$ service mysql restart`
 
-### 2. Criar usuário de replicação e conceder as permissões
+#### 2. Criar usuário de replicação e conceder as permissões
 
 Agora, iremos criar o usuário para utilizarmos na replicação e conceder para tal as devidas permissões.
 

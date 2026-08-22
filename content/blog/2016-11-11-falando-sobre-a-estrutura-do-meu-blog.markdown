@@ -11,7 +11,7 @@ tags:
 
 Neste artigo, falarei sobre a estrutura do meu blog, um resumo geral de como ele funciona, como faço as publicações, os macetes envolvidos, etc. Recentemente, recebi várias perguntas sobre isso e decidir fazer este artigo para compartilhar isso com você.
 
-# Sumário
+## Sumário
 
 - Introdução;
 - Resumo da estrutura;
@@ -23,7 +23,7 @@ Neste artigo, falarei sobre a estrutura do meu blog, um resumo geral de como ele
 - Referências;
 - Conclusão.
 
-# Introdução
+## Introdução
 
 Você deve ter percebido que estou tentando manter uma frequência de pelo menos uma publicação por semana, [veja aqui o artigo da semana passada](http://localhost:4000/development/2016/11/05/docker-vamos-falar-sobre-virtualizacao.html).
 
@@ -33,7 +33,7 @@ Enfim, vamos direto ao ponto. Falarei sobre a estrutura do meu blog. Um resumo g
 
 Vou escrevendo este magnífico artigo, enquando escuto o set de **[Tech House #023 do Mark Jones](https://www.youtube.com/watch?v=tAP9m2XUqjc)**.
 
-# Resumo da estrutura
+## Resumo da estrutura
 
 Nesto ponto, irei dar um breve resumo do que é utilizado no meu blog e nos próximos tópicos, entrarei em mais detalhes.
 
@@ -49,7 +49,7 @@ Salientando que, todos os pushs que eu efetuo, são na branch `gh-pages` e nã
 
 **Adicional:** Eu utilizo o Jekyll há mais de um ano (você pode conferir mais sobre o Jekyll no meu artigo [Porque utilizar o Jekyll](https://leonardorifeli.tech/development/2015/05/06/porque-utilizar-o-jekyll.html)).
 
-# Resumo sobre o Jekyll
+## Resumo sobre o Jekyll
 
 ![https://jekyllrb.com/img/logo-2x.png](https://jekyllrb.com/img/logo-2x.png)
 
@@ -57,7 +57,7 @@ Jekyll é um gerenciador de códigos estáticos. Isso mesmo, ele não faz uso de
 
 Você deve ter visto mais no meu artigo sobre, Porque utilizar o Jekyll. Se não, acesse para conhecer mais detalhes sobre este cara. Salientando que, você irá ler a palavra **Jekyll** demasiadas vezes.
 
-# Como usar o Github Pages
+## Como usar o Github Pages
 
 Eu expliquei um pouco, no artigo já mencionado, mas, aqui vai um review.
 
@@ -82,7 +82,7 @@ Alguns sites para você encontrar temas para Jekyll:
 
 **PS.:** você pode criar Github Pages para qualquer repositório. Eu já vi até documentação do projeto, hospedado no Github Pages (pelo repositório do projeto).
 
-# Como configurar seu domínio no Github Pages
+## Como configurar seu domínio no Github Pages
 
 Esta etapa, eu considero uma das mais tranquilas. Você precisará apenas, configurar algumas entradas DNS no seu domínio e adicionar um arquivo no repositório.
 

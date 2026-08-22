@@ -30,7 +30,7 @@ tags:
 <img id="image-custom" src="/images/posts/b0c3e9bf-35a5-43c8-80a6-bdb15f71956b.png" alt="" />
 <p id="image-legend">Descer no escuro, um passo de cada vez: é assim que o modelo encontra o fundo do vale.</p>
 
-# Introdução
+## Introdução
 
 Em 2015 escrevi [aqui no blog sobre como sobreviver a Cálculo I](/blog/2015-07-12-como-ir-bem-em-calculo-um/). Era um post de calouro recém-saído da prova final, escrito com a empolgação de quem tinha se apaixonado de vez por uma matéria que metade da turma jurou ser impossível. Dez anos depois, releio aquele post com afeto. O autor de vinte anos não tinha como saber, mas estava aprendendo o vocabulário básico de uma coisa que dez anos no futuro ia ser a infraestrutura silenciosa de tudo que ele usa pra trabalhar.
 
@@ -40,7 +40,7 @@ Esse post é o olhar por dentro. E o engraçado é que o que tem ali é exatamen
 
 Pois é. O que eu amava como abstração elegante era, o tempo todo, pura aplicação esperando uma década pra aparecer. Porque o gradiente descendente, ferramenta que nasce direto das derivadas parciais de Cálculo II, é literalmente o motor que treina toda IA moderna. Cada resposta que sai do Claude, do ChatGPT, de qualquer LLM que você usa hoje, foi possível porque alguém calculou bilhões de gradientes em algum momento do treinamento. Esse post é sobre como isso funciona, contado com a intuição que eu queria ter tido em 2015.
 
-# O alpinista no nevoeiro
+## O alpinista no nevoeiro
 
 Pra entender o gradiente descendente sem cair em fórmula formal, segura essa imagem. Você é um alpinista. Está na encosta de uma montanha, num lugar qualquer, e tem uma única intenção: descer até o vale. Tem só um problema. Você está num nevoeiro tão denso que não consegue enxergar nem o vale nem o pico. Não tem GPS. Não tem mapa. Os olhos não servem pra nada ali.
 
@@ -52,7 +52,7 @@ Faz isso por horas. No começo o terreno desce bem, você sente progresso óbvio
 
 Sem mapa, sem visão. Só com o pé e com a paciência de repetir o gesto. Essa é a intuição inteira. Guarda ela.
 
-# O alpinista é a matemática
+## O alpinista é a matemática
 
 Agora pega essa imagem e troca o vocabulário. O alpinista vira uma função matemática. A montanha vira a paisagem dessa função em algum espaço de coordenadas. A altura em cada ponto da montanha vira o valor da função nesse ponto. Você quer minimizar a função, o que significa querer chegar no ponto mais baixo, ou seja, no fundo do vale.
 
@@ -74,7 +74,7 @@ E repara numa coisa, porque é o que eu queria ter entendido lá em 2015: nada d
 
 A graça começa quando a função não é uma tigela limpa. É uma cordilheira com vales múltiplos, picos secundários, planaltos longos, falhas geológicas. O alpinista no nevoeiro ainda consegue descer, mas pode parar num vale local que não é o mais fundo da paisagem. Esse é o problema fundamental do método. Mas mesmo limitado, ele continua descendo, e em muitos casos o vale local é bom o suficiente pro que se quer fazer.
 
-# Bilhões de passos no nevoeiro
+## Bilhões de passos no nevoeiro
 
 Agora cola tudo. Uma rede neural é uma função matemática descomunalmente grande. Tem bilhões de parâmetros, e cada parâmetro é uma coordenada num espaço de bilhões de dimensões. A função associa esses parâmetros a uma medida de erro: dado um conjunto de entradas (texto, imagem, código, o que for) e o que a rede produziu como resposta, o quão longe ela está do que se esperava? Quanto menor o erro, melhor a rede. Treinar a rede é encontrar os parâmetros que minimizam essa função de erro.
 
@@ -90,7 +90,7 @@ E aqui amarra com 2015. Muito aluno atravessa derivadas parciais achando que é 
 
 Se você está na faculdade hoje, atravessando **Cálculo II** com a sensação de que nunca mais vai usar aquilo, peço atenção. Você está aprendendo a base do que sustenta a revolução tecnológica do nosso tempo. Talvez você acabe se beneficiando dela sem nunca fazer a conexão. Mas se um dia você decidir olhar pra dentro da caixa preta, vai encontrar a derivada parcial de Cálculo II do mesmo jeito que ela ficou na sua memória. Sentindo o chão. Dando um passo. Sentindo de novo.
 
-# Conclusão
+## Conclusão
 
 Comecei essa minissérie tratando IA como caixa preta: os 30 dias dentro do Claude Code, o slash command pra não perder contexto, o Clawtop monitorando a assinatura em duas máquinas. Tudo da porta pra fora, eu operando a ferramenta sem precisar saber o que tinha dentro. Esse post foi abrir a porta. E o que tem lá dentro não é nenhuma feitiçaria nova: é a derivada parcial que eu calculei na prova de Cálculo II, repetida bilhões de vezes numa paisagem grande demais pra qualquer um enxergar inteira.
 

@@ -28,13 +28,13 @@ tags:
 <img id="image-custom" src="/images/posts/e2cad8ae-006f-4dfc-970f-107334842be9.png" alt="" />
 <p id="image-legend">Um comando no fim da sessão: o contexto que importa vira memória, sincronizada entre as máquinas.</p>
 
-# Introdução
+## Introdução
 
 Em pouco mais de um mês rodando dentro do Claude Code, em duas máquinas, atravessei 180 sessões. Em todas elas, no fechamento, o contexto morria. As decisões, as preferências reforçadas, os "não faz mais X assim" e os "esse padrão funcionou, repete depois" iam todos pro lixo. Na sessão seguinte, eu re-explicava.
 
 Em um post anterior dessa série, sobre os [30 dias dentro do Claude Code](/blog/2026-05-29-30-dias-claude-code-usd-8k-plano-fixo/), deixei pendente a história do slash command que entrou pra resolver esse problema. Esse aqui é ele. Te conto a necessidade que me fez construir, como funciona, e te ensino a montar o seu próprio. No fim, falo de compartilhar entre máquinas, que foi a peça que destravou pra valer.
 
-# A necessidade
+## A necessidade
 
 O Claude Code já tem um sistema de memória persistente que roda no fundo. É o que a Anthropic chama de auto-memory: durante a conversa, o modelo pode decidir salvar fatos relevantes em arquivos no diretório `~/.claude/projects/<encoded-cwd>/memory/`. Esses arquivos viram contexto carregado em conversas futuras no mesmo projeto. É bom, é automático, e cobre o caso óbvio.
 
@@ -42,7 +42,7 @@ O problema é a passividade. O modelo só salva quando "decide" que algo é dign
 
 A necessidade era simples: um comando que eu invocasse explicitamente no fim de qualquer sessão, com o entendimento de que naquele momento eu *quero* salvar, e o bar de "vale a pena guardar" pode ser mais baixo do que o automático. Esse é o `/save-session`.
 
-# O que é um slash command no Claude Code
+## O que é um slash command no Claude Code
 
 Antes de ir pro código, contexto pra quem nunca construiu. Slash commands no Claude Code são skills custom que você invoca digitando `/<nome>` na conversa. O Claude detecta o comando, carrega as instruções daquele skill, e executa o procedimento descrito. Skills vivem em duas hierarquias possíveis:
 
@@ -68,7 +68,7 @@ Instruções em prosa do que o Claude deve fazer quando o usuário digitar /meu-
 
 O campo `disable-model-invocation: true` é importante: ele impede que o modelo invoque seu skill por conta própria sem o usuário ter digitado o comando. Pra um skill com efeito colateral (escrita de arquivo, leitura de memória, qualquer coisa que altera estado), isso é essencial.
 
-# Anatomia do /save-session
+## Anatomia do /save-session
 
 O SKILL.md inteiro do `/save-session` tem cerca de 50 linhas. Vou mostrar o esqueleto e comentar as decisões.
 
@@ -104,7 +104,7 @@ A segunda é o **argument-hint**. Você pode passar `/save-session só sobre Red
 
 A terceira é a **disciplina de filtros explícitos no procedure**. O auto-memory também filtra, mas o `/save-session` adiciona pressão: "do NOT save code patterns, file paths, ephemeral numbers". O bar de relevância sobe, porque o usuário pediu, então o que entra precisa valer a pena ser carregado em todas as conversas futuras desse projeto.
 
-# Como ele funciona em uma sessão real
+## Como ele funciona em uma sessão real
 
 Quando você digita `/save-session` no fim de uma conversa, o Claude faz quatro coisas em ordem:
 
@@ -118,7 +118,7 @@ Quarto, escreve os arquivos novos, atualiza os existentes que precisam, e atuali
 
 O efeito prático é que a próxima conversa que eu abrir nesse projeto vai carregar como contexto inicial todas as preferências, decisões e referências que valeram a pena. Sem precisar re-explicar. Sem precisar copiar e colar texto antigo. O modelo me trata como alguém que ele já conhece.
 
-# Compartilhando o skill entre máquinas
+## Compartilhando o skill entre máquinas
 
 Eu rodo Claude Code em duas máquinas ativas, desktop e notebook, conforme já contei no [post sobre 30 dias dentro do Claude Code](/blog/2026-05-29-30-dias-claude-code-usd-8k-plano-fixo/). Se eu criasse o skill só em uma delas, perderia metade do benefício.
 
@@ -136,7 +136,7 @@ Resultado: editar o skill em uma máquina, comitar no repo de dotfiles, dar pull
 
 Esse é o passo que muita gente esquece: skill é código, e código você versiona. Se você está construindo um slash command que vai mexer com memória, com arquivos, com qualquer estado real, vale tratá-lo com a mesma seriedade que você trata qualquer parte da sua ferramentaria.
 
-# Cinco aprendizados do uso
+## Cinco aprendizados do uso
 
 - **Bar de "vale salvar" deve ser explícito no skill, não implícito**. Auto-memory deixa o bar implícito no julgamento do modelo. Slash command explícito permite codificar regras de inclusão/exclusão. Use isso.
 - **Memória boa é estruturada por tipo, não por ordem cronológica**. Separe user, feedback, project, reference. Quando você for buscar algo em três meses, vai querer encontrar por categoria, não por "quando aconteceu".
@@ -144,7 +144,7 @@ Esse é o passo que muita gente esquece: skill é código, e código você versi
 - **Salve o "Why", não só o "What"**. Uma feedback memory que diz "evitar emoji em posts" é fraca. Uma que diz "evitar emoji em posts porque o público é C-level sênior e emoji destrói credibilidade na primeira leitura" é forte. O `Why` permite julgamento em casos novos.
 - **Versione o skill em dotfiles desde o dia um**. Antes mesmo de ele ficar bom. Você vai iterar, e cada iteração precisa estar visível em todas as máquinas. Skill que mora em uma máquina só é skill que vai morrer no próximo backup que você esquecer de fazer.
 
-# Fechamento
+## Fechamento
 
 O `/save-session` virou ritual de fechamento de cada sessão de trabalho importante. Antes de fechar o Claude Code, eu digito ele. Levam uns 20 a 40 segundos, e o que entra em memória ali volta na próxima sessão como contexto pronto, sem que eu precise pensar.
 

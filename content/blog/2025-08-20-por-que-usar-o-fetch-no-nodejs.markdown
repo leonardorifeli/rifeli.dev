@@ -27,7 +27,7 @@ tags:
   - nativo
 ---
 
-# Introdução
+## Introdução
 
 <img id="image-custom" src="https://nodejs.org/static/logos/nodejsDark.svg" alt="" />
 <p id="image-legend">Node.js</p>
@@ -41,17 +41,17 @@ Dessa forma, para gerir os clients back-end que fazem requisições HTTPS (inter
 <img id="image-custom" src="/images/posts/nodejs-fetch/distribuicao_tecnologias.png" alt="" />
 <p id="image-legend">Distribuição das linguagens no codebase da Harmo</p>
 
-# Por que usar fetch nativo?
+## Por que usar fetch nativo?
 
 A primeira pergunta que sempre aparece é: *"Por que usar algo nativo e contornar essa limitação, se eu posso importar o Axios e setar `timeout` facilmente?”*.
 
-### Pontos que pesam a favor do fetch:
+#### Pontos que pesam a favor do fetch:
 
 - **Livre de dependências externas**: menos pacotes para atualizar, menos riscos de vulnerabilidades.
 - **Adoção e padronização**: hoje é API estável, padronizada e suportada oficialmente no Node 18+.
 - **API moderna**: suporta streaming, trabalha com Promises e se alinha ao padrão da Web.
 
-### Comparativo mais amplo — fetch vs Axios
+#### Comparativo mais amplo — fetch vs Axios
 
 1. **Zero dependências, menos superfície de risco**
    - Nada de instalar libs só para HTTP.
@@ -75,7 +75,7 @@ A primeira pergunta que sempre aparece é: *"Por que usar algo nativo e contorna
 
 ---
 
-# E quando faz sentido usar Axios (ou outra lib)?
+## E quando faz sentido usar Axios (ou outra lib)?
 
 Não é sobre "nunca usar Axios”, mas sim **começar com fetch** e só adicionar uma lib se o caso justificar.
 
@@ -89,12 +89,12 @@ Não é sobre "nunca usar Axios”, mas sim **começar com fetch** e só adicion
 
 ---
 
-# Problema de Timeout e helpers
+## Problema de Timeout e helpers
 
 O **fetch** não tem uma opção `timeout` nativa no objeto de configuração.
 Se você não tratar isso, uma requisição pode ficar pendurada indefinidamente, travando fluxo e degradando UX.
 
-### Solução 1: AbortController + setTimeout
+#### Solução 1: AbortController + setTimeout
 
 ```js
 async function fetchWithTimeout(url, options = {}, timeout = 5000) {
@@ -109,7 +109,7 @@ async function fetchWithTimeout(url, options = {}, timeout = 5000) {
 }
 ```
 
-### Solução 2: AbortSignal.timeout (mais moderna)
+#### Solução 2: AbortSignal.timeout (mais moderna)
 
 ```js
 const response = await fetch("https://api.exemplo.com", {
@@ -117,7 +117,7 @@ const response = await fetch("https://api.exemplo.com", {
 });
 ```
 
-# Conclusão
+## Conclusão
 
 Como trabalhamos com microsserviços e serverless, estamos sempre atualizando nosso codebase e priorizando recursos nativos.
 
@@ -125,7 +125,7 @@ Como trabalhamos com microsserviços e serverless, estamos sempre atualizando no
 - **Timeout não é um problema:** com AbortController ou AbortSignal.timeout, você cobre 99% dos cenários;
 - Axios e outras libs ainda têm espaço, mas só quando há uma necessidade clara (interceptors complexos, retrys prontos, ergonomia global).
 
-# Lições aprendidas
+## Lições aprendidas
 
 Interessante refletir e analisar cada caso, mas o que sempre buscamos ter aqui é o básico bem feito.
 

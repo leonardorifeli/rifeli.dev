@@ -12,7 +12,7 @@ tags:
 
 No desenvolvimento de aplicações, podemos optar por usar máquinas virtuais (VMs) para facilitar o gerenciamento e provisionamento de serviços. Para isso, podemos citar o Vagrant. Mas, o provisionamento de máquinas virtuais demanda grande quantidade de tempo, além do fato do consumo demasiado de espaço em disco, recursos em geral da máquina que será o host.
 
-# Sumário
+## Sumário
 
 - Introdução;
 - Um pouco sobre virtualização;
@@ -27,7 +27,7 @@ No desenvolvimento de aplicações, podemos optar por usar máquinas virtuais (V
 - Referências;
 - Conclusão.
 
-# Introdução
+## Introdução
 
 Sim, eu fiquei alguns meses sem escrever! Sorry!
 
@@ -37,13 +37,13 @@ O objetivo deste artigo é descrever as teorias por volta do tema, farei um segu
 
 Sem mais delongas, chega mais que vai ser muito foda!
 
-# Pegue um café
+## Pegue um café
 
 Corre lá e pegue um pouco de café, o assunto será bem interessante.
 
 ![https://rifeli.me/img/posts/2016/11/03/get-coffee.gif](https://rifeli.me/img/posts/2016/11/03/get-coffee.gif)
 
-# Um pouco sobre Virtualização
+## Um pouco sobre Virtualização
 
 No desenvolvimento de aplicações, podemos optar por usar máquinas virtuais (VMs) para facilitar o gerenciamento e provisionamento de serviços. Para isso, podemos citar o [Vagrant](https://www.vagrantup.com/). Mas, o provisionamento de máquinas virtuais demanda grande quantidade de tempo, além do fato do consumo demasiado de espaço em disco, recursos em geral da máquina que será o host.
 
@@ -57,7 +57,7 @@ Com relação à virtualização, a diferença está no fato do **LXC** não n
 
 Ao compararmos o **LXC** com a **virtualização tradicional**, fica mais claro que uma aplicação sendo executada em um LXC demanda muito menos recursos, consumindo menos espaço em disco e com um nível de portabilidade muito mais abrangente.
 
-# O que é o Docker?
+## O que é o Docker?
 
 ![https://rifeli.me/img/posts/2016/11/03/docker.png](https://rifeli.me/img/posts/2016/11/03/docker.png)
 
@@ -67,19 +67,19 @@ Basicamente, Docker é uma plataforma open-source, escrita em **Go**, tendo com
 
 Em outras palavras, o Docker é uma ferramenta de empacotamento de uma aplicação e suas dependências em um contêiner virtual que pode ser executado em um servidor linux.
 
-# Então, Docker é uma VM?
+## Então, Docker é uma VM?
 
 Não, contêineres docker possuem uma arquitetura diferente que permite maior portabilidade e eficiência.
 
 ![https://rifeli.me/img/posts/2016/11/03/docker-system.png](https://rifeli.me/img/posts/2016/11/03/docker-system.png)
 
-# Tecnologias e ideias utilizadas
+## Tecnologias e ideias utilizadas
 
 Cara, contêiner não é nada novo, Docker surgiu para facilitar o uso deles. Abaixo um resumo de tecnologia e o ano da primeira versão:
 
 ![https://rifeli.me/img/posts/2016/11/03/technologies-year.png](https://rifeli.me/img/posts/2016/11/03/technologies-year.png)
 
-# O que é um contêiner?
+## O que é um contêiner?
 
 Vamos fazer uma comparação prática. Contêiner nada mais é que uma caixa de metal, onde é colocado tudo o que couber. Contêineres possuem dimensões e interfaces comuns, onde guindastes e guinchos podem ser acoplados para colocá-los em navios ou caminhões.
 
@@ -94,7 +94,7 @@ Algumas características de um contêiner Docker:
 - Conectividade com o host e outros contêineres;
 - Execuções controladas, CPU, RAM, I/O, etc.
 
-# Namespaces
+## Namespaces
 
 O Docker utiliza os recursos de [Namespaces](https://en.wikipedia.org/wiki/Namespace) para dispor um espaço de funcionamento isolado para os contêineres. Contudo, quando um contêiner é criado, também é criado um conjunto de namespaces e este, por sua vez, cria uma camada para isolamento para os grupos de processos. Abaixo seguem os tipos de namespaces:
 
@@ -104,7 +104,7 @@ O Docker utiliza os recursos de [Namespaces](https://en.wikipedia.org/wiki/Name
 - **MNT:** gestão de pontos de montagem.
 - **UTC (Unix Timesharing System):** provém todo o isolamento de recursos do kernel (justamente a camada de abstração como mostra a imagem).
 
-# Algumas Vantagens do Docker
+## Algumas Vantagens do Docker
 
 - Baixo overhead e tempo de boot;
 - Kernel compartilhado com o Host;
@@ -112,7 +112,7 @@ O Docker utiliza os recursos de [Namespaces](https://en.wikipedia.org/wiki/Name
 - Facilidade de configuração do ambiente de desenvolvimento para novos membros do time;
 - Acabar com a história do “na minha máquina funcionava”.
 
-# Principais Funcionalidades
+## Principais Funcionalidades
 
 - **Versionamento**: o Docker permite que você versione as alterações de um contêiner. Isto permite verificar as diferenças entre versões, fazer commit de novas versões e até mesmo fazer rollback (isso é muito importante haha).
 - **Compartilhamento de imagens**: sim, existe um repositório de contêineres. O **Docker Hub**. Ele possui milhares de imagens com as mais diversas aplicações. Você pode rapidamente criar sua aplicação com uma base já desenvolvida e ainda criar sua base e compartilhá-la na comunidade.
@@ -126,7 +126,7 @@ E uma das principais:
 
 - **Evita Dependency Hell**: um dos maiores problemas que os desenvolvedores de software convivem, é o gerenciamento de dependências. O Docker evita problemas neste gerenciamento.
 
-# Docker Image
+## Docker Image
 
 Uma imagem Docker nada mais é que, um arquivo inerte, imutável, que é essencialmente instanciado por um contêiner. As imagens são criadas com o comando **build** (entrarei em mais detalhes na segunda parte do artigo) e elas serão consumidas por um contêiner, ou seja, um contêiner é a instância de uma imagem. Como as imagens podem ser muito grandes, as imagens são projetadas para serem compostas por camadas de outras imagens.
 

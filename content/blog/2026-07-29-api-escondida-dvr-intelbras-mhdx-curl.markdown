@@ -31,7 +31,7 @@ tags:
 <img id="image-custom" src="/images/posts/7c4e6bdc-21e4-4dde-8a66-73a75ee47222.png" alt="" />
 <p id="image-legend"></p>
 
-# Introdução
+## Introdução
 
 Comecei a tarde de domingo querendo só arrumar uma câmera que estava com a imagem estranha e terminei com um script que lê e escreve a configuração das quatro câmeras do meu DVR direto pela linha de comando. No caminho descobri que o Intelbras MHDX 3004-C expõe uma interface CGI compatível com a família de APIs da Dahua, coisa que quase ninguém documenta em português. Faço a ressalva porque ela importa: eu não abri o firmware nem li strings de build pra saber de quem é o código. O que eu tenho é comportamento observado. A autenticação, os caminhos em `/cgi-bin/` e os nomes das tabelas seguem o mesmo padrão da Dahua, o que já é suficiente pra documentação de Dahua servir de mapa aqui. Origem do firmware é outra afirmação, bem mais forte, e essa eu não posso fazer.
 
@@ -39,7 +39,7 @@ A interface web do aparelho é aquela coisa pesada, cheia de combobox, em que vo
 
 Este post documenta o que funcionou de verdade no meu aparelho: MHDX 3004-C, firmware `4.001.00IB000`, build de agosto de 2024, com as quatro câmeras analógicas que estão ligadas nele. Fora desse conjunto exato eu não garanto nada. Nome de tabela, índice, faixa de valor, capability anunciada, resposta de erro e teto de FPS mudam entre modelo, revisão de hardware e versão de firmware. É exatamente por isso que a primeira metade do trabalho é descobrir, não chutar, e é por isso que não vale ler isso aqui como receita pra linha Intelbras inteira nem pra qualquer aparelho Dahua.
 
-# Achando a porta
+## Achando a porta
 
 Primeiro fato: o DVR estava na mesma rede que a máquina de onde eu trabalho. Peguei o IP local dele na própria tela de rede do aparelho (ele estava em DHCP, o que por si só já é um problema que comento no final). O teste inicial de alcance foi direto:
 
@@ -72,7 +72,7 @@ curl -sS -o /dev/null -w "%{http_code}\n" "http://$DVR_IP:$PORT"
 
 Lição que sempre esqueço: separe "o host está vivo" de "o serviço está na porta que eu chutei". Ping testa resposta a ICMP e nada mais, não diz se tem HTTP escutando em algum lugar. São perguntas diferentes, e eu tinha feito a errada duas vezes seguidas.
 
-# A autenticação é Digest, não Basic
+## A autenticação é Digest, não Basic
 
 Com a web respondendo, fui bater na API CGI. O padrão Dahua expõe tudo em `/cgi-bin/`. O primeiro probe é pedir o tipo do aparelho:
 
@@ -98,7 +98,7 @@ Funcionou. A partir daqui é tudo `configManager.cgi`.
 
 Uma ressalva que precisa vir junto: Digest é melhor que Basic porque a senha não viaja em claro, ele faz desafio-resposta com hash em cima do nonce. Mas isso autentica, não cifra. A conexão continua sendo `http://`, então URL, endpoint, parâmetros que eu escrevo e a config que volta na resposta ficam todos legíveis pra quem estiver na mesma rede olhando o tráfego. Por isso isso aqui é coisa de rede local controlada, de preferência num segmento isolado só pros bichos de câmera, e por isso DVR não fica publicado na internet. Se o firmware do teu oferecer HTTPS de forma confiável, prefira HTTPS.
 
-# Mantendo a senha fora do histórico
+## Mantendo a senha fora do histórico
 
 Antes de seguir, um parêntese que pra mim não é negociável. Senha de DVR é credencial de sistema de segurança física da minha casa. Ela não vai pro histórico do shell, não vai pro corpo de um script versionado, e não vai num post público. O padrão que usei foi um arquivo de credenciais com permissão restrita, que os scripts apenas carregam:
 
@@ -122,7 +122,7 @@ AUTH=(--digest -u "${DVR_USER}:${DVR_PASS}")
 
 O array ajuda em organização e quoting, mantém a credencial como um argumento só e evita que ela se espalhe pela linha em cada chamada. Mas vale ser honesto sobre o que ele não faz: no instante em que o `curl` roda, os argumentos já foram expandidos pro processo, e a senha está na linha de comando visível em `ps` e em `/proc`. Array nenhum conserta isso. Pra rede doméstica controlada eu aceito essa troca. Em máquina compartilhada eu não aceitaria, e o caminho seria `--netrc` ou um cofre de verdade. Fica registrado que eu não validei o `--netrc` contra esse DVR, então não estou recomendando como testado, e vale saber que a entrada do `.netrc` casa por host, não por porta, o que importa justamente aqui porque o aparelho não está na 80.
 
-# Ler antes de escrever
+## Ler antes de escrever
 
 Aqui está o princípio que separa mexer com confiança de quebrar o sistema às cegas: **a primeira coisa que a API faz é leitura, não escrita**. Os nomes dos parâmetros variam entre versões de firmware, e eu não ia descobrir o nome certo escrevendo e torcendo. O `configManager.cgi` lê qualquer tabela com `action=getConfig&name=<Tabela>`.
 
@@ -151,7 +151,7 @@ table.Encode[0].ExtraFormat[0].Video.BitRate=512
 
 Esse dump é o mapa. A partir dele eu sei exatamente o nome de cada campo que vou querer escrever, sem adivinhação.
 
-# As tabelas que importam
+## As tabelas que importam
 
 Lendo as tabelas relevantes, montei o mapeamento entre o que a interface gráfica chama de uma coisa e o que a API chama de outra. Esse foi o pulo do gato, porque os nomes não batem:
 
@@ -180,7 +180,7 @@ table.VideoInDenoise[0][0].3DAutoType.AutoLevel=40
 
 E tem um campo de ganho de imagem em `VideoInOptions[canal].Gain`, com uma variante `NightOptions.Gain` pro modo noturno. Esse eu não decifrei. O valor do `Gain` na API não bate número a número com o slider "Ganho imagem" da UI, e mais pra frente o `getCaps` do canal ainda me devolveu `caps.Gain=false`. Um campo que existe na tabela de config e uma capability negada pelo canal aparentemente não são a mesma coisa, provavelmente camadas diferentes, processamento no gravador de um lado e ganho nativo da câmera do outro, ou um parâmetro legado que ficou na tabela. Não fechei isso com o que o aparelho me devolveu, então fica registrado como não esclarecido em vez de explicado por chute. Na prática, mais um motivo pra testar num canal e conferir no preview antes de replicar.
 
-# O que a API NÃO deixa fazer
+## O que a API NÃO deixa fazer
 
 Aqui vem a parte honesta, e a mais importante de um post de engenharia reversa: nem tudo está exposto. A câmera que eu queria consertar tinha listras horizontais, o clássico flicker de iluminação, em que uma lâmpada LED pulsando bate com o obturador eletrônico da câmera. O ajuste pra isso é o anti-flicker, que vive na exposição. Fui ler a tabela de exposição:
 
@@ -210,7 +210,7 @@ O palpite informado, e eu marco que é palpite, é que são câmeras analógicas
 
 Saber o limite da ferramenta é tão valioso quanto saber o que ela faz. Eu poderia ter perdido uma hora montando um `setConfig` de anti-flicker que o aparelho ia ignorar em silêncio, ou pior, subido numa escada pra caçar um menu OSD que talvez não esteja lá. Duas leituras de API me pouparam as duas coisas em segundos.
 
-# Backup antes da primeira escrita
+## Backup antes da primeira escrita
 
 Regra que eu não quebro nem em casa: antes do primeiro `setConfig`, tira um retrato do que está lá. Não porque eu espero errar, mas porque a config atual é a única referência do que era o estado bom, e esse aparelho não tem desfazer.
 
@@ -247,7 +247,7 @@ chmod 600 "$BKP"/*
 
 Modelo, versão de firmware e data no mesmo diretório das tabelas, porque dump de config sem saber de que firmware ele veio é quase inútil daqui a um ano. E não existe, pelo menos não que eu tenha achado nesse firmware, endpoint de restore em massa que engula esse arquivo de volta. Então trata o dump pelo que ele é: referência recuperável pra reaplicar valor por valor com `setConfig` se algo sair errado. Ele também é a configuração do sistema de segurança da tua casa, então mora com a mesma disciplina do arquivo de credencial, permissão fechada e longe de qualquer repositório.
 
-# Escrevendo a configuração (e a pegadinha do glob)
+## Escrevendo a configuração (e a pegadinha do glob)
 
 Com o mapa na mão, escrever deveria ser trivial. O `setConfig` aceita múltiplos campos numa chamada, separados por `&`. Montei a primeira escrita, mandei, e o servidor respondeu com uma linha em branco. Sem `OK`, sem erro. E a leitura de volta mostrava os valores antigos, intocados.
 
@@ -288,7 +288,7 @@ check Encode 'Encode[0].ExtraFormat[0].Video.FPS' 10
 
 Com isso o 7fps aparece como divergência na cara, não como um `OK` que eu li rápido. O ciclo que eu sigo agora é sempre esse: escreve, relê, compara pedido com persistido, e só então replica pros outros canais. É o tipo de detalhe que separa "achei que configurei" de "configurei".
 
-# O que levo desse domingo
+## O que levo desse domingo
 
 Três coisas ficam.
 
