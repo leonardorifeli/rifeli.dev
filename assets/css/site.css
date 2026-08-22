@@ -252,6 +252,9 @@ main article h2 {
     line-height: 1.24;
     letter-spacing: -0.025em;
     margin: 0;
+    /* o balance herdado de h1..h5 iguala o tamanho das linhas e quebrava o
+       titulo muito antes da margem. pretty preenche a linha e so evita orfao. */
+    text-wrap: pretty;
 }
 main article h2 a { color: var(--ink); }
 main article h2 a:hover { color: var(--violet); }
