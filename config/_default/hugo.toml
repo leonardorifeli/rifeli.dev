@@ -13,7 +13,7 @@ summaryLength = 15
   website = "https://rifeli.dev"
 
 [pagination]
-  pagerSize = 10
+  pagerSize = 5
 
 [related]
   threshold = 0
