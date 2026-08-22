@@ -179,17 +179,20 @@
             }
 
             var data = new FormData(form);
-            var linhas = [
-                '*Contato via rifeli.dev/consultoria*',
-                '',
-                '*Nome:* ' + (data.get('nome') || ''),
-                '*E-mail:* ' + (data.get('email') || ''),
-                '*WhatsApp:* ' + (data.get('whatsapp') || 'nao informado'),
-                '*Assunto:* ' + (data.get('assunto') || ''),
-                '',
-                '*Descricao:*',
-                (data.get('descricao') || '')
-            ];
+            var linhas = ['*Contato via rifeli.dev/consultoria*', ''];
+
+            /* Campo vazio nao vira linha. E-mail e WhatsApp sao opcionais, e
+               "nao informado" so ocupava espaco na mensagem sem dizer nada. */
+            function add(rotulo, valor) {
+                valor = (valor || '').trim();
+                if (valor) linhas.push('*' + rotulo + ':* ' + valor);
+            }
+
+            add('Nome', data.get('nome'));
+            add('E-mail', data.get('email'));
+            add('WhatsApp', data.get('whatsapp'));
+            add('Assunto', data.get('assunto'));
+            linhas.push('', '*Descrição:*', (data.get('descricao') || '').trim());
 
             var url = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(linhas.join('\n'));
 

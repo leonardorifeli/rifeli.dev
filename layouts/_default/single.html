@@ -27,7 +27,9 @@
 			{{ .Params.tldr }}
 		</div>{{ end }}
 
-		{{ partial "newsletter.html" . }}
+		{{ if eq .Section "blog" }}
+			{{ partial "newsletter.html" . }}
+		{{ end }}
 
 		<section class="body">
 			{{ .Content }}

@@ -624,6 +624,10 @@ section.body hr { border: 0; border-top: 1px solid var(--line); margin-block: 2.
 
 /* O tema era o unico dono do botao de paginacao, com cinza proprio e
    variante dark. Passa a ler token igual ao resto. */
+/* o container da paginacao so tinha padding embaixo, entao o botao nascia
+   colado na borda inferior do ultimo post da lista. */
+.post-pagination { margin-top: 2rem; }
+
 #content .pagination-button {
     display: inline-flex;
     align-items: center;

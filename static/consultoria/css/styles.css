@@ -361,11 +361,15 @@ h1, h2, h3, h4 {
 }
 
 .hero h1 {
-    font-size: var(--step-4);
-    line-height: 0.98;
-    letter-spacing: -0.038em;
+    /* --step-4 (ate 4.15rem) dava so ~16 caracteres por linha na coluna do
+       hero, e o titulo tem 68: virava seis linhas com vao morto ate o painel.
+       Este teto cabe em quatro linhas sem mudar a escala do resto da pagina. */
+    font-size: clamp(2.2rem, 3.6vw + .6rem, 3.4rem);
+    line-height: 1.02;
+    letter-spacing: -0.032em;
     margin-block: 1.1rem 1.35rem;
     color: var(--ink);
+    text-wrap: pretty;
 }
 
 .hero h2 {
