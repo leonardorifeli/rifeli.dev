@@ -1,9 +1,14 @@
 {{ define "main" }}
 <main>
-	<article>
+	{{/* Entra na busca: os posts, mais Sobre e uses. Ficam fora as paginas
+	     transacionais da newsletter, a politica de privacidade e a pagina de
+	     exemplo do tema, que so poluiriam o resultado. Um post sai da busca
+	     com "searchable: false" no frontmatter. */}}
+	{{ $buscavel := and (ne .Params.searchable false) (or (eq .Section "blog") (in (slice "/about/" "/uses/") .RelPermalink)) }}
+	<article {{ if $buscavel }}data-pagefind-body data-pagefind-meta="date:{{ if .Date }}{{ .Date.Format "02/01/2006" }}{{ end }}"{{ end }}>
 
 		{{ with .Params.tags }}
-		<div id="tags-custom-container">
+		<div id="tags-custom-container" data-pagefind-ignore>
 				{{ range . }}
 				<a class="tag-chip" href="{{ "/tags/" | relLangURL }}{{ . | urlize }}">{{ . }}</a>
 				{{ end }}
@@ -12,7 +17,7 @@
 
 		<div class="title">
 			<h1 class="title">{{ .Title }}</h1>
-			<div class="meta">{{ if .Date }} Posted on {{ dateFormat "Jan 2, 2006" .Date }} {{ end }} 
+			<div class="meta" data-pagefind-ignore>{{ if .Date }} Posted on {{ dateFormat "Jan 2, 2006" .Date }} {{ end }} 
 				
 				{{ if ne .Lastmod .Date }}
 					  - Updated on {{ dateFormat "Jan 2, 2006" .Lastmod }}
@@ -28,7 +33,7 @@
 		</div>{{ end }}
 
 		{{ if eq .Section "blog" }}
-			{{ partial "newsletter.html" . }}
+			<div data-pagefind-ignore>{{ partial "newsletter.html" . }}</div>
 		{{ end }}
 
 		<section class="body">
@@ -41,7 +46,7 @@
 			{{ $related = first 3 $candidates }}
 		{{ end }}
 		{{ with $related }}
-			<section class="related-posts">
+			<section class="related-posts" data-pagefind-ignore>
 				<h3>Posts relacionados</h3>
 				<ul>
 				{{ range . }}
@@ -55,7 +60,7 @@
 		{{ end }}
 
 		{{ if .Params.Comments }}
-			{{ partial "single/comments/giscus.html" . }}
+			<div data-pagefind-ignore>{{ partial "single/comments/giscus.html" . }}</div>
 		{{ end }}
 
 	</article>

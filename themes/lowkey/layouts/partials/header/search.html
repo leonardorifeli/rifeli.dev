@@ -1,0 +1,147 @@
+{{/* Busca com Pagefind. O indice e gerado depois do build (ver o workflow) e
+     servido em /pagefind/. Em "hugo server" esse caminho nao existe, entao o
+     import falha de proposito e o campo degrada pra busca externa em vez de
+     ficar quebrado. */}}
+<button type="button" class="search-trigger" aria-label="Buscar no site" data-search-open>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="11" cy="11" r="7"></circle>
+    <path d="m20 20-3.5-3.5"></path>
+  </svg>
+  <span class="search-trigger-hint mono">Ctrl K</span>
+</button>
+
+<dialog class="search-dialog" id="search-dialog" aria-label="Buscar no site">
+  <form class="search-head" method="dialog" onsubmit="return false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="11" cy="11" r="7"></circle>
+      <path d="m20 20-3.5-3.5"></path>
+    </svg>
+    <input type="search" id="search-input" placeholder="Buscar nos posts, Sobre e uses"
+           autocomplete="off" spellcheck="false" aria-controls="search-results">
+    <button type="button" class="search-close mono" data-search-close aria-label="Fechar busca">esc</button>
+  </form>
+
+  <div class="search-results" id="search-results" role="region" aria-live="polite"></div>
+  <p class="search-foot mono">Digite pra buscar. <kbd>Enter</kbd> abre o primeiro resultado.</p>
+</dialog>
+
+<script type="module">
+  (function () {
+    const dialog  = document.getElementById('search-dialog');
+    const input   = document.getElementById('search-input');
+    const out     = document.getElementById('search-results');
+    const trigger = document.querySelector('[data-search-open]');
+    if (!dialog || !input || !out || !trigger) return;
+
+    let pagefind = null;
+    let carregando = null;
+    let indisponivel = false;
+
+    /* Carrega o Pagefind uma vez, na primeira abertura, pra nao pesar o
+       first paint de quem nunca vai buscar. */
+    function carregar() {
+      if (pagefind || indisponivel) return Promise.resolve();
+      if (!carregando) {
+        carregando = import('/pagefind/pagefind.js')
+          .then(async (mod) => {
+            await mod.options({ excerptLength: 28 });
+            await mod.init();
+            pagefind = mod;
+          })
+          .catch(() => { indisponivel = true; });
+      }
+      return carregando;
+    }
+
+    function escapar(s) {
+      return String(s).replace(/[&<>"']/g, (c) => (
+        { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+      ));
+    }
+
+    function mensagem(texto, termo) {
+      const q = encodeURIComponent((termo || '') + ' site:rifeli.dev');
+      out.innerHTML = '<p class="search-empty">' + escapar(texto) +
+        (termo ? ' <a href="https://duckduckgo.com/?q=' + q + '" target="_blank" rel="noopener">' +
+                 'Buscar no DuckDuckGo</a>' : '') + '</p>';
+    }
+
+    /* Debounce proprio com search(), em vez do debouncedSearch do Pagefind:
+       aquele pendurou sem resolver nem rejeitar dentro desta pagina, e aqui a
+       semantica e simples de conferir. O contador descarta resposta de busca
+       que ja foi superada por uma digitada mais nova. */
+    let seq = 0;
+    let timer = null;
+
+    function agendar(termo) {
+      clearTimeout(timer);
+      timer = setTimeout(() => buscar(termo), 140);
+    }
+
+    async function buscar(termo) {
+      const meu = ++seq;
+      if (!termo.trim()) { out.innerHTML = ''; return; }
+
+      await carregar();
+      if (indisponivel) { mensagem('Busca indisponível nesta versão da página.', termo); return; }
+      if (meu !== seq) return;
+
+      const r = await pagefind.search(termo);
+      if (!r || meu !== seq) return;
+
+      const dados = await Promise.all(r.results.slice(0, 8).map((x) => x.data()));
+      if (meu !== seq) return;
+
+      if (!dados.length) { mensagem('Nada encontrado para "' + termo + '".', termo); return; }
+
+      /* d.excerpt entra sem escapar de proposito: e o unico campo em que isso
+         acontece, e o Pagefind ja escapa o conteudo e injeta apenas as tags
+         <mark> do destaque. Todo o resto passa por escapar(). */
+      out.innerHTML = dados.map((d) => {
+        const data = (d.meta && d.meta.date) ? '<span class="mono">' + escapar(d.meta.date) + '</span>' : '';
+        return '<a class="search-hit" href="' + escapar(d.url) + '">' +
+                 '<span class="search-hit-title">' + escapar(d.meta.title || d.url) + '</span>' +
+                 data +
+                 '<span class="search-hit-excerpt">' + d.excerpt + '</span>' +
+               '</a>';
+      }).join('');
+    }
+
+    function abrir() {
+      if (!dialog.open) dialog.showModal();
+      input.focus();
+      input.select();
+      carregar();
+    }
+
+    trigger.addEventListener('click', abrir);
+    dialog.querySelector('[data-search-close]').addEventListener('click', () => dialog.close());
+    input.addEventListener('input', () => agendar(input.value));
+
+    /* Enter abre o primeiro resultado, que e o atalho que a gente espera
+       depois de digitar. */
+    input.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter') return;
+      const primeiro = out.querySelector('.search-hit');
+      if (primeiro) { e.preventDefault(); window.location.href = primeiro.href; }
+    });
+
+    /* Clique no fundo fecha. O ::backdrop nao recebe clique, entao a conta e
+       feita contra a caixa do dialog. */
+    dialog.addEventListener('click', (e) => {
+      const c = dialog.getBoundingClientRect();
+      const fora = e.clientY < c.top || e.clientY > c.bottom ||
+                   e.clientX < c.left || e.clientX > c.right;
+      if (fora) dialog.close();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      const alvo = e.target;
+      const digitando = alvo && (alvo.tagName === 'INPUT' || alvo.tagName === 'TEXTAREA' || alvo.isContentEditable);
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); abrir(); return; }
+      if (e.key === '/' && !digitando && !dialog.open) { e.preventDefault(); abrir(); }
+    });
+  })();
+</script>

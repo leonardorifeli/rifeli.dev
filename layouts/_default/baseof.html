@@ -25,7 +25,10 @@
 
     <div class="header max-w-screen-md mx-auto">
       {{ partial "header/index" . }}
-      {{ partial "header/theme-button" . }}
+      <div class="header-actions">
+        {{ partial "header/search" . }}
+        {{ partial "header/theme-button" . }}
+      </div>
     </div>
 
     {{ if .IsHome }}
