@@ -22,6 +22,24 @@
     url = "/about"
     weight = 4
 
+[[main]]
+    identifier = "harmo"
+    name = "Harmo"
+    url = "https://harmo.me"
+    weight = 5
+
+[[main]]
+    identifier = "linkedin"
+    name = "Linkedin"
+    url = "https://www.linkedin.com/in/leonardorifeli"
+    weight = 6
+
+[[main]]
+    identifier = "github"
+    name = "Github"
+    url = "https://github.com/leonardorifeli"
+    weight = 7
+
 # Social Media Configuration
 
 [[social]]

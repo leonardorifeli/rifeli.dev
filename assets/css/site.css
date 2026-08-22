@@ -92,6 +92,15 @@ a:hover { color: var(--violet-deep); }
 .custom-header nav a:hover { color: var(--ink); }
 .custom-header nav a.active { color: var(--ink); border-bottom-color: var(--signal); }
 
+/* Separador entre rota interna e link externo no menu. Sem borda inferior,
+   pra nao parecer item clicavel. */
+.custom-header nav .nav-sep {
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: var(--line-strong);
+    user-select: none;
+}
+
 .toggle-theme {
     display: inline-flex;
     align-items: center;
@@ -504,6 +513,21 @@ section.body hr { border: 0; border-top: 1px solid var(--line); margin-block: 2.
 #custom-copy-final a:hover { color: var(--violet); }
 
 /* --- Responsivo ---------------------------------------------------------- */
+@media (max-width: 768px) {
+    /* O tema dava 90% de largura ao #content mas nada ao .header, e compensava
+       isso com margin-left solta na nav e -55px no titulo. Removidas as duas,
+       o header passa a usar a MESMA medida do conteudo, entao titulo, menu e
+       texto compartilham a margem esquerda. */
+    .header { width: 90%; margin-inline: auto; }
+    /* o hero e o rodape tinham o mesmo problema: container centrado sem
+       padding, entao no celular colavam na borda e cortavam a foto. */
+    #intro-banner > div,
+    #footer-banner > div { width: 90%; margin-inline: auto; }
+    .custom-header { align-items: flex-start; }
+    .custom-header #site-title { text-align: left; }
+    .custom-header nav ul { justify-content: flex-start; }
+}
+
 @media (max-width: 700px) {
     #intro-banner > div { flex-direction: column-reverse; align-items: flex-start; }
     #intro-image img { width: 96px; }
