@@ -56,7 +56,7 @@ a:hover { color: var(--violet-deep); }
 .skip-link:focus { top: 12px; color: var(--on-violet); }
 
 /* --- Header -------------------------------------------------------------- */
-.custom-header { padding: clamp(3.25rem, 5vw, 4.5rem) 0 1.5rem; }
+.custom-header { padding: 1.875rem 0 1.25rem; }
 
 .custom-header #site-title,
 .custom-header .title {
@@ -504,7 +504,6 @@ section.body hr { border: 0; border-top: 1px solid var(--line); margin-block: 2.
 @media (max-width: 700px) {
     #intro-banner > div { flex-direction: column-reverse; align-items: flex-start; }
     #intro-image img { width: 96px; }
-    .custom-header { padding-top: 2rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
