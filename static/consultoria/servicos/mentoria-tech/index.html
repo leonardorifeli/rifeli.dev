@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mentoria tech individual e pra squads: desenvolvimento de liderança técnica, revisão de arquitetura, evolução de carreira de engenheiros sênior e elevação de squads.">
+    <meta name="keywords" content="mentoria tech, mentoria sênior, mentoria tech lead, mentoria staff engineer, mentoria liderança técnica, mentoria carreira, mentoria squad, code review mentoria">
+    <meta name="author" content="Leonardo Rifeli">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+    <meta name="googlebot" content="index, follow">
+    <meta name="theme-color" content="#F3F2F7" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0E0C14" media="(prefers-color-scheme: dark)">
+    <meta name="msapplication-TileColor" content="#5B2BD9">
+    <title>Mentoria Tech: Liderança Técnica, Carreira e Squads | Leonardo Rifeli</title>
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/consultoria/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="manifest" href="/consultoria/manifest.json">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="canonical" href="https://rifeli.dev/consultoria/servicos/mentoria-tech/">
+
+    <!-- Aplica o tema antes da primeira pintura pra nao piscar branco no dark -->
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('tema');
+                if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+            } catch (e) {}
+        })();
+    </script>
+    <meta name="geo.region" content="BR-SC">
+    <meta name="geo.placename" content="Antônio Carlos">
+    <meta name="geo.position" content="-27.5197;-48.7662">
+    <meta name="ICBM" content="-27.5197, -48.7662">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:site_name" content="Leonardo Rifeli Consultoria">
+    <meta property="og:title" content="Mentoria Tech: Liderança Técnica, Carreira e Squads">
+    <meta property="og:description" content="Mentoria individual e pra squads. Liderança técnica, evolução pra staff, code review como mentoria e workshops práticos.">
+    <meta property="og:image" content="https://rifeli.dev/consultoria/img/og.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://rifeli.dev/consultoria/servicos/mentoria-tech/">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Mentoria Tech: Liderança Técnica, Carreira e Squads">
+    <meta name="twitter:description" content="Mentoria individual e pra squads. Liderança técnica, carreira e code review.">
+    <meta name="twitter:image" content="https://rifeli.dev/consultoria/img/og.png">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Mentoria Tech",
+      "serviceType": "Mentoria Técnica e de Carreira pra Engenheiros e Líderes",
+      "url": "https://rifeli.dev/consultoria/servicos/mentoria-tech/",
+      "description": "Mentoria individual pra engenheiros sênior em transição pra staff e tech leads recém-promovidos, e mentoria de squads pra elevar maturidade técnica coletiva.",
+      "provider": {
+        "@type": "ProfessionalService",
+        "name": "Leonardo Rifeli - Consultoria Tech & Mentoria",
+        "url": "https://rifeli.dev/consultoria/",
+        "telephone": "+5548988215325",
+        "email": "leonardo@rifeli.dev"
+      },
+      "areaServed": {"@type": "Country", "name": "Brasil"},
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Formatos de Mentoria",
+        "itemListElement": [
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Mentoria individual 1:1"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Mentoria de squad"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Plano de desenvolvimento de carreira"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Revisão de PR e arquitetura como mentoria"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Workshops práticos"}}
+        ]
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Qual a diferença entre mentoria e consultoria?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Consultoria entrega arquitetura, decisão ou implementação direto no produto do cliente. Mentoria desenvolve a pessoa ou o time pra que decidam melhor sem mim. Em consultoria, o resultado é código ou ADR; em mentoria, o resultado é mudança de comportamento, vocabulário técnico mais maduro e decisões mais defensáveis. São complementares, raramente excludentes."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Qual a cadência típica de mentoria?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Pra mentoria individual, sessões semanais ou quinzenais de uma hora funcionam melhor que mensais isoladas. Pra squad, cadência híbrida: encontros semanais de uma hora com pauta variada (arquitetura, retro técnica, workshop) e código revisado em assíncrono no meio da semana. O ciclo mínimo pra ver mudança é três meses."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Atende PJ ou CLT, e o pagamento sai como?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Atende os dois. Pra pessoa física, mentoria sai como PJ no meu CNPJ, com nota emitida na hora. Pra empresa, a contratação é entre pessoas jurídicas, com contrato de prestação de serviço, NDA quando faz sentido, e nota mensal. Empresa pode pagar mentoria de funcionário como benefício de desenvolvimento, e isso é dedutível."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Trata só o técnico ou também carreira?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Os dois. Tópico técnico (RAG, microsserviços, arquitetura cloud, Go) é o que aparece como pretexto, mas a maior parte do valor vem da conversa sobre escopo de impacto, escolha de batalha, comunicação com não-técnicos, gerenciamento de stakeholder e como subir nível na ladder de engenharia. Mentoria que ignora isso vira aula particular."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Posso contratar pra meu squad inteiro?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sim, e é o formato com maior ROI quando há quatro a dez engenheiros. Trabalho com a liderança do squad pra desenhar pauta, faço sessões coletivas semanais, reviso código real do time e dou feedback individual confidencial pros membros. Squad sai com vocabulário técnico mais alinhado e padrões internalizados, não decorados."
+          }
+        }
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Início", "item": "https://rifeli.dev/consultoria/"},
+        {"@type": "ListItem", "position": 2, "name": "Serviços", "item": "https://rifeli.dev/consultoria/#servicos"},
+        {"@type": "ListItem", "position": 3, "name": "Mentoria Tech", "item": "https://rifeli.dev/consultoria/servicos/mentoria-tech/"}
+      ]
+    }
+    </script>
+</head>
+<body>
+    <a class="skip-link" href="#conteudo">Pular para o conteudo</a>
+
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="/consultoria/">Leonardo<span>Rifeli</span></a>
+            </div>
+
+            <nav class="nav" id="menu-principal" aria-label="Navegacao principal">
+                <ul>
+                    <li><a href="/consultoria/#servicos">Servicos</a></li>
+                    <li><a href="/consultoria/#processo">Como funciona</a></li>
+                    <li><a href="/consultoria/#sobre">Sobre</a></li>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+                <a href="/consultoria/#contato" class="btn-primary">Agendar 30 min</a>
+            </nav>
+
+            <div class="header-actions">
+                <button type="button" class="theme-toggle" aria-label="Mudar tema">
+                    <svg class="icon icon-sun" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-sun"></use></svg>
+                    <svg class="icon icon-moon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-moon"></use></svg>
+                </button>
+                <a href="/consultoria/#contato" class="btn-primary">Agendar 30 min</a>
+                <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="menu-principal" aria-label="Abrir menu">
+                    <svg class="icon icon-menu" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-menu"></use></svg>
+                    <svg class="icon icon-close" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-close"></use></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="conteudo">
+
+    <section class="hero">
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <h1>Mentoria Tech pra Engenheiros e Líderes Técnicos</h1>
+                <h2>Sessões pra <span class="highlight">sênior virando staff</span>, <span class="highlight">tech lead</span> em primeira liderança e <span class="highlight">squads</span> que querem evoluir</h2>
+                <p>Subiu de pleno pra sênior, e a fila de decisão dobrou. Virou tech lead, e agora precisa fazer outros engenheiros decidirem sem você. Esse é o momento em que mentoria vale mais que treinamento.</p>
+                <div class="hero-buttons">
+                    <a href="/consultoria/#contato" class="btn-primary">Agendar Conversa</a>
+                    <a href="#faq" class="btn-secondary">Ver FAQ</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://avatars.githubusercontent.com/u/6767689?v=4" alt="Leonardo Rifeli - Mentor Tech">
+            </div>
+        </div>
+    </section>
+
+    <section class="sobre">
+        <div class="container">
+            <div class="section-header">
+                <h2>Quando contratar mentoria</h2>
+                <div class="separator"></div>
+            </div>
+            <div class="sobre-content">
+                <div class="sobre-text">
+                    <p>Engenheiro sênior travado na transição pra staff ou principal. Tecnicamente sólido, mas a promoção exige escopo de impacto que ele não sabe como construir, e ninguém na empresa tem energia pra orientar de verdade. A janela de motivação tem prazo.</p>
+                    <p>Tech lead recém-promovido perdendo tempo em decisão e ganhando ansiedade. Era ótimo programando, agora precisa fazer outros programarem bem, e ninguém ensina isso na régua. Sem ponto de apoio externo, o caminho mais comum é voltar a ser IC.</p>
+                    <p>Squad parou de evoluir tecnicamente. Retro virou desabafo, code review virou checklist, ninguém propõe arquitetura nova. O time entrega, mas o nível médio tá estagnado e o gestor de produto ainda não percebeu.</p>
+                    <p>Fundador técnico precisa subir o nível do time fundador em Go, cloud, GenAI ou arquitetura, sem virar professor full-time. Outsourcear isso pra alguém com experiência real custa menos que contratar um staff sênior só pra ensinar.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="servicos">
+        <div class="container">
+            <div class="section-header">
+                <h2>Formatos de mentoria</h2>
+                <div class="separator"></div>
+                <p>Engajamento sob medida pra estágio e tipo de objetivo</p>
+            </div>
+            <div class="servicos-grid">
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-user"></use></svg></div>
+                    <h3>Mentoria individual 1:1</h3>
+                    <p>Sessões semanais ou quinzenais de uma hora. Pauta combinada com antecedência, com tarefa entre encontros e acompanhamento real do progresso, não checkin de café.</p>
+                </div>
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-users"></use></svg></div>
+                    <h3>Mentoria de squad</h3>
+                    <p>Pra times de quatro a dez engenheiros. Sessões coletivas semanais, code review do código real do time, feedback individual confidencial pros membros e alinhamento com a liderança.</p>
+                </div>
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-route"></use></svg></div>
+                    <h3>Plano de carreira</h3>
+                    <p>Mapeamento de gap pra próximo nível (sênior, staff, principal, tech lead), identificação de escopo de impacto realizável e plano trimestral com métrica de progresso.</p>
+                </div>
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-code"></use></svg></div>
+                    <h3>Code review como mentoria</h3>
+                    <p>Revisão de PRs reais do mentorado com comentário substantivo, foco em padrão e raciocínio, não só estilo. O objetivo é elevar a tomada de decisão, não corrigir vírgula.</p>
+                </div>
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-chalkboard"></use></svg></div>
+                    <h3>Workshops práticos</h3>
+                    <p>Sessões de quatro a oito horas em tópicos como RAG em produção, microsserviços em Go, AWS de verdade, design de pipeline de dados. Conteúdo adaptado ao stack do cliente.</p>
+                </div>
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-comments"></use></svg></div>
+                    <h3>Acompanhamento executivo</h3>
+                    <p>Pra tech leads e heads de engenharia que precisam de espelho externo pra decisões organizacionais, contratação, plano de squad e conversa com C-level que não é técnico.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="expertise">
+        <div class="container">
+            <div class="section-header">
+                <h2>Quem mentorei</h2>
+                <div class="separator"></div>
+                <p>Perfis que aparecem com mais frequência na fila</p>
+            </div>
+            <div class="expertise-content">
+                <div class="expertise-category">
+                    <h3><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-arrow-up"></use></svg> Engenheiro sênior → staff</h3>
+                    <div class="expertise-items">
+                        <span>Escopo de impacto</span>
+                        <span>Influência sem autoridade</span>
+                        <span>Decisão arquitetural</span>
+                        <span>Mentoria de pares</span>
+                    </div>
+                </div>
+                <div class="expertise-category">
+                    <h3><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-briefcase"></use></svg> Tech lead em primeira liderança</h3>
+                    <div class="expertise-items">
+                        <span>Delegação real</span>
+                        <span>Code review escalável</span>
+                        <span>Roadmap defensável</span>
+                        <span>Conversa com produto</span>
+                    </div>
+                </div>
+                <div class="expertise-category">
+                    <h3><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-users"></use></svg> Squad médio querendo evoluir</h3>
+                    <div class="expertise-items">
+                        <span>Padrões de engenharia</span>
+                        <span>Cultura de PR review</span>
+                        <span>ADRs no time</span>
+                        <span>Padronização de stack</span>
+                    </div>
+                </div>
+                <div class="expertise-category">
+                    <h3><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-rocket"></use></svg> Founder técnico</h3>
+                    <div class="expertise-items">
+                        <span>Time pequeno e sênior</span>
+                        <span>Stack moderna</span>
+                        <span>GenAI e dados</span>
+                        <span>Cloud sem desperdício</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="sobre">
+        <div class="container">
+            <div class="section-header">
+                <h2>Como funciona</h2>
+                <div class="separator"></div>
+            </div>
+            <div class="sobre-content">
+                <div class="sobre-text">
+                    <p>O primeiro passo é uma conversa de 30 minutos sem custo. Entendo a fase de carreira, o ambiente, o objetivo concreto e o que já foi tentado. No fim digo se faz sentido seguir comigo ou se você precisa de outro perfil de mentor.</p>
+                    <p>Se faz sentido, mando proposta com cadência, escopo, valor e expectativa de progresso em até 48 horas. Engajamento mínimo de três meses pra mentoria individual e de squad, porque ciclo menor raramente entrega mudança real.</p>
+                    <p>Trabalho remoto via Google Meet ou Zoom, com chat assíncrono entre sessões pra tirar dúvida e revisar PRs. Pra empresas, contrato e nota mensal entre pessoas jurídicas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq" id="faq">
+        <div class="container">
+            <div class="section-header">
+                <h2>Perguntas frequentes</h2>
+                <div class="separator"></div>
+                <p>As que mais aparecem no primeiro contato</p>
+            </div>
+
+            <div class="faq-list">
+                <details class="faq-item">
+                    <summary>Qual a diferença entre mentoria e consultoria?</summary>
+                    <div class="faq-answer"><p>Consultoria entrega arquitetura, decisão ou implementação direto no produto do cliente. Mentoria desenvolve a pessoa ou o time pra que decidam melhor sem mim. Em consultoria, o resultado é código ou ADR; em mentoria, o resultado é mudança de comportamento, vocabulário técnico mais maduro e decisões mais defensáveis. São complementares, raramente excludentes.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Qual a cadência típica de mentoria?</summary>
+                    <div class="faq-answer"><p>Pra mentoria individual, sessões semanais ou quinzenais de uma hora funcionam melhor que mensais isoladas. Pra squad, cadência híbrida: encontros semanais de uma hora com pauta variada (arquitetura, retro técnica, workshop) e código revisado em assíncrono no meio da semana. O ciclo mínimo pra ver mudança é três meses.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Atende PJ ou CLT, e o pagamento sai como?</summary>
+                    <div class="faq-answer"><p>Atende os dois. Pra pessoa física, mentoria sai como PJ no meu CNPJ, com nota emitida na hora. Pra empresa, a contratação é entre pessoas jurídicas, com contrato de prestação de serviço, NDA quando faz sentido, e nota mensal. Empresa pode pagar mentoria de funcionário como benefício de desenvolvimento, e isso é dedutível.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Trata só o técnico ou também carreira?</summary>
+                    <div class="faq-answer"><p>Os dois. Tópico técnico (RAG, microsserviços, arquitetura cloud, Go) é o que aparece como pretexto, mas a maior parte do valor vem da conversa sobre escopo de impacto, escolha de batalha, comunicação com não-técnicos, gerenciamento de stakeholder e como subir nível na ladder de engenharia. Mentoria que ignora isso vira aula particular.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Posso contratar pra meu squad inteiro?</summary>
+                    <div class="faq-answer"><p>Sim, e é o formato com maior ROI quando há quatro a dez engenheiros. Trabalho com a liderança do squad pra desenhar pauta, faço sessões coletivas semanais, reviso código real do time e dou feedback individual confidencial pros membros. Squad sai com vocabulário técnico mais alinhado e padrões internalizados, não decorados.</p></div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2>Quer conversar sobre seu próximo passo de carreira ou squad?</h2>
+            <p>30 minutos sem custo. Conversa honesta sobre o que tá travando e se mentoria é o vetor certo pra destravar.</p>
+            <a href="/consultoria/#contato" class="btn-primary">Agendar Conversa</a>
+        </div>
+    </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="/consultoria/">Leonardo<span>Rifeli</span></a>
+                    <p>Consultoria Tech & Mentoria</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Serviços</h4>
+                    <ul>
+                        <li><a href="/consultoria/servicos/consultoria-ia-genai/">Consultoria GenAI</a></li>
+                        <li><a href="/consultoria/servicos/engenharia-dados/">Engenharia de Dados</a></li>
+                        <li><a href="/consultoria/servicos/arquitetura-software/">Arquitetura de Software</a></li>
+                        <li><a href="/consultoria/servicos/cloud-devops/">Cloud & DevOps</a></li>
+                        <li><a href="/consultoria/servicos/mentoria-tech/">Mentoria Tech</a></li>
+                        <li><a href="/consultoria/servicos/transformacao-digital/">Transformação Digital</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>Conecte-se</h4>
+                    <div class="social-links">
+                        <a href="https://linkedin.com/in/leonardorifeli" target="_blank" rel="noopener" aria-label="LinkedIn de Leonardo Rifeli"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-linkedin"></use></svg></a>
+                        <a href="https://github.com/leonardorifeli" target="_blank" rel="noopener" aria-label="GitHub de Leonardo Rifeli"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-github"></use></svg></a>
+                        <a href="/blog/" aria-label="Blog rifeli.dev"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-globe"></use></svg></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>43.622.212/0001-13 - RIFELI TECHNOLOGY & SOFTWARE CRAFTSMAN</p>
+                <p>&copy; 2026 Leonardo Rifeli. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <a class="wa-float" href="https://wa.me/5548988215325?text=Oi%20Leonardo%2C%20vim%20pelo%20site%20da%20consultoria." target="_blank" rel="noopener" aria-label="Chamar no WhatsApp">
+        <svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-whatsapp"></use></svg>
+        <span>WhatsApp</span>
+    </a>
+
+    <script src="/consultoria/js/script.js" defer></script>
+</body>
+</html>

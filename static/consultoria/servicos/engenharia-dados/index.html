@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Consultoria em engenharia de dados: pipelines com Airflow, ETL em Python, ingestão em tempo real, data lake medallion e arquiteturas multi-tenant em produção.">
+    <meta name="keywords" content="consultoria engenharia de dados, pipelines Airflow, ETL Python, ingestão tempo real, Kafka, Kinesis, data lake medallion, arquitetura multi-tenant, AWS MWAA, CDC">
+    <meta name="author" content="Leonardo Rifeli">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+    <meta name="googlebot" content="index, follow">
+    <meta name="theme-color" content="#F3F2F7" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0E0C14" media="(prefers-color-scheme: dark)">
+    <meta name="msapplication-TileColor" content="#5B2BD9">
+    <title>Consultoria em Engenharia de Dados: Pipelines, Airflow e Multi-Tenant | Leonardo Rifeli</title>
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/consultoria/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="manifest" href="/consultoria/manifest.json">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="canonical" href="https://rifeli.dev/consultoria/servicos/engenharia-dados/">
+
+    <!-- Aplica o tema antes da primeira pintura pra nao piscar branco no dark -->
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('tema');
+                if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+            } catch (e) {}
+        })();
+    </script>
+    <meta name="geo.region" content="BR-SC">
+    <meta name="geo.placename" content="Antônio Carlos">
+    <meta name="geo.position" content="-27.5197;-48.7662">
+    <meta name="ICBM" content="-27.5197, -48.7662">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:site_name" content="Leonardo Rifeli Consultoria">
+    <meta property="og:title" content="Consultoria em Engenharia de Dados: Pipelines, Airflow e Multi-Tenant">
+    <meta property="og:description" content="Pipelines Airflow, ETL Python, ingestão em tempo real, data lake medallion e arquiteturas multi-tenant. Foco em pipeline auditável, observável e barata.">
+    <meta property="og:image" content="https://rifeli.dev/consultoria/img/og.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://rifeli.dev/consultoria/servicos/engenharia-dados/">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Consultoria em Engenharia de Dados: Pipelines, Airflow e Multi-Tenant">
+    <meta name="twitter:description" content="Pipelines Airflow, ETL Python, ingestão em tempo real e arquiteturas multi-tenant em produção.">
+    <meta name="twitter:image" content="https://rifeli.dev/consultoria/img/og.png">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Consultoria em Engenharia de Dados",
+      "serviceType": "Consultoria em Engenharia de Dados e Pipelines",
+      "url": "https://rifeli.dev/consultoria/servicos/engenharia-dados/",
+      "description": "Pipelines de dados com Airflow, ETL em Python, ingestão em tempo real com Kafka e Kinesis, data lake medallion e arquiteturas multi-tenant em produção.",
+      "provider": {
+        "@type": "ProfessionalService",
+        "name": "Leonardo Rifeli - Consultoria Tech & Mentoria",
+        "url": "https://rifeli.dev/consultoria/",
+        "telephone": "+5548988215325",
+        "email": "leonardo@rifeli.dev"
+      },
+      "areaServed": {"@type": "Country", "name": "Brasil"},
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Entregas de Engenharia de Dados",
+        "itemListElement": [
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Diagnóstico de pipeline atual"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Refatoração de DAGs Airflow"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Ingestão em tempo real com Kafka e Kinesis"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Arquitetura de dados multi-tenant"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Observabilidade de qualidade e freshness"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Mentoria do time de dados"}}
+        ]
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Airflow ainda vale a pena ou já é dbt + Dagster?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Airflow continua sólido pra orquestração de pipelines com lógica imperativa e integrações heterogêneas. dbt brilha pra transformação SQL dentro do warehouse, é complementar e não substituto. Dagster é alternativa viável quando o time prioriza lineage e tipagem fortes, mas a troca raramente justifica o custo se a dor real é DAG mal estruturada. A escolha vem do problema, não do hype."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Como migra de batch pra streaming sem refazer tudo?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Em camadas. Primeiro identifica o conjunto pequeno de tabelas onde latência batch dói no produto. Pra esse subconjunto, monta uma trilha paralela (CDC do banco transacional ou evento na origem) que alimenta uma camada silver em tempo real, mantendo o batch atual rodando como fallback. A migração total acontece quando a trilha nova provou confiabilidade, não no dia da decisão."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Multi-tenant em PostgreSQL aguenta volume?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sim, na maior parte dos casos. Estratégia depende do perfil de carga: row-level security pra tenants leves, schema-per-tenant pra cargas médias, e database-per-tenant só quando há requisito de isolamento físico (LGPD/HIPAA) ou tenants gigantes que dominam recursos. O erro comum é começar database-per-tenant e descobrir que a operação não escala."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Quanto tempo leva pra estabilizar uma pipeline quebrada?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Pipeline ruim mas funcional, com observabilidade básica, sai em duas a quatro semanas. Pipeline que quebra silenciosamente toda madrugada exige primeiro instrumentar (logging, métricas de qualidade, alertas) antes de refatorar, e isso adiciona uma a duas semanas. Refazer arquitetura inteira é projeto de dois a quatro meses, mas raramente é o melhor caminho."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Trabalha só com AWS ou também com GCP e Azure?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Profundidade maior em AWS (MWAA, Glue, Redshift, Aurora, Kinesis, S3, EMR). Também atendo projetos em GCP (BigQuery, Dataflow, Cloud Composer) e Azure (Synapse, Data Factory), mas com curva de adaptação inicial menor que em AWS. Pra projetos multicloud, deixo isso explícito na proposta."
+          }
+        }
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Início", "item": "https://rifeli.dev/consultoria/"},
+        {"@type": "ListItem", "position": 2, "name": "Serviços", "item": "https://rifeli.dev/consultoria/#servicos"},
+        {"@type": "ListItem", "position": 3, "name": "Engenharia de Dados", "item": "https://rifeli.dev/consultoria/servicos/engenharia-dados/"}
+      ]
+    }
+    </script>
+</head>
+<body>
+    <a class="skip-link" href="#conteudo">Pular para o conteudo</a>
+
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="/consultoria/">Leonardo<span>Rifeli</span></a>
+            </div>
+
+            <nav class="nav" id="menu-principal" aria-label="Navegacao principal">
+                <ul>
+                    <li><a href="/consultoria/#servicos">Servicos</a></li>
+                    <li><a href="/consultoria/#processo">Como funciona</a></li>
+                    <li><a href="/consultoria/#sobre">Sobre</a></li>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+                <a href="/consultoria/#contato" class="btn-primary">Agendar 30 min</a>
+            </nav>
+
+            <div class="header-actions">
+                <button type="button" class="theme-toggle" aria-label="Mudar tema">
+                    <svg class="icon icon-sun" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-sun"></use></svg>
+                    <svg class="icon icon-moon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-moon"></use></svg>
+                </button>
+                <a href="/consultoria/#contato" class="btn-primary">Agendar 30 min</a>
+                <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="menu-principal" aria-label="Abrir menu">
+                    <svg class="icon icon-menu" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-menu"></use></svg>
+                    <svg class="icon icon-close" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-close"></use></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="conteudo">
+
+    <section class="hero">
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <h1>Consultoria em Engenharia de Dados e Pipelines em Produção</h1>
+                <h2>Pipelines com <span class="highlight">Airflow</span>, <span class="highlight">ETL</span> em Python, ingestão em <span class="highlight">tempo real</span> e arquitetura multi-tenant</h2>
+                <p>Pipeline frágil quebra na madrugada e ninguém entende por quê. Tabela analítica desatualizada virou política operacional. Custo do warehouse triplicou no último trimestre. É nesse ponto que entro.</p>
+                <div class="hero-buttons">
+                    <a href="/consultoria/#contato" class="btn-primary">Agendar Diagnóstico</a>
+                    <a href="#faq" class="btn-secondary">Ver FAQ Técnica</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://avatars.githubusercontent.com/u/6767689?v=4" alt="Leonardo Rifeli - Consultor em Engenharia de Dados">
+            </div>
+        </div>
+    </section>
+
+    <section class="sobre">
+        <div class="container">
+            <div class="section-header">
+                <h2>Quando contratar consultoria em engenharia de dados</h2>
+                <div class="separator"></div>
+            </div>
+            <div class="sobre-content">
+                <div class="sobre-text">
+                    <p>O DAG do Airflow virou árvore de natal: trezentas tasks, dependência implícita, deploy ninguém faz mais sozinho e qualquer falha cascateia por toda a pipeline. O time já fala em jogar fora e reescrever, mas reescrever tudo é um ano sem entregar valor.</p>
+                    <p>A migração de batch pra streaming foi vendida pro board, mas o time nunca operou Kafka, Kinesis ou CDC em produção. O risco de subir e voltar é maior do que o de não migrar, e a decisão tá presa há meses.</p>
+                    <p>O data warehouse cresceu sem governança: schemas duplicados, modelos órfãos, custo de query explodindo, ninguém com ownership claro. O CFO já pediu corte de gasto, e o time não sabe por onde começar sem quebrar relatório que executivo abre todo dia.</p>
+                    <p>O produto é multi-tenant operacional, e o isolamento de dados precisa ser auditável pra LGPD. A solução atual mistura tenants em tabelas comuns e ninguém quer assinar que tá seguro.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="servicos">
+        <div class="container">
+            <div class="section-header">
+                <h2>O que entrego</h2>
+                <div class="separator"></div>
+                <p>Pipelines auditáveis, observáveis e mais baratas do que tá hoje</p>
+            </div>
+            <div class="servicos-grid">
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-stethoscope"></use></svg></div>
+                    <h3>Diagnóstico de pipeline atual</h3>
+                    <p>Auditoria do que existe: DAGs, dependências, custo por job, qualidade de dado por tabela, lineage. Saio com plano priorizado de remediação, com estimativa de esforço e impacto.</p>
+                </div>
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-sitemap"></use></svg></div>
+                    <h3>Refatoração de DAGs Airflow</h3>
+                    <p>Quebra de DAGs monolíticas em pipelines coesos, padrões de TaskGroup, idempotência, retries inteligentes, sensors enxutos. Trabalho no MWAA ou Composer, ou em deploy próprio.</p>
+                </div>
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-bolt"></use></svg></div>
+                    <h3>Ingestão em tempo real</h3>
+                    <p>CDC do transacional pra data lake, eventos via Kafka ou Kinesis, processamento em Lambda ou Flink, materialização em camada silver com latência controlada.</p>
+                </div>
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-layers"></use></svg></div>
+                    <h3>Arquitetura multi-tenant</h3>
+                    <p>Estratégia de isolamento (row-level, schema-per-tenant, database-per-tenant), auditoria pra LGPD, controle de custo por tenant e modelo de cobrança defensável.</p>
+                </div>
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-chart-line"></use></svg></div>
+                    <h3>Observabilidade de dados</h3>
+                    <p>Métricas de qualidade (completude, distribuição, freshness), alertas em queda de volume e drift, lineage automatizado, integração com Datadog ou ferramentas open-source.</p>
+                </div>
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-users"></use></svg></div>
+                    <h3>Mentoria do time de dados</h3>
+                    <p>Code review de pipelines reais, pareamento em decisões de modelagem, workshops de Airflow, dbt, ingestão em tempo real e design de tabela analítica.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="expertise">
+        <div class="container">
+            <div class="section-header">
+                <h2>Casos típicos</h2>
+                <div class="separator"></div>
+                <p>Padrões que aparecem com mais frequência na fila</p>
+            </div>
+            <div class="expertise-content">
+                <div class="expertise-category">
+                    <h3><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-arrows-h"></use></svg> Migração on-prem para cloud</h3>
+                    <div class="expertise-items">
+                        <span>Hadoop legado → S3 + Athena</span>
+                        <span>Oracle → Aurora + Redshift</span>
+                        <span>SSIS → Airflow + dbt</span>
+                        <span>Lift & shift criterioso</span>
+                    </div>
+                </div>
+                <div class="expertise-category">
+                    <h3><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-database"></use></svg> Data lake medallion</h3>
+                    <div class="expertise-items">
+                        <span>Bronze: raw ingestion</span>
+                        <span>Silver: dado limpo e tipado</span>
+                        <span>Gold: agregado pra produto e BI</span>
+                        <span>Parquet, Iceberg ou Delta</span>
+                    </div>
+                </div>
+                <div class="expertise-category">
+                    <h3><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-stream"></use></svg> Ingestão em tempo real</h3>
+                    <div class="expertise-items">
+                        <span>CDC com Debezium</span>
+                        <span>Kafka multi-topic</span>
+                        <span>Kinesis + Lambda</span>
+                        <span>Janela de processamento</span>
+                    </div>
+                </div>
+                <div class="expertise-category">
+                    <h3><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-shield"></use></svg> Governança e LGPD</h3>
+                    <div class="expertise-items">
+                        <span>Isolamento multi-tenant</span>
+                        <span>Mascaramento de PII</span>
+                        <span>Trilha de auditoria</span>
+                        <span>Retenção e expurgo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="sobre">
+        <div class="container">
+            <div class="section-header">
+                <h2>Como funciona</h2>
+                <div class="separator"></div>
+            </div>
+            <div class="sobre-content">
+                <div class="sobre-text">
+                    <p>O primeiro passo é uma conversa de 30 minutos sem custo. Entendo o problema concreto, a stack atual, o time e a urgência. No fim digo se faz sentido seguir comigo ou se você precisa de outro perfil.</p>
+                    <p>Se faz sentido, mando proposta com escopo, prazo e valor em até 48 horas. Engajamento por projeto fechado entre duas e doze semanas, ou pacote mensal de horas pra acompanhamento contínuo.</p>
+                    <p>Trabalho remoto, no repositório e ferramentas do cliente. Entrega com testes, documentação técnica e handoff pro time interno, porque o objetivo é o cliente sair menos dependente e não mais.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq" id="faq">
+        <div class="container">
+            <div class="section-header">
+                <h2>Perguntas frequentes</h2>
+                <div class="separator"></div>
+                <p>As que mais aparecem no primeiro contato</p>
+            </div>
+
+            <div class="faq-list">
+                <details class="faq-item">
+                    <summary>Airflow ainda vale a pena ou já é dbt + Dagster?</summary>
+                    <div class="faq-answer"><p>Airflow continua sólido pra orquestração de pipelines com lógica imperativa e integrações heterogêneas. dbt brilha pra transformação SQL dentro do warehouse, é complementar e não substituto. Dagster é alternativa viável quando o time prioriza lineage e tipagem fortes, mas a troca raramente justifica o custo se a dor real é DAG mal estruturada. A escolha vem do problema, não do hype.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Como migra de batch pra streaming sem refazer tudo?</summary>
+                    <div class="faq-answer"><p>Em camadas. Primeiro identifica o conjunto pequeno de tabelas onde latência batch dói no produto. Pra esse subconjunto, monta uma trilha paralela (CDC do banco transacional ou evento na origem) que alimenta uma camada silver em tempo real, mantendo o batch atual rodando como fallback. A migração total acontece quando a trilha nova provou confiabilidade, não no dia da decisão.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Multi-tenant em PostgreSQL aguenta volume?</summary>
+                    <div class="faq-answer"><p>Sim, na maior parte dos casos. Estratégia depende do perfil de carga: row-level security pra tenants leves, schema-per-tenant pra cargas médias, e database-per-tenant só quando há requisito de isolamento físico (LGPD/HIPAA) ou tenants gigantes que dominam recursos. O erro comum é começar database-per-tenant e descobrir que a operação não escala.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Quanto tempo leva pra estabilizar uma pipeline quebrada?</summary>
+                    <div class="faq-answer"><p>Pipeline ruim mas funcional, com observabilidade básica, sai em duas a quatro semanas. Pipeline que quebra silenciosamente toda madrugada exige primeiro instrumentar (logging, métricas de qualidade, alertas) antes de refatorar, e isso adiciona uma a duas semanas. Refazer arquitetura inteira é projeto de dois a quatro meses, mas raramente é o melhor caminho.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Trabalha só com AWS ou também com GCP e Azure?</summary>
+                    <div class="faq-answer"><p>Profundidade maior em AWS (MWAA, Glue, Redshift, Aurora, Kinesis, S3, EMR). Também atendo projetos em GCP (BigQuery, Dataflow, Cloud Composer) e Azure (Synapse, Data Factory), mas com curva de adaptação inicial menor que em AWS. Pra projetos multicloud, deixo isso explícito na proposta.</p></div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2>Quer um diagnóstico técnico da sua pipeline de dados?</h2>
+            <p>30 minutos sem custo. Saio com leitura honesta do que tá funcionando, do que tá quebrado e do que vale priorizar.</p>
+            <a href="/consultoria/#contato" class="btn-primary">Agendar Diagnóstico</a>
+        </div>
+    </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="/consultoria/">Leonardo<span>Rifeli</span></a>
+                    <p>Consultoria Tech & Mentoria</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Serviços</h4>
+                    <ul>
+                        <li><a href="/consultoria/servicos/consultoria-ia-genai/">Consultoria GenAI</a></li>
+                        <li><a href="/consultoria/servicos/engenharia-dados/">Engenharia de Dados</a></li>
+                        <li><a href="/consultoria/servicos/arquitetura-software/">Arquitetura de Software</a></li>
+                        <li><a href="/consultoria/servicos/cloud-devops/">Cloud & DevOps</a></li>
+                        <li><a href="/consultoria/servicos/mentoria-tech/">Mentoria Tech</a></li>
+                        <li><a href="/consultoria/servicos/transformacao-digital/">Transformação Digital</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>Conecte-se</h4>
+                    <div class="social-links">
+                        <a href="https://linkedin.com/in/leonardorifeli" target="_blank" rel="noopener" aria-label="LinkedIn de Leonardo Rifeli"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-linkedin"></use></svg></a>
+                        <a href="https://github.com/leonardorifeli" target="_blank" rel="noopener" aria-label="GitHub de Leonardo Rifeli"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-github"></use></svg></a>
+                        <a href="/blog/" aria-label="Blog rifeli.dev"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-globe"></use></svg></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>43.622.212/0001-13 - RIFELI TECHNOLOGY & SOFTWARE CRAFTSMAN</p>
+                <p>&copy; 2026 Leonardo Rifeli. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <a class="wa-float" href="https://wa.me/5548988215325?text=Oi%20Leonardo%2C%20vim%20pelo%20site%20da%20consultoria." target="_blank" rel="noopener" aria-label="Chamar no WhatsApp">
+        <svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-whatsapp"></use></svg>
+        <span>WhatsApp</span>
+    </a>
+
+    <script src="/consultoria/js/script.js" defer></script>
+</body>
+</html>

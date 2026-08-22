@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Consultoria em IA generativa: arquitetura de pipelines RAG, escolha de LLM, embeddings e avaliação automática. Implementação em produção com foco em custo, latência e governança.">
+    <meta name="keywords" content="consultoria GenAI, consultoria IA generativa, implementação RAG, pipeline RAG produção, consultoria LLM, embeddings pgvector, avaliação LLM, reranking, prompt engineering">
+    <meta name="author" content="Leonardo Rifeli">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+    <meta name="googlebot" content="index, follow">
+    <meta name="theme-color" content="#F3F2F7" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0E0C14" media="(prefers-color-scheme: dark)">
+    <meta name="msapplication-TileColor" content="#5B2BD9">
+    <title>Consultoria em IA & GenAI: RAG, LLMs e Embeddings em Produção | Leonardo Rifeli</title>
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/consultoria/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="manifest" href="/consultoria/manifest.json">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="canonical" href="https://rifeli.dev/consultoria/servicos/consultoria-ia-genai/">
+
+    <!-- Aplica o tema antes da primeira pintura pra nao piscar branco no dark -->
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('tema');
+                if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+            } catch (e) {}
+        })();
+    </script>
+    <meta name="geo.region" content="BR-SC">
+    <meta name="geo.placename" content="Antônio Carlos">
+    <meta name="geo.position" content="-27.5197;-48.7662">
+    <meta name="ICBM" content="-27.5197, -48.7662">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:site_name" content="Leonardo Rifeli Consultoria">
+    <meta property="og:title" content="Consultoria em IA & GenAI: RAG, LLMs e Embeddings em Produção">
+    <meta property="og:description" content="Implementação de pipelines RAG em produção, escolha de LLM com matriz custo/latência/qualidade, avaliação automática e governança.">
+    <meta property="og:image" content="https://rifeli.dev/consultoria/img/og.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://rifeli.dev/consultoria/servicos/consultoria-ia-genai/">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Consultoria em IA & GenAI: RAG, LLMs e Embeddings em Produção">
+    <meta name="twitter:description" content="Implementação de pipelines RAG em produção, escolha de LLM e avaliação automática.">
+    <meta name="twitter:image" content="https://rifeli.dev/consultoria/img/og.png">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Consultoria em IA & GenAI",
+      "serviceType": "Consultoria em Inteligência Artificial Generativa",
+      "url": "https://rifeli.dev/consultoria/servicos/consultoria-ia-genai/",
+      "description": "Arquitetura e implementação de pipelines RAG em produção, escolha de LLM com matriz custo/latência/qualidade, embeddings, avaliação automática e governança.",
+      "provider": {
+        "@type": "ProfessionalService",
+        "name": "Leonardo Rifeli - Consultoria Tech & Mentoria",
+        "url": "https://rifeli.dev/consultoria/",
+        "telephone": "+5548988215325",
+        "email": "leonardo@rifeli.dev"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Brasil"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Entregas de Consultoria em GenAI",
+        "itemListElement": [
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Diagnóstico técnico de arquitetura de IA"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Implementação de pipeline RAG end-to-end"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Escolha de LLM e matriz custo/latência/qualidade"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Avaliação automática de retrieval e geração"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Governança, observabilidade e controle de custo"}}
+        ]
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Trabalha com LLMs open-source ou só com modelos comerciais?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Os dois. A escolha vem de uma matriz custo, latência, qualidade e requisitos de privacidade. Quando faz sentido, monto a pipeline com modelos open-source hospedados via Bedrock ou Vertex; quando o tradeoff favorece, OpenAI, Claude ou Gemini direto. Não tenho preferência ideológica de fornecedor."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Como se mede a qualidade de uma resposta de LLM em produção?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Com golden datasets representativos do caso de uso, métricas de retrieval (recall@k, MRR) e métricas de geração (faithfulness, relevance, completeness). Em produção, observabilidade de prompt, contexto, custo e latência por requisição. Sem isso, qualidade vira opinião."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "RAG resolve alucinação?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Reduz, não elimina. RAG fornece contexto factual ao modelo, mas alucinação também pode vir de prompt mal escrito, contexto irrelevante recuperado ou modelo extrapolando. O que controla isso é avaliação automática, guardrails e prompt engineering disciplinado, não só RAG."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Posso começar com um POC ou já vou direto pra produção?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Depende do estágio. Se o time nunca rodou GenAI em produção, faz sentido um POC enxuto pra validar premissa de negócio antes de gastar com arquitetura escalável. Se a validação já existe, partimos direto pra implementação produtiva com pipeline avaliável."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Quanto custa de infra rodar um RAG em produção?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Depende de volume de requisições, tamanho do índice vetorial, escolha de modelo e SLA. Pra dimensionar, faço estimativa por requisição (tokens de prompt, tokens de output, custo de embedding e custo de vector store) e projeto pro volume esperado. Isso entra no diagnóstico inicial."
+          }
+        }
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Início", "item": "https://rifeli.dev/consultoria/"},
+        {"@type": "ListItem", "position": 2, "name": "Serviços", "item": "https://rifeli.dev/consultoria/#servicos"},
+        {"@type": "ListItem", "position": 3, "name": "Consultoria em IA & GenAI", "item": "https://rifeli.dev/consultoria/servicos/consultoria-ia-genai/"}
+      ]
+    }
+    </script>
+</head>
+<body>
+    <a class="skip-link" href="#conteudo">Pular para o conteudo</a>
+
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="/consultoria/">Leonardo<span>Rifeli</span></a>
+            </div>
+
+            <nav class="nav" id="menu-principal" aria-label="Navegacao principal">
+                <ul>
+                    <li><a href="/consultoria/#servicos">Servicos</a></li>
+                    <li><a href="/consultoria/#processo">Como funciona</a></li>
+                    <li><a href="/consultoria/#sobre">Sobre</a></li>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+                <a href="/consultoria/#contato" class="btn-primary">Agendar 30 min</a>
+            </nav>
+
+            <div class="header-actions">
+                <button type="button" class="theme-toggle" aria-label="Mudar tema">
+                    <svg class="icon icon-sun" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-sun"></use></svg>
+                    <svg class="icon icon-moon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-moon"></use></svg>
+                </button>
+                <a href="/consultoria/#contato" class="btn-primary">Agendar 30 min</a>
+                <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="menu-principal" aria-label="Abrir menu">
+                    <svg class="icon icon-menu" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-menu"></use></svg>
+                    <svg class="icon icon-close" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-close"></use></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="conteudo">
+
+    <section class="hero">
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <h1>Consultoria em IA Generativa e Pipelines RAG</h1>
+                <h2>Implementação de <span class="highlight">LLMs</span>, <span class="highlight">embeddings</span> e <span class="highlight">RAG</span> em produção, com foco em custo, latência e qualidade mensurável</h2>
+                <p>POC bonito é fácil. Sistema de IA generativa que aguenta tráfego real, mantém custo previsível e tem qualidade auditável é outra história. É nessa segunda parte que entro.</p>
+                <div class="hero-buttons">
+                    <a href="/consultoria/#contato" class="btn-primary">Agendar Diagnóstico</a>
+                    <a href="#faq" class="btn-secondary">Ver FAQ Técnica</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://avatars.githubusercontent.com/u/6767689?v=4" alt="Leonardo Rifeli - Consultor em IA & GenAI">
+            </div>
+        </div>
+    </section>
+
+    <section class="sobre">
+        <div class="container">
+            <div class="section-header">
+                <h2>Quando contratar consultoria em GenAI</h2>
+                <div class="separator"></div>
+            </div>
+            <div class="sobre-content">
+                <div class="sobre-text">
+                    <p>O time já provou valor com um POC mas não sabe como escalar pra produção sem estourar custo de inferência, e nenhum engenheiro do squad tem experiência com pipelines RAG sob tráfego real.</p>
+                    <p>Uma pipeline RAG ingênua retorna contexto errado, e ninguém tem clareza se o problema é o chunking, a função de embedding, o reranking ou o prompt. Cada um aposta numa hipótese diferente, e o time gira em volta sem evidência.</p>
+                    <p>O C-level cobrou "vamos usar IA" e o board quer um plano técnico defensável, não slide bonito. Você precisa de alguém que tenha colocado GenAI em produção e saiba descer pro detalhe quando o CFO perguntar quanto vai custar.</p>
+                    <p>O produto vai colocar LLM no caminho crítico do cliente, e qualidade precisa virar métrica auditável antes do go-live, não depois do incidente.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="servicos">
+        <div class="container">
+            <div class="section-header">
+                <h2>O que entrego</h2>
+                <div class="separator"></div>
+                <p>Entregas técnicas concretas, não slides genéricos sobre o futuro da IA</p>
+            </div>
+            <div class="servicos-grid">
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-stethoscope"></use></svg></div>
+                    <h3>Diagnóstico técnico</h3>
+                    <p>Auditoria da arquitetura existente: pipeline atual, escolha de modelo, vector store, prompts, custo por requisição, métricas em produção. Saio com plano priorizado de remediação.</p>
+                </div>
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-network"></use></svg></div>
+                    <h3>Pipeline RAG end-to-end</h3>
+                    <p>Ingestão, chunking, embedding, retrieval, reranking e geração. Implementação no repositório do cliente, com testes e documentação. Stack adaptada ao que o time já opera.</p>
+                </div>
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-scale"></use></svg></div>
+                    <h3>Escolha de modelo</h3>
+                    <p>Matriz custo, latência, qualidade e requisitos de privacidade pra cada caso de uso. OpenAI, Claude, Gemini, open-source via Bedrock ou Vertex. Decisão defensável, não preferência pessoal.</p>
+                </div>
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-vial"></use></svg></div>
+                    <h3>Avaliação automática</h3>
+                    <p>Golden datasets, métricas de retrieval (recall@k, MRR), métricas de geração (faithfulness, relevance). Pipeline de eval que roda em CI antes de cada deploy.</p>
+                </div>
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-shield"></use></svg></div>
+                    <h3>Governança e guardrails</h3>
+                    <p>Logging estruturado de prompt e contexto, observabilidade de custo por tenant, guardrails de entrada e saída, controle de PII e auditoria pra LGPD.</p>
+                </div>
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-code"></use></svg></div>
+                    <h3>Code review e mentoria do squad</h3>
+                    <p>Revisão da pipeline atual e do código de prompt, pareamento com o time pra elevar o nível interno, padrões de prompt engineering documentados pra escalar sem mim.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="expertise">
+        <div class="container">
+            <div class="section-header">
+                <h2>Casos típicos</h2>
+                <div class="separator"></div>
+                <p>Padrões que já entreguei em produção ou que aparecem com mais frequência na fila</p>
+            </div>
+            <div class="expertise-content">
+                <div class="expertise-category">
+                    <h3><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-book"></use></svg> RAG sobre documentação interna</h3>
+                    <div class="expertise-items">
+                        <span>Suporte técnico</span>
+                        <span>Onboarding de devs</span>
+                        <span>Base de conhecimento</span>
+                        <span>Q&A sobre contratos</span>
+                    </div>
+                </div>
+                <div class="expertise-category">
+                    <h3><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-headset"></use></svg> Copilot operacional</h3>
+                    <div class="expertise-items">
+                        <span>Atendimento ao cliente</span>
+                        <span>Contexto multi-tenant</span>
+                        <span>Sugestão de resposta</span>
+                        <span>Tool calling</span>
+                    </div>
+                </div>
+                <div class="expertise-category">
+                    <h3><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-file-text"></use></svg> Geração de conteúdo estruturado</h3>
+                    <div class="expertise-items">
+                        <span>Relatórios dinâmicos</span>
+                        <span>Sumarização de tickets</span>
+                        <span>Resposta a avaliação</span>
+                        <span>Pesquisa em linguagem natural</span>
+                    </div>
+                </div>
+                <div class="expertise-category">
+                    <h3><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-robot"></use></svg> Agents e orquestração</h3>
+                    <div class="expertise-items">
+                        <span>Agent com tool calling</span>
+                        <span>Fallback de custo entre LLMs</span>
+                        <span>Workflow multi-step</span>
+                        <span>LangGraph e LangChain</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="sobre">
+        <div class="container">
+            <div class="section-header">
+                <h2>Como funciona</h2>
+                <div class="separator"></div>
+            </div>
+            <div class="sobre-content">
+                <div class="sobre-text">
+                    <p>O primeiro passo é uma conversa de 30 minutos sem custo. Entendo o problema concreto, as restrições de stack, prazo e orçamento, e digo logo se faz sentido seguir ou se você precisa de outro tipo de profissional.</p>
+                    <p>Se faz sentido, mando proposta com escopo, prazo e valor em até 48 horas. Engajamento por projeto fechado, entre duas e doze semanas, ou pacote mensal de horas pra acompanhamento contínuo.</p>
+                    <p>Trabalho remoto, no repositório do cliente, com comunicação no canal que o time já usa (Slack, Discord, Teams). Entregas com documentação técnica e handoff pro time interno, porque o objetivo é o cliente sair menos dependente, não mais.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq" id="faq">
+        <div class="container">
+            <div class="section-header">
+                <h2>Perguntas frequentes</h2>
+                <div class="separator"></div>
+                <p>As que mais aparecem no primeiro contato</p>
+            </div>
+
+            <div class="faq-list">
+                <details class="faq-item">
+                    <summary>Trabalha com LLMs open-source ou só com modelos comerciais?</summary>
+                    <div class="faq-answer"><p>Os dois. A escolha vem de uma matriz custo, latência, qualidade e requisitos de privacidade. Quando faz sentido, monto a pipeline com modelos open-source hospedados via Bedrock ou Vertex; quando o tradeoff favorece, OpenAI, Claude ou Gemini direto. Não tenho preferência ideológica de fornecedor.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Como se mede a qualidade de uma resposta de LLM em produção?</summary>
+                    <div class="faq-answer"><p>Com golden datasets representativos do caso de uso, métricas de retrieval (recall@k, MRR) e métricas de geração (faithfulness, relevance, completeness). Em produção, observabilidade de prompt, contexto, custo e latência por requisição. Sem isso, qualidade vira opinião.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>RAG resolve alucinação?</summary>
+                    <div class="faq-answer"><p>Reduz, não elimina. RAG fornece contexto factual ao modelo, mas alucinação também pode vir de prompt mal escrito, contexto irrelevante recuperado ou modelo extrapolando. O que controla isso é avaliação automática, guardrails e prompt engineering disciplinado, não só RAG.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Posso começar com um POC ou já vou direto pra produção?</summary>
+                    <div class="faq-answer"><p>Depende do estágio. Se o time nunca rodou GenAI em produção, faz sentido um POC enxuto pra validar premissa de negócio antes de gastar com arquitetura escalável. Se a validação já existe, partimos direto pra implementação produtiva com pipeline avaliável.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Quanto custa de infra rodar um RAG em produção?</summary>
+                    <div class="faq-answer"><p>Depende de volume de requisições, tamanho do índice vetorial, escolha de modelo e SLA. Pra dimensionar, faço estimativa por requisição (tokens de prompt, tokens de output, custo de embedding e custo de vector store) e projeto pro volume esperado. Isso entra no diagnóstico inicial.</p></div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2>Quer um diagnóstico técnico do seu pipeline de IA?</h2>
+            <p>30 minutos sem custo. Saio com leitura técnica honesta do que tá funcionando, do que tá quebrado e do que vale priorizar.</p>
+            <a href="/consultoria/#contato" class="btn-primary">Agendar Diagnóstico</a>
+        </div>
+    </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="/consultoria/">Leonardo<span>Rifeli</span></a>
+                    <p>Consultoria Tech & Mentoria</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Serviços</h4>
+                    <ul>
+                        <li><a href="/consultoria/servicos/consultoria-ia-genai/">Consultoria GenAI</a></li>
+                        <li><a href="/consultoria/servicos/engenharia-dados/">Engenharia de Dados</a></li>
+                        <li><a href="/consultoria/servicos/arquitetura-software/">Arquitetura de Software</a></li>
+                        <li><a href="/consultoria/servicos/cloud-devops/">Cloud & DevOps</a></li>
+                        <li><a href="/consultoria/servicos/mentoria-tech/">Mentoria Tech</a></li>
+                        <li><a href="/consultoria/servicos/transformacao-digital/">Transformação Digital</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>Conecte-se</h4>
+                    <div class="social-links">
+                        <a href="https://linkedin.com/in/leonardorifeli" target="_blank" rel="noopener" aria-label="LinkedIn de Leonardo Rifeli"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-linkedin"></use></svg></a>
+                        <a href="https://github.com/leonardorifeli" target="_blank" rel="noopener" aria-label="GitHub de Leonardo Rifeli"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-github"></use></svg></a>
+                        <a href="/blog/" aria-label="Blog rifeli.dev"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-globe"></use></svg></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>43.622.212/0001-13 - RIFELI TECHNOLOGY & SOFTWARE CRAFTSMAN</p>
+                <p>&copy; 2026 Leonardo Rifeli. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <a class="wa-float" href="https://wa.me/5548988215325?text=Oi%20Leonardo%2C%20vim%20pelo%20site%20da%20consultoria." target="_blank" rel="noopener" aria-label="Chamar no WhatsApp">
+        <svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-whatsapp"></use></svg>
+        <span>WhatsApp</span>
+    </a>
+
+    <script src="/consultoria/js/script.js" defer></script>
+</body>
+</html>

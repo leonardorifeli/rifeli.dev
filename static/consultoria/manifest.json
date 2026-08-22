@@ -1,0 +1,30 @@
+{
+  "name": "Leonardo Rifeli - Consultoria Tech & Mentoria",
+  "short_name": "Rifeli Consultoria",
+  "description": "Consultoria em GenAI, pipelines RAG, engenharia de dados e arquitetura cloud-native.",
+  "start_url": "/consultoria/",
+  "display": "standalone",
+  "background_color": "#F3F2F7",
+  "theme_color": "#5B2BD9",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/consultoria/img/og.png",
+      "sizes": "1200x630",
+      "type": "image/png"
+    }
+  ],
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "categories": [
+    "business",
+    "technology",
+    "consulting"
+  ],
+  "scope": "/consultoria/"
+}

@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultoria GenAI, RAG e Engenharia de Dados | Leonardo Rifeli</title>
+    <meta name="description" content="Consultoria em GenAI, pipelines RAG, engenharia de dados e arquitetura cloud-native. CTO fracional e mentoria tech com 15+ anos construindo sistemas escaláveis.">
+    <meta name="keywords" content="consultoria GenAI, implementação RAG, consultoria LLM, CTO fracional, consultoria engenharia de dados, arquitetura cloud-native, mentoria tech, pipelines RAG, embeddings, AWS, Kubernetes, Golang">
+    <meta name="author" content="Leonardo Rifeli">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+    <meta name="theme-color" content="#F3F2F7" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0E0C14" media="(prefers-color-scheme: dark)">
+    <meta name="msapplication-TileColor" content="#5B2BD9">
+    <link rel="canonical" href="https://rifeli.dev/consultoria/">
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+    <meta name="geo.region" content="BR-SC">
+    <meta name="geo.placename" content="Antônio Carlos">
+    <meta name="geo.position" content="-27.5197;-48.7662">
+    <meta name="ICBM" content="-27.5197, -48.7662">
+
+    <!-- Aplica o tema antes da primeira pintura pra nao piscar branco no dark -->
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('tema');
+                if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+            } catch (e) {}
+        })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/consultoria/css/styles.css">
+    <link rel="manifest" href="/consultoria/manifest.json">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="apple-touch-icon" href="/favicon.svg">
+
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:site_name" content="Leonardo Rifeli Consultoria">
+    <meta property="og:title" content="Consultoria GenAI, RAG e Engenharia de Dados | Leonardo Rifeli">
+    <meta property="og:description" content="POC bonito é fácil. Pipeline RAG com custo previsível, latência sob controle e qualidade auditável é outra história. É nessa segunda parte que eu entro.">
+    <meta property="og:image" content="https://rifeli.dev/consultoria/img/og.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Consultoria em GenAI e dados que aguenta produção - Leonardo Rifeli">
+    <meta property="og:url" content="https://rifeli.dev/consultoria/">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Consultoria GenAI, RAG e Engenharia de Dados | Leonardo Rifeli">
+    <meta name="twitter:description" content="POC bonito é fácil. Pipeline RAG com custo previsível e qualidade auditável é outra história.">
+    <meta name="twitter:image" content="https://rifeli.dev/consultoria/img/og.png">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "@id": "https://rifeli.dev/consultoria/#business",
+      "name": "Leonardo Rifeli - Consultoria Tech & Mentoria",
+      "url": "https://rifeli.dev/consultoria/",
+      "logo": "https://rifeli.dev/consultoria/img/favicon.svg",
+      "image": "https://rifeli.dev/consultoria/img/og.png",
+      "description": "Consultoria em GenAI, pipelines RAG, engenharia de dados e arquitetura cloud-native. CTO fracional e mentoria tech.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Antônio Carlos",
+        "addressRegion": "SC",
+        "addressCountry": "BR"
+      },
+      "geo": { "@type": "GeoCoordinates", "latitude": "-27.5197", "longitude": "-48.7662" },
+      "telephone": "+5548988215325",
+      "email": "leonardo@rifeli.dev",
+      "priceRange": "$$$",
+      "areaServed": { "@type": "Country", "name": "Brasil" },
+      "availableLanguage": ["pt-BR", "en"],
+      "openingHoursSpecification": [{
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+        "opens": "09:00",
+        "closes": "18:00"
+      }],
+      "sameAs": [
+        "https://linkedin.com/in/leonardorifeli",
+        "https://github.com/leonardorifeli",
+        "https://rifeli.dev"
+      ],
+      "founder": {
+        "@type": "Person",
+        "@id": "https://rifeli.dev/#person",
+        "name": "Leonardo Rifeli",
+        "jobTitle": "CTO & Co-Founder at Harmo",
+        "description": "Especialista em GenAI, engenharia de dados e arquitetura cloud-native com mais de 15 anos de experiência.",
+        "image": "https://avatars.githubusercontent.com/u/6767689?v=4",
+        "url": "https://rifeli.dev",
+        "sameAs": [
+          "https://linkedin.com/in/leonardorifeli",
+          "https://github.com/leonardorifeli",
+          "https://rifeli.dev"
+        ]
+      },
+      "knowsAbout": [
+        "Consultoria GenAI", "Pipelines RAG", "Embeddings", "Prompt engineering",
+        "LangChain", "LangGraph", "LLMs", "Engenharia de Dados",
+        "Arquitetura de Software", "Microserviços", "Golang", "Python",
+        "AWS", "Kubernetes", "Cloud-Native", "CTO fracional"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Serviços de Consultoria Tech",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Consultoria em IA & GenAI", "url": "https://rifeli.dev/consultoria/servicos/consultoria-ia-genai/", "description": "Implementação de soluções de IA generativa, pipelines RAG, embeddings e integração de LLMs." } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Engenharia de Dados", "url": "https://rifeli.dev/consultoria/servicos/engenharia-dados/", "description": "Pipelines de dados robustos, ETL, ingestão em tempo real e arquiteturas multi-tenant." } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Arquitetura de Software", "url": "https://rifeli.dev/consultoria/servicos/arquitetura-software/", "description": "Design e implementação de arquiteturas escaláveis, microserviços e sistemas distribuídos." } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Cloud & DevOps", "url": "https://rifeli.dev/consultoria/servicos/cloud-devops/", "description": "Estratégias cloud-native, infraestrutura como código e automação em AWS." } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Mentoria Tech", "url": "https://rifeli.dev/consultoria/servicos/mentoria-tech/", "description": "Orientação personalizada para profissionais e equipes em GenAI, dados e engenharia." } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Transformação Digital", "url": "https://rifeli.dev/consultoria/servicos/transformacao-digital/", "description": "Modernização de sistemas legados e adoção de novas tecnologias." } }
+        ]
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "O que é consultoria em GenAI e quando preciso contratar?", "acceptedAnswer": { "@type": "Answer", "text": "Consultoria em GenAI cobre desenho e implementação de soluções com LLMs, pipelines RAG, embeddings e integração com modelos como OpenAI, Gemini e Claude. Faz sentido quando o time precisa entregar valor com IA generativa em produção e não tem experiência consolidada em arquitetura desses sistemas, tradeoffs de custo/latência ou avaliação de qualidade." } },
+        { "@type": "Question", "name": "Quanto custa implementar uma pipeline RAG?", "acceptedAnswer": { "@type": "Answer", "text": "Depende do volume de documentos, número de fontes, qualidade exigida e se a infra de vetor já existe. Um RAG inicial em produção pode rodar em algumas semanas; arquiteturas multi-tenant, com reranking e avaliação automática, escalam pra meses. O escopo é fechado na primeira conversa de diagnóstico, sem custo." } },
+        { "@type": "Question", "name": "Qual a diferença entre consultoria e mentoria tech?", "acceptedAnswer": { "@type": "Answer", "text": "Consultoria entrega arquitetura, decisão técnica ou implementação direta no produto do cliente. Mentoria é desenvolvimento contínuo de profissionais ou equipes, com sessões recorrentes, revisão de código e arquitetura, e suporte em decisões de carreira ou liderança técnica." } },
+        { "@type": "Question", "name": "Quais modelos de engajamento estão disponíveis?", "acceptedAnswer": { "@type": "Answer", "text": "Três formatos: projeto fechado com escopo definido e entrega cravada, pacote mensal de horas pra acompanhamento contínuo, e hora avulsa pra diagnósticos pontuais ou code review. CTO fracional também é possível pra empresas em estágio inicial que precisam de liderança técnica part-time." } },
+        { "@type": "Question", "name": "Atende clientes fora do Brasil?", "acceptedAnswer": { "@type": "Answer", "text": "Sim. Consultorias e mentorias são remotas via Google Meet ou Zoom, e o atendimento é em português ou inglês. Já trabalhei com times distribuídos em múltiplos fusos horários." } },
+        { "@type": "Question", "name": "Quanto tempo leva uma consultoria típica?", "acceptedAnswer": { "@type": "Answer", "text": "Diagnósticos curtos saem em uma a duas semanas. Projetos de implementação com escopo médio rodam entre quatro e doze semanas. Engajamentos contínuos como CTO fracional ou mentoria são por trimestre ou semestre." } },
+        { "@type": "Question", "name": "Como funciona o primeiro contato?", "acceptedAnswer": { "@type": "Answer", "text": "É uma conversa de 30 minutos, sem custo, pra entender o problema, restrições e prazo. Se faz sentido seguir, o próximo passo é uma proposta com escopo, valor e cronograma. Pra agendar, basta preencher o formulário no fim da página." } }
+      ]
+    }
+    </script>
+</head>
+<body>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="/consultoria/">Leonardo<span>Rifeli</span></a>
+            </div>
+
+            <nav class="nav" id="menu-principal" aria-label="Navegação principal">
+                <ul>
+                    <li><a href="#servicos">Serviços</a></li>
+                    <li><a href="#processo">Como funciona</a></li>
+                    <li><a href="#sobre">Sobre</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="/blog/">Blog</a></li>
+                </ul>
+                <a href="#contato" class="btn-primary">Agendar 30 min</a>
+            </nav>
+
+            <div class="header-actions">
+                <button type="button" class="theme-toggle" aria-label="Mudar tema">
+                    <svg class="icon icon-sun" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-sun"></use></svg>
+                    <svg class="icon icon-moon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-moon"></use></svg>
+                </button>
+                <a href="#contato" class="btn-primary">Agendar 30 min</a>
+                <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="menu-principal" aria-label="Abrir menu">
+                    <svg class="icon icon-menu" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-menu"></use></svg>
+                    <svg class="icon icon-close" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-close"></use></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="conteudo">
+
+    <section class="hero">
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <p class="eyebrow">Consultoria técnica &middot; GenAI e dados</p>
+                <h1>Consultoria em GenAI e dados que aguenta produção.</h1>
+                <h2>POC bonito é fácil. Pipeline <span class="highlight">RAG</span> com custo previsível, latência sob controle e qualidade auditável é outra história. É nessa segunda parte que eu entro.</h2>
+                <p>Mais de 15 anos construindo sistemas escaláveis. Hoje CTO da Harmo, plataforma AI-first que roda LLMs, embeddings e RAG em produção multi-tenant todo dia.</p>
+                <div class="hero-buttons">
+                    <a href="#contato" class="btn-primary">
+                        Agendar 30 min
+                        <svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-arrow-right"></use></svg>
+                    </a>
+                    <a href="https://wa.me/5548988215325?text=Oi%20Leonardo%2C%20vim%20pelo%20site%20da%20consultoria." class="btn-secondary" target="_blank" rel="noopener">
+                        <svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-whatsapp"></use></svg>
+                        Chamar no WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- Assinatura da pagina: nao promete resultado de cliente, declara
+                 o que passa a ser mensuravel depois que o trabalho acontece. -->
+            <div class="readout" aria-labelledby="readout-titulo">
+                <div class="readout-head">
+                    <p class="eyebrow" id="readout-titulo">O que passa a ser medido</p>
+                    <span class="readout-status"><span class="dot"></span>instrumentado</span>
+                </div>
+                <dl class="readout-list">
+                    <div class="readout-row">
+                        <dt class="readout-metric">recall@k<span class="readout-desc">o retrieval trouxe mesmo o documento certo</span></dt>
+                        <dd class="readout-unit">0&ndash;1</dd>
+                    </div>
+                    <div class="readout-row">
+                        <dt class="readout-metric">faithfulness<span class="readout-desc">a resposta se sustenta no contexto recuperado</span></dt>
+                        <dd class="readout-unit">0&ndash;1</dd>
+                    </div>
+                    <div class="readout-row">
+                        <dt class="readout-metric">custo / requisição<span class="readout-desc">prompt, output e embedding somados</span></dt>
+                        <dd class="readout-unit">USD</dd>
+                    </div>
+                    <div class="readout-row">
+                        <dt class="readout-metric">latência p99<span class="readout-desc">o pior caso que o seu usuário sente</span></dt>
+                        <dd class="readout-unit">ms</dd>
+                    </div>
+                    <div class="readout-row">
+                        <dt class="readout-metric">consumo por tenant<span class="readout-desc">quem gasta o quê, com rateio defensável</span></dt>
+                        <dd class="readout-unit">USD/mês</dd>
+                    </div>
+                </dl>
+                <p class="readout-foot">Nenhum desses números existe antes de alguém instalar. Enquanto não existem, qualidade de IA é opinião e custo é surpresa no fim do mês.</p>
+            </div>
+        </div>
+
+        <div class="container">
+            <p class="hero-strip">
+                <span><b>15+ anos</b> em engenharia</span>
+                <span><b>CTO &amp; co-founder</b> na Harmo</span>
+                <span>Antônio Carlos, SC &middot; <b>remoto</b></span>
+                <a href="https://github.com/leonardorifeli" target="_blank" rel="noopener">github</a>
+                <a href="https://linkedin.com/in/leonardorifeli" target="_blank" rel="noopener">linkedin</a>
+                <a href="/blog/">blog</a>
+            </p>
+        </div>
+    </section>
+
+    <section class="servicos" id="servicos">
+        <div class="container">
+            <div class="section-header reveal">
+                <p class="eyebrow">Escopos</p>
+                <h2>Seis frentes, um critério: tem que rodar depois que eu sair.</h2>
+                <p>Cada frente tem uma página própria com o detalhe técnico do que entra, o que não entra e como se mede.</p>
+            </div>
+
+            <div class="servicos-grid reveal">
+                <a class="servico-card" href="/consultoria/servicos/consultoria-ia-genai/">
+                    <span class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-brain"></use></svg></span>
+                    <h3>Consultoria em IA &amp; GenAI</h3>
+                    <p>Pipelines RAG do ingest ao reranking, escolha de modelo com matriz de tradeoff e avaliação automática rodando em CI.</p>
+                    <ul>
+                        <li>Arquitetura de sistemas de IA</li>
+                        <li>Implementação de RAG pipelines</li>
+                        <li>Prompt engineering</li>
+                        <li>OpenAI, Gemini, Claude, open-source</li>
+                    </ul>
+                    <span class="card-more">Ver detalhe <svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-arrow-right"></use></svg></span>
+                </a>
+
+                <a class="servico-card" href="/consultoria/servicos/engenharia-dados/">
+                    <span class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-database"></use></svg></span>
+                    <h3>Engenharia de Dados</h3>
+                    <p>Pipelines que não quebram em silêncio: ingestão, ETL, particionamento e observabilidade de dado, não só de máquina.</p>
+                    <ul>
+                        <li>Pipelines de dados com Airflow</li>
+                        <li>ETL com Python</li>
+                        <li>Ingestão em tempo real</li>
+                        <li>Arquiteturas de dados multi-tenant</li>
+                    </ul>
+                    <span class="card-more">Ver detalhe <svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-arrow-right"></use></svg></span>
+                </a>
+
+                <a class="servico-card" href="/consultoria/servicos/arquitetura-software/">
+                    <span class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-server"></use></svg></span>
+                    <h3>Arquitetura de Software</h3>
+                    <p>Decisão de arquitetura com o custo escrito ao lado. Microserviços quando resolve, monólito quando é honesto.</p>
+                    <ul>
+                        <li>Microserviços em Golang</li>
+                        <li>Arquiteturas event-driven</li>
+                        <li>Sistemas distribuídos</li>
+                        <li>Otimização de performance</li>
+                    </ul>
+                    <span class="card-more">Ver detalhe <svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-arrow-right"></use></svg></span>
+                </a>
+
+                <a class="servico-card" href="/consultoria/servicos/cloud-devops/">
+                    <span class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-cloud"></use></svg></span>
+                    <h3>Cloud &amp; DevOps</h3>
+                    <p>Infra como código, cluster que escala sem susto e conta da AWS que alguém consegue explicar linha a linha.</p>
+                    <ul>
+                        <li>AWS (EKS, Lambda, Step Functions)</li>
+                        <li>Kubernetes</li>
+                        <li>Infraestrutura como código</li>
+                        <li>Arquiteturas serverless</li>
+                    </ul>
+                    <span class="card-more">Ver detalhe <svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-arrow-right"></use></svg></span>
+                </a>
+
+                <a class="servico-card" href="/consultoria/servicos/mentoria-tech/">
+                    <span class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-users"></use></svg></span>
+                    <h3>Mentoria Tech</h3>
+                    <p>Sessão recorrente com engenheiro ou squad, revisão de código e arquitetura, e as conversas de carreira que ninguém tem.</p>
+                    <ul>
+                        <li>Mentoria individual</li>
+                        <li>Treinamento de equipes</li>
+                        <li>Revisão de código e arquitetura</li>
+                        <li>Boas práticas e padrões</li>
+                    </ul>
+                    <span class="card-more">Ver detalhe <svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-arrow-right"></use></svg></span>
+                </a>
+
+                <a class="servico-card" href="/consultoria/servicos/transformacao-digital/">
+                    <span class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-git-branch"></use></svg></span>
+                    <h3>Transformação Digital</h3>
+                    <p>Modernizar legado sem parar o negócio: migração em fatias, com rollback pensado antes e não durante.</p>
+                    <ul>
+                        <li>Modernização de sistemas</li>
+                        <li>Migração para cloud</li>
+                        <li>Adoção de IA e automação</li>
+                        <li>Estratégia de dados</li>
+                    </ul>
+                    <span class="card-more">Ver detalhe <svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-arrow-right"></use></svg></span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="processo" id="processo">
+        <div class="container">
+            <div class="section-header reveal">
+                <p class="eyebrow">Do primeiro contato ao handoff</p>
+                <h2>Como funciona, com os prazos escritos.</h2>
+                <p>Sem etapa de descoberta cobrada, sem proposta de trinta páginas. O rótulo de cada etapa é o prazo real dela.</p>
+            </div>
+
+            <ol class="processo-list reveal">
+                <li class="processo-step">
+                    <span class="processo-when">dia 0</span>
+                    <div>
+                        <h3>Conversa de 30 minutos, sem custo</h3>
+                        <p>Você descreve o problema, as restrições de stack, prazo e orçamento. Eu digo se resolvo, se resolvo parcialmente, ou se você precisa de outro tipo de profissional. Já saí de várias dessas conversas indicando outra pessoa, e tá tudo bem.</p>
+                    </div>
+                </li>
+                <li class="processo-step">
+                    <span class="processo-when">até 48h</span>
+                    <div>
+                        <h3>Proposta com escopo, prazo e valor</h3>
+                        <p>Um documento curto com o que entra, o que explicitamente não entra, o cronograma e o valor fechado. Projeto com escopo definido, pacote mensal de horas ou hora avulsa pra diagnóstico. Você aprova ou não, sem follow-up chato.</p>
+                    </div>
+                </li>
+                <li class="processo-step">
+                    <span class="processo-when">2 a 12 semanas</span>
+                    <div>
+                        <h3>Execução no seu repositório</h3>
+                        <p>Trabalho dentro do repo do cliente, no canal que o time já usa, com commit e PR revisável. Sem caixa-preta e sem entrega de zip no fim. Se o prazo escorregar, você fica sabendo na semana, não no vencimento.</p>
+                    </div>
+                </li>
+                <li class="processo-step">
+                    <span class="processo-when">no encerramento</span>
+                    <div>
+                        <h3>Handoff e documentação</h3>
+                        <p>Documentação técnica, pareamento com o time interno e os runbooks do que foi construído. O objetivo é o cliente sair menos dependente de mim, não mais. Consultor que cria dependência tá vendendo outra coisa.</p>
+                    </div>
+                </li>
+            </ol>
+        </div>
+    </section>
+
+    <section class="prova" id="prova">
+        <div class="container">
+            <div class="section-header reveal">
+                <p class="eyebrow">Verificável</p>
+                <h2>O que dá pra conferir sem me perguntar nada.</h2>
+                <p>Nada de logo de cliente que não posso citar. O que tem aqui você abre em outra aba e checa agora.</p>
+            </div>
+
+            <div class="prova-grid reveal">
+                <article class="prova-card">
+                    <p class="eyebrow">Operação</p>
+                    <h3>Harmo, desde 2020</h3>
+                    <p>Co-founder e CTO. Plataforma multi-tenant com LLMs, embeddings e pipelines RAG rodando em produção pra varejo físico enterprise. Não é laboratório, é sistema com cliente pagando e SLA.</p>
+                    <a href="https://linkedin.com/in/leonardorifeli" target="_blank" rel="noopener">
+                        Ver no LinkedIn <svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-arrow-right"></use></svg>
+                    </a>
+                </article>
+
+                <article class="prova-card">
+                    <p class="eyebrow">Código</p>
+                    <h3>Aberto no GitHub</h3>
+                    <p>Projetos open-source e o histórico de commits público. A melhor forma de avaliar um consultor técnico é ler o código dele antes de contratar.</p>
+                    <a href="https://github.com/leonardorifeli" target="_blank" rel="noopener">
+                        Ver o GitHub <svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-arrow-right"></use></svg>
+                    </a>
+                </article>
+
+                <article class="prova-card">
+                    <p class="eyebrow">Escrita técnica</p>
+                    <h3>Blog com o detalhe feio</h3>
+                    <p>Posts sobre crise de performance no Aurora, observabilidade no EKS, worker pools em Go, loop improdutivo em Step Functions. Problema real com número real, não listicle.</p>
+                    <a href="/blog/">
+                        Ler no rifeli.dev <svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-arrow-right"></use></svg>
+                    </a>
+                </article>
+            </div>
+
+            <p class="prova-note reveal">
+                <svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-alert-circle"></use></svg>
+                <span>Cases de cliente ficam sob NDA e por isso não estão publicados aqui. Na conversa de 30 minutos eu abro os detalhes que o contrato permite e passo referência direta de quem já trabalhou comigo.</span>
+            </p>
+
+            <!-- ================= SLOTS DE PROVA SOCIAL =========================
+                 Quando tiver depoimento liberado, cole aqui dentro de .prova-grid
+                 e apague o .prova-note acima. Formato:
+
+                 <article class="prova-card">
+                     <p class="eyebrow">Depoimento</p>
+                     <h3>"Frase curta e específica do resultado."</h3>
+                     <p>Nome Sobrenome, cargo, empresa.</p>
+                 </article>
+
+                 Se não puder citar nome, anonimize mantendo o específico:
+                 "Varejo enterprise, 40 lojas" em vez de "um grande cliente".
+                 Adicionar tambem o schema Review/AggregateRating no <head>
+                 SOMENTE quando o depoimento estiver visível na página.
+                 ================================================================= -->
+        </div>
+    </section>
+
+    <section class="sobre" id="sobre">
+        <div class="container">
+            <div class="section-header reveal">
+                <p class="eyebrow">Quem assina o trabalho</p>
+                <h2>Leonardo Rifeli</h2>
+            </div>
+
+            <div class="sobre-content reveal">
+                <div class="sobre-text">
+                    <p>Co-founder e CTO na Harmo, onde lidero estratégia, arquitetura e engenharia de uma plataforma AI-first que transforma dado operacional em decisão usando LLMs, pipelines RAG e arquitetura de dados multi-tenant.</p>
+                    <p>São mais de 15 anos em engenharia de software, pipelines de dados e arquitetura cloud-native. A parte que eu mais gosto é a chata: transformar conjunto de dado bagunçado em coisa acionável com NLP, embeddings e orquestração de LLM, e depois provar que funciona com métrica.</p>
+                    <p>Na Harmo conduzi a virada de analytics operacional pra um motor alimentado por IA, onde marcas conversam com o próprio dado em linguagem natural, geram relatório dinâmico, configuram notificação inteligente e chegam no insight em segundos. Isso significa que os problemas que você tem eu provavelmente já levei na cara.</p>
+                    <p>Moro na área rural de Antônio Carlos, no sul do Brasil, equilibrando a vida de construtor, pai de família e eterno aprendiz. Atendo remoto, em português ou inglês.</p>
+                    <blockquote>"Construa tecnologia que escuta, aprende e age, para pessoas que importam."</blockquote>
+                </div>
+
+                <div class="sobre-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">15+</span>
+                        <span class="stat-text">Anos de experiência</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">2</span>
+                        <span class="stat-text">Startups fundadas</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">12+</span>
+                        <span class="stat-text">Engenheiros liderados</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">2</span>
+                        <span class="stat-text">Idiomas de atendimento</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="expertise" id="expertise">
+        <div class="container">
+            <div class="section-header reveal">
+                <p class="eyebrow">Stack</p>
+                <h2>Tecnologia que eu opero, não que eu li sobre.</h2>
+                <p>Tudo aqui já passou por produção com tráfego real e conta da AWS chegando no fim do mês.</p>
+            </div>
+
+            <div class="expertise-content reveal">
+                <div class="expertise-category">
+                    <h3><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-brain"></use></svg> GenAI e sistemas de IA</h3>
+                    <div class="expertise-items">
+                        <span>RAG pipelines</span>
+                        <span>Embeddings (pgvector)</span>
+                        <span>Prompt engineering</span>
+                        <span>LangChain</span>
+                        <span>LangGraph</span>
+                        <span>OpenAI</span>
+                        <span>Gemini</span>
+                        <span>Claude</span>
+                        <span>DeepSeek</span>
+                    </div>
+                </div>
+
+                <div class="expertise-category">
+                    <h3><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-database"></use></svg> Engenharia de dados</h3>
+                    <div class="expertise-items">
+                        <span>Airflow (MWAA)</span>
+                        <span>Python ETL</span>
+                        <span>Ingestão em tempo real</span>
+                        <span>Sumarização de texto</span>
+                        <span>Geração automatizada de insights</span>
+                    </div>
+                </div>
+
+                <div class="expertise-category">
+                    <h3><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-server"></use></svg> Backend e infraestrutura</h3>
+                    <div class="expertise-items">
+                        <span>Golang</span>
+                        <span>APIs</span>
+                        <span>Microserviços</span>
+                        <span>Kubernetes</span>
+                        <span>Redis</span>
+                        <span>PostgreSQL</span>
+                        <span>OpenSearch</span>
+                    </div>
+                </div>
+
+                <div class="expertise-category">
+                    <h3><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-cloud"></use></svg> Cloud-native</h3>
+                    <div class="expertise-items">
+                        <span>AWS EKS</span>
+                        <span>AWS Lambda</span>
+                        <span>Step Functions</span>
+                        <span>Aurora</span>
+                        <span>Arquitetura event-driven</span>
+                        <span>Multi-tenant seguro</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq" id="faq">
+        <div class="container">
+            <div class="section-header reveal">
+                <p class="eyebrow">Perguntas frequentes</p>
+                <h2>O que sempre perguntam antes de fechar.</h2>
+            </div>
+
+            <div class="faq-list reveal">
+                <details class="faq-item">
+                    <summary>O que é consultoria em GenAI e quando preciso contratar?</summary>
+                    <div class="faq-answer"><p>Consultoria em GenAI cobre desenho e implementação de soluções com LLMs, pipelines RAG, embeddings e integração com modelos como OpenAI, Gemini e Claude. Faz sentido quando o time precisa entregar valor com IA generativa em produção e não tem experiência consolidada em arquitetura desses sistemas, tradeoffs de custo/latência ou avaliação de qualidade.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Quanto custa implementar uma pipeline RAG?</summary>
+                    <div class="faq-answer"><p>Depende do volume de documentos, número de fontes, qualidade exigida e se a infra de vetor já existe. Um RAG inicial em produção pode rodar em algumas semanas; arquiteturas multi-tenant, com reranking e avaliação automática, escalam pra meses. O escopo é fechado na primeira conversa de diagnóstico, sem custo.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Qual a diferença entre consultoria e mentoria tech?</summary>
+                    <div class="faq-answer"><p>Consultoria entrega arquitetura, decisão técnica ou implementação direta no produto do cliente. Mentoria é desenvolvimento contínuo de profissionais ou equipes, com sessões recorrentes, revisão de código e arquitetura, e suporte em decisões de carreira ou liderança técnica.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Quais modelos de engajamento estão disponíveis?</summary>
+                    <div class="faq-answer"><p>Três formatos: projeto fechado com escopo definido e entrega cravada, pacote mensal de horas pra acompanhamento contínuo, e hora avulsa pra diagnósticos pontuais ou code review. CTO fracional também é possível pra empresas em estágio inicial que precisam de liderança técnica part-time.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Atende clientes fora do Brasil?</summary>
+                    <div class="faq-answer"><p>Sim. Consultorias e mentorias são remotas via Google Meet ou Zoom, e o atendimento é em português ou inglês. Já trabalhei com times distribuídos em múltiplos fusos horários.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Quanto tempo leva uma consultoria típica?</summary>
+                    <div class="faq-answer"><p>Diagnósticos curtos saem em uma a duas semanas. Projetos de implementação com escopo médio rodam entre quatro e doze semanas. Engajamentos contínuos como CTO fracional ou mentoria são por trimestre ou semestre.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Como funciona o primeiro contato?</summary>
+                    <div class="faq-answer"><p>É uma conversa de 30 minutos, sem custo, pra entender o problema, restrições e prazo. Se faz sentido seguir, o próximo passo é uma proposta com escopo, valor e cronograma. Pra agendar, basta preencher o formulário no fim da página.</p></div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <p class="eyebrow">Próximo passo</p>
+            <h2>Meia hora resolve se faz sentido ou não.</h2>
+            <p>Sem custo, sem proposta empurrada. Você sai com uma leitura técnica honesta do seu problema, mesmo que a resposta seja que você não precisa de mim.</p>
+            <div class="cta-actions">
+                <a href="#contato" class="btn-primary">
+                    Agendar 30 min
+                    <svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-arrow-right"></use></svg>
+                </a>
+                <a href="https://wa.me/5548988215325?text=Oi%20Leonardo%2C%20vim%20pelo%20site%20da%20consultoria." class="btn-secondary" target="_blank" rel="noopener">
+                    <svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-whatsapp"></use></svg>
+                    Chamar no WhatsApp
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="contato" id="contato">
+        <div class="container">
+            <div class="section-header reveal">
+                <p class="eyebrow">Contato</p>
+                <h2>Me conta o problema.</h2>
+                <p>Quanto mais específico, mais útil a primeira conversa. O envio abre o WhatsApp com a mensagem já montada.</p>
+            </div>
+
+            <div class="contato-content reveal">
+                <div class="contato-form">
+                    <form id="consultoria-form" novalidate>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nome">Nome</label>
+                                <input type="text" id="nome" name="nome" autocomplete="name" required>
+                                <span class="field-error">Preenche seu nome.</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">E-mail</label>
+                                <input type="email" id="email" name="email" autocomplete="email" required>
+                                <span class="field-error">E-mail inválido.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group" id="whatsapp-group">
+                                <label for="whatsapp">WhatsApp <span class="mono">(opcional)</span></label>
+                                <input type="tel" id="whatsapp" name="whatsapp" autocomplete="tel" placeholder="(48) 90000-0000">
+                            </div>
+                            <div class="form-group">
+                                <label for="assunto">Assunto</label>
+                                <select id="assunto" name="assunto" required>
+                                    <option value="">Selecione</option>
+                                    <option value="Consultoria em IA &amp; GenAI">Consultoria em IA &amp; GenAI</option>
+                                    <option value="Engenharia de Dados">Engenharia de Dados</option>
+                                    <option value="Arquitetura de Software">Arquitetura de Software</option>
+                                    <option value="Cloud &amp; DevOps">Cloud &amp; DevOps</option>
+                                    <option value="Mentoria Tech">Mentoria Tech</option>
+                                    <option value="Transformação Digital">Transformação Digital</option>
+                                    <option value="CTO fracional">CTO fracional</option>
+                                    <option value="Outro">Outro</option>
+                                </select>
+                                <span class="field-error">Escolhe um assunto.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="descricao">O problema</label>
+                            <textarea id="descricao" name="descricao" rows="5" required placeholder="Ex: temos um RAG em POC sobre 40 mil documentos, o retrieval traz contexto errado em cerca de 30% das perguntas e ninguém sabe se é chunking ou embedding."></textarea>
+                            <span class="field-error">Descreve o problema, mesmo que em duas linhas.</span>
+                        </div>
+
+                        <div class="form-foot">
+                            <button type="submit" class="btn-primary">
+                                <svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-whatsapp"></use></svg>
+                                Enviar pelo WhatsApp
+                            </button>
+                            <p class="form-note">Nada é armazenado neste site. O formulário só monta a mensagem e abre o WhatsApp.</p>
+                        </div>
+                    </form>
+                </div>
+
+                <aside class="contato-info">
+                    <h3>Contato direto</h3>
+                    <p><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-mail"></use></svg> <a href="mailto:leonardo@rifeli.dev">leonardo@rifeli.dev</a></p>
+                    <p><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-whatsapp"></use></svg> <a href="https://wa.me/5548988215325" target="_blank" rel="noopener">+55 48 98821-5325</a></p>
+                    <p><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-pin"></use></svg> Antônio Carlos &middot; SC &middot; Brasil</p>
+
+                    <div class="social-links">
+                        <a href="https://linkedin.com/in/leonardorifeli" target="_blank" rel="noopener" aria-label="LinkedIn de Leonardo Rifeli">
+                            <svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-linkedin"></use></svg>
+                        </a>
+                        <a href="https://github.com/leonardorifeli" target="_blank" rel="noopener" aria-label="GitHub de Leonardo Rifeli">
+                            <svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-github"></use></svg>
+                        </a>
+                        <a href="/blog/" aria-label="Blog rifeli.dev">
+                            <svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-globe"></use></svg>
+                        </a>
+                    </div>
+
+                    <div class="disponibilidade">
+                        <h4>Disponibilidade</h4>
+                        <p>Remoto via Google Meet ou Zoom</p>
+                        <p>Segunda a sexta, 9h às 18h (BRT)</p>
+                        <p>Atendimento em português ou inglês</p>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="/consultoria/">Leonardo<span>Rifeli</span></a>
+                    <p>Consultoria em GenAI, dados e arquitetura. Remoto, do sul do Brasil.</p>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Serviços</h4>
+                    <ul>
+                        <li><a href="/consultoria/servicos/consultoria-ia-genai/">Consultoria GenAI</a></li>
+                        <li><a href="/consultoria/servicos/engenharia-dados/">Engenharia de Dados</a></li>
+                        <li><a href="/consultoria/servicos/arquitetura-software/">Arquitetura de Software</a></li>
+                        <li><a href="/consultoria/servicos/cloud-devops/">Cloud &amp; DevOps</a></li>
+                        <li><a href="/consultoria/servicos/mentoria-tech/">Mentoria Tech</a></li>
+                        <li><a href="/consultoria/servicos/transformacao-digital/">Transformação Digital</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Nesta página</h4>
+                    <ul>
+                        <li><a href="#processo">Como funciona</a></li>
+                        <li><a href="#sobre">Sobre</a></li>
+                        <li><a href="#expertise">Stack</a></li>
+                        <li><a href="#faq">Perguntas frequentes</a></li>
+                        <li><a href="#contato">Contato</a></li>
+                        <li><a href="/blog/">Blog técnico</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-social">
+                    <h4>Conecte-se</h4>
+                    <div class="social-links">
+                        <a href="https://linkedin.com/in/leonardorifeli" target="_blank" rel="noopener" aria-label="LinkedIn de Leonardo Rifeli">
+                            <svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-linkedin"></use></svg>
+                        </a>
+                        <a href="https://github.com/leonardorifeli" target="_blank" rel="noopener" aria-label="GitHub de Leonardo Rifeli">
+                            <svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-github"></use></svg>
+                        </a>
+                        <a href="/blog/" aria-label="Blog rifeli.dev">
+                            <svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-globe"></use></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>43.622.212/0001-13 &middot; RIFELI TECHNOLOGY &amp; SOFTWARE CRAFTSMAN</p>
+                <p>&copy; 2026 Leonardo Rifeli</p>
+            </div>
+        </div>
+    </footer>
+
+    <a class="wa-float" href="https://wa.me/5548988215325?text=Oi%20Leonardo%2C%20vim%20pelo%20site%20da%20consultoria." target="_blank" rel="noopener" aria-label="Chamar no WhatsApp">
+        <svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-whatsapp"></use></svg>
+        <span>WhatsApp</span>
+    </a>
+
+    <script src="/consultoria/js/script.js" defer></script>
+</body>
+</html>

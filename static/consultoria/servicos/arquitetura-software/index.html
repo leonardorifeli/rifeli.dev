@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Consultoria em arquitetura de software escalável: microsserviços em Golang, sistemas event-driven, decomposição estratégica de monolito e otimização de performance.">
+    <meta name="keywords" content="consultoria arquitetura de software, microsserviços, event-driven, decomposição de monolito, otimização performance, Golang, Kafka, sistemas distribuídos, CQRS">
+    <meta name="author" content="Leonardo Rifeli">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+    <meta name="googlebot" content="index, follow">
+    <meta name="theme-color" content="#F3F2F7" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0E0C14" media="(prefers-color-scheme: dark)">
+    <meta name="msapplication-TileColor" content="#5B2BD9">
+    <title>Consultoria em Arquitetura de Software: Microsserviços, Event-Driven e Performance | Leonardo Rifeli</title>
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/consultoria/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="manifest" href="/consultoria/manifest.json">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="canonical" href="https://rifeli.dev/consultoria/servicos/arquitetura-software/">
+
+    <!-- Aplica o tema antes da primeira pintura pra nao piscar branco no dark -->
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('tema');
+                if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+            } catch (e) {}
+        })();
+    </script>
+    <meta name="geo.region" content="BR-SC">
+    <meta name="geo.placename" content="Antônio Carlos">
+    <meta name="geo.position" content="-27.5197;-48.7662">
+    <meta name="ICBM" content="-27.5197, -48.7662">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:site_name" content="Leonardo Rifeli Consultoria">
+    <meta property="og:title" content="Consultoria em Arquitetura de Software: Microsserviços, Event-Driven e Performance">
+    <meta property="og:description" content="Decomposição estratégica de monolito, microsserviços em Golang, sistemas event-driven e otimização de performance com tradeoff explícito.">
+    <meta property="og:image" content="https://rifeli.dev/consultoria/img/og.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://rifeli.dev/consultoria/servicos/arquitetura-software/">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Consultoria em Arquitetura de Software: Microsserviços, Event-Driven e Performance">
+    <meta name="twitter:description" content="Decomposição de monolito, microsserviços Golang, sistemas event-driven e performance.">
+    <meta name="twitter:image" content="https://rifeli.dev/consultoria/img/og.png">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Consultoria em Arquitetura de Software",
+      "serviceType": "Consultoria em Arquitetura de Software Escalável",
+      "url": "https://rifeli.dev/consultoria/servicos/arquitetura-software/",
+      "description": "Decomposição estratégica de monolito, microsserviços em Golang, sistemas event-driven, otimização de performance e decisão de stack com tradeoff defensável.",
+      "provider": {
+        "@type": "ProfessionalService",
+        "name": "Leonardo Rifeli - Consultoria Tech & Mentoria",
+        "url": "https://rifeli.dev/consultoria/",
+        "telephone": "+5548988215325",
+        "email": "leonardo@rifeli.dev"
+      },
+      "areaServed": {"@type": "Country", "name": "Brasil"},
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Entregas de Arquitetura de Software",
+        "itemListElement": [
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Diagnóstico arquitetural"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Decomposição estratégica de monolito"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Sistemas event-driven"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Otimização de performance"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Decisão de stack tecnológico"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "ADRs e padrões de engenharia"}}
+        ]
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Microsserviços valem a pena pra startup pequena?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Quase nunca no estágio inicial. Microsserviços resolvem problemas de organização (times independentes), escala (componentes com perfis de carga diferentes) e isolamento de falha. Startup com cinco devs raramente tem qualquer desses problemas, e paga o custo operacional sem retorno. Monolito modular bem feito leva mais longe do que se imagina."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Como decompõe monolito sem parar o produto?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Strangler fig pattern em etapas, com strangulação por bounded context, não por endpoint. Identifica um contexto de domínio com fronteiras claras, extrai como serviço independente, redireciona tráfego progressivamente e mantém o monolito como fallback. Big-bang de microsserviços é a pior forma de migrar e quase sempre quebra prazo e moral."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Por que Golang e não Rust pra alta performance?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Golang entrega performance suficiente pra 95% dos casos de microsserviço, com produtividade muito maior e mercado de talento mais maduro. Rust é a escolha certa quando o caso exige controle de memória, latência sub-milissegundo ou interop com C, mas o custo de contratação e onboarding pesa. A pergunta certa não é Go ou Rust, é qual o requisito real de performance."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Event sourcing é sempre boa ideia?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Não. Event sourcing é poderoso pra domínios onde a auditoria do histórico de mutações é parte do produto (financeiro, jurídico, jogos competitivos). Em CRUD operacional, adiciona complexidade de leitura, projection e versionamento de eventos sem retorno. CQRS sem event sourcing pleno é frequentemente a escolha mais sensata."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Como se mede sucesso de uma migração arquitetural?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Métricas técnicas (latência, throughput, taxa de erro, frequência de deploy, lead time) e métricas de negócio (custo de mudança, tempo até primeira release nova, incidentes em produção). Migração que melhora arquitetura no diagrama mas piora deploy frequency em três meses é regressão, não evolução."
+          }
+        }
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Início", "item": "https://rifeli.dev/consultoria/"},
+        {"@type": "ListItem", "position": 2, "name": "Serviços", "item": "https://rifeli.dev/consultoria/#servicos"},
+        {"@type": "ListItem", "position": 3, "name": "Arquitetura de Software", "item": "https://rifeli.dev/consultoria/servicos/arquitetura-software/"}
+      ]
+    }
+    </script>
+</head>
+<body>
+    <a class="skip-link" href="#conteudo">Pular para o conteudo</a>
+
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="/consultoria/">Leonardo<span>Rifeli</span></a>
+            </div>
+
+            <nav class="nav" id="menu-principal" aria-label="Navegacao principal">
+                <ul>
+                    <li><a href="/consultoria/#servicos">Servicos</a></li>
+                    <li><a href="/consultoria/#processo">Como funciona</a></li>
+                    <li><a href="/consultoria/#sobre">Sobre</a></li>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+                <a href="/consultoria/#contato" class="btn-primary">Agendar 30 min</a>
+            </nav>
+
+            <div class="header-actions">
+                <button type="button" class="theme-toggle" aria-label="Mudar tema">
+                    <svg class="icon icon-sun" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-sun"></use></svg>
+                    <svg class="icon icon-moon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-moon"></use></svg>
+                </button>
+                <a href="/consultoria/#contato" class="btn-primary">Agendar 30 min</a>
+                <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="menu-principal" aria-label="Abrir menu">
+                    <svg class="icon icon-menu" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-menu"></use></svg>
+                    <svg class="icon icon-close" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-close"></use></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="conteudo">
+
+    <section class="hero">
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <h1>Consultoria em Arquitetura de Software Escalável</h1>
+                <h2>Decomposição de <span class="highlight">monolito</span>, sistemas <span class="highlight">event-driven</span> e otimização de <span class="highlight">performance</span></h2>
+                <p>Microsserviço virou desculpa. O monolito que funcionava virou inimigo. A discussão técnica tá circular, e o board cobra roadmap, não filosofia. É essa conversa que destravo.</p>
+                <div class="hero-buttons">
+                    <a href="/consultoria/#contato" class="btn-primary">Agendar Diagnóstico</a>
+                    <a href="#faq" class="btn-secondary">Ver FAQ Técnica</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://avatars.githubusercontent.com/u/6767689?v=4" alt="Leonardo Rifeli - Consultor em Arquitetura de Software">
+            </div>
+        </div>
+    </section>
+
+    <section class="sobre">
+        <div class="container">
+            <div class="section-header">
+                <h2>Quando contratar consultoria em arquitetura</h2>
+                <div class="separator"></div>
+            </div>
+            <div class="sobre-content">
+                <div class="sobre-text">
+                    <p>O monolito tá travando o crescimento. Time discute "vamos pra microsserviços" sem evidência, sem desenho de bounded context, sem plano de migração. A decisão fica em aberto, ninguém quer assinar, e o produto para de evoluir.</p>
+                    <p>Sistema event-driven foi montado em cima de RabbitMQ artesanal. Ninguém entende ordem de mensagens, idempotência, retry com backoff. Quando algo falha em produção, a investigação leva dias porque trace cruza cinco serviços sem correlação.</p>
+                    <p>Latência P99 estourou SLA. A primeira reação foi cache em tudo, depois Redis, depois pré-warm. O problema continua, ninguém mediu, e o custo de infra dobrou.</p>
+                    <p>Vai começar produto novo e a decisão de stack é política. Cada engenheiro tem favorito (Go, Node, Rust, Kotlin). Você precisa de leitura técnica honesta que defenda escolha com tradeoff explícito, não preferência pessoal.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="servicos">
+        <div class="container">
+            <div class="section-header">
+                <h2>O que entrego</h2>
+                <div class="separator"></div>
+                <p>Decisões arquiteturais defensáveis, com tradeoff documentado</p>
+            </div>
+            <div class="servicos-grid">
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-stethoscope"></use></svg></div>
+                    <h3>Diagnóstico arquitetural</h3>
+                    <p>Mapeamento de bounded contexts, dependências, pontos de acoplamento, gargalos de performance e dívida técnica priorizada por impacto. Saio com leitura escrita, não slide.</p>
+                </div>
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-scissors"></use></svg></div>
+                    <h3>Decomposição de monolito</h3>
+                    <p>Strangler fig em etapas, por bounded context. Plano com sequência de extrações, métricas de sucesso por fase, fallback claro e critério explícito de parada.</p>
+                </div>
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-bolt"></use></svg></div>
+                    <h3>Sistemas event-driven</h3>
+                    <p>Kafka, EventBridge ou NATS, com padrões de outbox, idempotência, ordem de mensagens, schema registry e observabilidade ponta a ponta.</p>
+                </div>
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-gauge"></use></svg></div>
+                    <h3>Otimização de performance</h3>
+                    <p>Profiling em produção, análise de queries lentas, redesenho de índices, caching estratégico (não em tudo) e plano com ganho mensurável antes de codar.</p>
+                </div>
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-code"></use></svg></div>
+                    <h3>Decisão de stack</h3>
+                    <p>Matriz de avaliação técnica (Go, Rust, Node, Java, Kotlin), com custo de contratação, maturidade de ecossistema, performance real e adequação ao caso de uso.</p>
+                </div>
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-file-text"></use></svg></div>
+                    <h3>ADRs e padrões</h3>
+                    <p>Architecture Decision Records pras decisões críticas, padrões de engenharia documentados, golden path pra serviços novos. Conhecimento que sobrevive ao turnover.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="expertise">
+        <div class="container">
+            <div class="section-header">
+                <h2>Casos típicos</h2>
+                <div class="separator"></div>
+                <p>Padrões que aparecem com mais frequência na fila</p>
+            </div>
+            <div class="expertise-content">
+                <div class="expertise-category">
+                    <h3><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-scissors"></use></svg> Decomposição incremental</h3>
+                    <div class="expertise-items">
+                        <span>Rails ou Django legado</span>
+                        <span>Strangler fig por contexto</span>
+                        <span>Anti-corruption layer</span>
+                        <span>Migração progressiva</span>
+                    </div>
+                </div>
+                <div class="expertise-category">
+                    <h3><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-bolt"></use></svg> Event-driven</h3>
+                    <div class="expertise-items">
+                        <span>Kafka com outbox</span>
+                        <span>EventBridge na AWS</span>
+                        <span>Schema registry</span>
+                        <span>CQRS sob medida</span>
+                    </div>
+                </div>
+                <div class="expertise-category">
+                    <h3><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-server"></use></svg> Microsserviços em Go</h3>
+                    <div class="expertise-items">
+                        <span>APIs gRPC e REST</span>
+                        <span>Observabilidade nativa</span>
+                        <span>Patterns idiomáticos</span>
+                        <span>Performance previsível</span>
+                    </div>
+                </div>
+                <div class="expertise-category">
+                    <h3><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-gauge"></use></svg> Performance em produção</h3>
+                    <div class="expertise-items">
+                        <span>pprof e flamegraphs</span>
+                        <span>Análise de query plan</span>
+                        <span>Caching consciente</span>
+                        <span>Backpressure</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="sobre">
+        <div class="container">
+            <div class="section-header">
+                <h2>Como funciona</h2>
+                <div class="separator"></div>
+            </div>
+            <div class="sobre-content">
+                <div class="sobre-text">
+                    <p>O primeiro passo é uma conversa de 30 minutos sem custo. Entendo o problema concreto, o produto, o time e a urgência. No fim digo se faz sentido seguir comigo ou se você precisa de outro perfil.</p>
+                    <p>Se faz sentido, mando proposta com escopo, prazo e valor em até 48 horas. Engajamento por projeto fechado entre duas e doze semanas, ou pacote mensal pra acompanhamento contínuo de decisões arquiteturais.</p>
+                    <p>Trabalho remoto, no repositório do cliente. Entrega com ADRs, código de referência, padrões documentados e handoff pro time interno. O objetivo é o cliente sair menos dependente, não mais.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq" id="faq">
+        <div class="container">
+            <div class="section-header">
+                <h2>Perguntas frequentes</h2>
+                <div class="separator"></div>
+                <p>As que mais aparecem no primeiro contato</p>
+            </div>
+
+            <div class="faq-list">
+                <details class="faq-item">
+                    <summary>Microsserviços valem a pena pra startup pequena?</summary>
+                    <div class="faq-answer"><p>Quase nunca no estágio inicial. Microsserviços resolvem problemas de organização (times independentes), escala (componentes com perfis de carga diferentes) e isolamento de falha. Startup com cinco devs raramente tem qualquer desses problemas, e paga o custo operacional sem retorno. Monolito modular bem feito leva mais longe do que se imagina.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Como decompõe monolito sem parar o produto?</summary>
+                    <div class="faq-answer"><p>Strangler fig pattern em etapas, com strangulação por bounded context, não por endpoint. Identifica um contexto de domínio com fronteiras claras, extrai como serviço independente, redireciona tráfego progressivamente e mantém o monolito como fallback. Big-bang de microsserviços é a pior forma de migrar e quase sempre quebra prazo e moral.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Por que Golang e não Rust pra alta performance?</summary>
+                    <div class="faq-answer"><p>Golang entrega performance suficiente pra 95% dos casos de microsserviço, com produtividade muito maior e mercado de talento mais maduro. Rust é a escolha certa quando o caso exige controle de memória, latência sub-milissegundo ou interop com C, mas o custo de contratação e onboarding pesa. A pergunta certa não é Go ou Rust, é qual o requisito real de performance.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Event sourcing é sempre boa ideia?</summary>
+                    <div class="faq-answer"><p>Não. Event sourcing é poderoso pra domínios onde a auditoria do histórico de mutações é parte do produto (financeiro, jurídico, jogos competitivos). Em CRUD operacional, adiciona complexidade de leitura, projection e versionamento de eventos sem retorno. CQRS sem event sourcing pleno é frequentemente a escolha mais sensata.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Como se mede sucesso de uma migração arquitetural?</summary>
+                    <div class="faq-answer"><p>Métricas técnicas (latência, throughput, taxa de erro, frequência de deploy, lead time) e métricas de negócio (custo de mudança, tempo até primeira release nova, incidentes em produção). Migração que melhora arquitetura no diagrama mas piora deploy frequency em três meses é regressão, não evolução.</p></div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2>Quer um diagnóstico arquitetural honesto?</h2>
+            <p>30 minutos sem custo. Saio com leitura técnica do que tá funcionando, do que tá travando e do que vale priorizar.</p>
+            <a href="/consultoria/#contato" class="btn-primary">Agendar Diagnóstico</a>
+        </div>
+    </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="/consultoria/">Leonardo<span>Rifeli</span></a>
+                    <p>Consultoria Tech & Mentoria</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Serviços</h4>
+                    <ul>
+                        <li><a href="/consultoria/servicos/consultoria-ia-genai/">Consultoria GenAI</a></li>
+                        <li><a href="/consultoria/servicos/engenharia-dados/">Engenharia de Dados</a></li>
+                        <li><a href="/consultoria/servicos/arquitetura-software/">Arquitetura de Software</a></li>
+                        <li><a href="/consultoria/servicos/cloud-devops/">Cloud & DevOps</a></li>
+                        <li><a href="/consultoria/servicos/mentoria-tech/">Mentoria Tech</a></li>
+                        <li><a href="/consultoria/servicos/transformacao-digital/">Transformação Digital</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>Conecte-se</h4>
+                    <div class="social-links">
+                        <a href="https://linkedin.com/in/leonardorifeli" target="_blank" rel="noopener" aria-label="LinkedIn de Leonardo Rifeli"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-linkedin"></use></svg></a>
+                        <a href="https://github.com/leonardorifeli" target="_blank" rel="noopener" aria-label="GitHub de Leonardo Rifeli"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-github"></use></svg></a>
+                        <a href="/blog/" aria-label="Blog rifeli.dev"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-globe"></use></svg></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>43.622.212/0001-13 - RIFELI TECHNOLOGY & SOFTWARE CRAFTSMAN</p>
+                <p>&copy; 2026 Leonardo Rifeli. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <a class="wa-float" href="https://wa.me/5548988215325?text=Oi%20Leonardo%2C%20vim%20pelo%20site%20da%20consultoria." target="_blank" rel="noopener" aria-label="Chamar no WhatsApp">
+        <svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-whatsapp"></use></svg>
+        <span>WhatsApp</span>
+    </a>
+
+    <script src="/consultoria/js/script.js" defer></script>
+</body>
+</html>

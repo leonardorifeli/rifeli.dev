@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Consultoria em AWS, Kubernetes e DevOps: EKS, Lambda, Step Functions, Terraform e arquiteturas serverless. Foco em custo, resiliência e governança.">
+    <meta name="keywords" content="consultoria AWS, consultoria Kubernetes, consultoria DevOps, EKS, Lambda, Step Functions, Terraform, IaC, FinOps, arquitetura serverless, observabilidade">
+    <meta name="author" content="Leonardo Rifeli">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+    <meta name="googlebot" content="index, follow">
+    <meta name="theme-color" content="#F3F2F7" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0E0C14" media="(prefers-color-scheme: dark)">
+    <meta name="msapplication-TileColor" content="#5B2BD9">
+    <title>Consultoria em Cloud & DevOps: AWS, Kubernetes e Serverless | Leonardo Rifeli</title>
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/consultoria/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="manifest" href="/consultoria/manifest.json">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="canonical" href="https://rifeli.dev/consultoria/servicos/cloud-devops/">
+
+    <!-- Aplica o tema antes da primeira pintura pra nao piscar branco no dark -->
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('tema');
+                if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+            } catch (e) {}
+        })();
+    </script>
+    <meta name="geo.region" content="BR-SC">
+    <meta name="geo.placename" content="Antônio Carlos">
+    <meta name="geo.position" content="-27.5197;-48.7662">
+    <meta name="ICBM" content="-27.5197, -48.7662">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:site_name" content="Leonardo Rifeli Consultoria">
+    <meta property="og:title" content="Consultoria em Cloud & DevOps: AWS, Kubernetes e Serverless">
+    <meta property="og:description" content="AWS (EKS, Lambda, Step Functions), Kubernetes, Terraform, observabilidade e FinOps. Conta AWS com gasto sob controle e infra auditável.">
+    <meta property="og:image" content="https://rifeli.dev/consultoria/img/og.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://rifeli.dev/consultoria/servicos/cloud-devops/">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Consultoria em Cloud & DevOps: AWS, Kubernetes e Serverless">
+    <meta name="twitter:description" content="AWS, Kubernetes, Terraform, observabilidade e FinOps em produção.">
+    <meta name="twitter:image" content="https://rifeli.dev/consultoria/img/og.png">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Consultoria em Cloud & DevOps",
+      "serviceType": "Consultoria em AWS, Kubernetes e Infraestrutura como Código",
+      "url": "https://rifeli.dev/consultoria/servicos/cloud-devops/",
+      "description": "Diagnóstico e otimização de conta AWS, estabilização de EKS, arquitetura serverless com Lambda e Step Functions, Terraform, observabilidade e FinOps.",
+      "provider": {
+        "@type": "ProfessionalService",
+        "name": "Leonardo Rifeli - Consultoria Tech & Mentoria",
+        "url": "https://rifeli.dev/consultoria/",
+        "telephone": "+5548988215325",
+        "email": "leonardo@rifeli.dev"
+      },
+      "areaServed": {"@type": "Country", "name": "Brasil"},
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Entregas de Cloud & DevOps",
+        "itemListElement": [
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Diagnóstico de conta AWS"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Estabilização e governança de EKS"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Arquitetura serverless"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Terraform e CDK modulares"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Observabilidade e SLOs"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "FinOps e otimização de custo"}}
+        ]
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Kubernetes ou serverless?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Depende do perfil de carga, do time e do roadmap. Serverless brilha em workload spiky com baixa duração e times pequenos sem operação de cluster. Kubernetes faz sentido pra workload contínua, controle fino de runtime, multi-tenant complexo ou quando o time já opera EKS. A escolha errada custa caro: serverless mal usado vira fatura imprevisível, Kubernetes mal operado vira incident permanente."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Aurora vale a pena versus RDS PostgreSQL?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Aurora paga em throughput, resiliência, leitura horizontal e tempo de failover. Em workload pequeno, RDS PostgreSQL é mais barato e suficiente. A transição faz sentido quando volume de escrita supera o que uma instância RDS bem provisionada aguenta, ou quando o SLA exige failover sub-minuto. Migrar antes de precisar gera custo sem retorno."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Multi-account ou single account na AWS?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Multi-account com AWS Organizations é o padrão pra qualquer empresa séria. Isolamento de blast radius, separação prod/staging/dev/security, billing por unidade de negócio e compliance ficam tratáveis. Single account funciona pra POC ou empresa muito pequena, mas migrar depois é doloroso. Organização bem feita desde cedo economiza meses no futuro."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Como reduz custo de AWS sem quebrar nada?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Em camadas. Primeiro elimina o óbvio: instâncias zumbi, EBS órfão, snapshot antigo, NAT Gateway desnecessário. Depois ajusta sizing com base em métricas reais, não no padrão. Em seguida revê arquitetura: workload batch em Spot, leitura em read replica, cache estratégico. Por último negocia Savings Plans ou Reserved Instances. Cortar 20% a 40% no primeiro mês é comum, sem regressão."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Trabalha com GCP ou Azure também?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Profundidade maior em AWS, onde rodo workload em produção há mais de uma década. Atendo projetos em GCP (GKE, Cloud Run, BigQuery) e Azure (AKS, Functions, Cosmos DB) quando o cliente já tem investimento, mas com curva de adaptação inicial. Pra projetos multicloud, deixo isso explícito na proposta e ajusto a equação."
+          }
+        }
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Início", "item": "https://rifeli.dev/consultoria/"},
+        {"@type": "ListItem", "position": 2, "name": "Serviços", "item": "https://rifeli.dev/consultoria/#servicos"},
+        {"@type": "ListItem", "position": 3, "name": "Cloud & DevOps", "item": "https://rifeli.dev/consultoria/servicos/cloud-devops/"}
+      ]
+    }
+    </script>
+</head>
+<body>
+    <a class="skip-link" href="#conteudo">Pular para o conteudo</a>
+
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="/consultoria/">Leonardo<span>Rifeli</span></a>
+            </div>
+
+            <nav class="nav" id="menu-principal" aria-label="Navegacao principal">
+                <ul>
+                    <li><a href="/consultoria/#servicos">Servicos</a></li>
+                    <li><a href="/consultoria/#processo">Como funciona</a></li>
+                    <li><a href="/consultoria/#sobre">Sobre</a></li>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+                <a href="/consultoria/#contato" class="btn-primary">Agendar 30 min</a>
+            </nav>
+
+            <div class="header-actions">
+                <button type="button" class="theme-toggle" aria-label="Mudar tema">
+                    <svg class="icon icon-sun" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-sun"></use></svg>
+                    <svg class="icon icon-moon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-moon"></use></svg>
+                </button>
+                <a href="/consultoria/#contato" class="btn-primary">Agendar 30 min</a>
+                <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="menu-principal" aria-label="Abrir menu">
+                    <svg class="icon icon-menu" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-menu"></use></svg>
+                    <svg class="icon icon-close" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-close"></use></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="conteudo">
+
+    <section class="hero">
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <h1>Consultoria em Cloud, DevOps e Infraestrutura AWS</h1>
+                <h2>Conta <span class="highlight">AWS</span> sob controle, <span class="highlight">Kubernetes</span> estável e arquitetura <span class="highlight">serverless</span> que escala</h2>
+                <p>Conta AWS virou caixa preta de gasto. Cluster EKS funciona porque ninguém mexe. Pipeline de deploy aguarda alguém ter coragem. Tem caminho melhor, e geralmente começa por medir antes de cortar.</p>
+                <div class="hero-buttons">
+                    <a href="/consultoria/#contato" class="btn-primary">Agendar Diagnóstico</a>
+                    <a href="#faq" class="btn-secondary">Ver FAQ Técnica</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://avatars.githubusercontent.com/u/6767689?v=4" alt="Leonardo Rifeli - Consultor em Cloud & DevOps">
+            </div>
+        </div>
+    </section>
+
+    <section class="sobre">
+        <div class="container">
+            <div class="section-header">
+                <h2>Quando contratar consultoria em cloud e DevOps</h2>
+                <div class="separator"></div>
+            </div>
+            <div class="sobre-content">
+                <div class="sobre-text">
+                    <p>A conta AWS estourou orçamento e ninguém explica onde tá indo o gasto. O time financeiro pediu relatório de TCO e o time técnico mandou print de Cost Explorer. A pergunta certa ainda não foi feita.</p>
+                    <p>EKS subiu funcionando, mas tá sem network policies, sem observabilidade decente, sem cost allocation por namespace. Qualquer atualização de versão gera ansiedade no time, e o cluster virou intocável.</p>
+                    <p>A stack serverless cresceu organicamente. Lambdas viraram spaghetti com IAM frouxo, Step Functions monstruosas que ninguém quer abrir, EventBridge sem schema registry. O custo subiu, a confiança caiu.</p>
+                    <p>Compliance (LGPD, ISO 27001, SOC 2) cobrou governança de infra. O time não sabe por onde começar, e o auditor já marcou data. Você precisa de alguém que conheça AWS Config, GuardDuty, Security Hub e que tenha visto isso na prática.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="servicos">
+        <div class="container">
+            <div class="section-header">
+                <h2>O que entrego</h2>
+                <div class="separator"></div>
+                <p>Infra previsível, observada e com custo defensável</p>
+            </div>
+            <div class="servicos-grid">
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-stethoscope"></use></svg></div>
+                    <h3>Diagnóstico de conta AWS</h3>
+                    <p>Auditoria cobrindo custo, segurança e resiliência. Identifica gasto desnecessário, gaps de IAM, single points of failure e dívida operacional. Saio com plano priorizado por impacto.</p>
+                </div>
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-cloud"></use></svg></div>
+                    <h3>Estabilização de EKS</h3>
+                    <p>Network policies, IRSA, autoscaling honesto, cost allocation por namespace, observabilidade com Prometheus ou CloudWatch e plano de atualização sem surpresa.</p>
+                </div>
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-bolt"></use></svg></div>
+                    <h3>Arquitetura serverless</h3>
+                    <p>Lambda, Step Functions, EventBridge, SQS e API Gateway com padrões idiomáticos. Refactor de Lambda spaghetti em workflows orquestrados, com retry e observabilidade.</p>
+                </div>
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-boxes"></use></svg></div>
+                    <h3>Terraform e CDK modulares</h3>
+                    <p>Estrutura multi-account com módulos reutilizáveis, padrões de tag, environment promotion. Pipeline de IaC com plan visível em PR e drift detection em produção.</p>
+                </div>
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-chart-line"></use></svg></div>
+                    <h3>Observabilidade e SLOs</h3>
+                    <p>Métricas, logs e traces correlacionados via OpenTelemetry, Datadog ou stack CloudWatch. SLOs definidos com error budget, alerta baseado em sintoma, não em causa.</p>
+                </div>
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-coins"></use></svg></div>
+                    <h3>FinOps e otimização</h3>
+                    <p>Alocação de custo por unidade de negócio, alertas inteligentes (não só por valor absoluto), Savings Plans, otimização de Spot, sizing baseado em uso real.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="expertise">
+        <div class="container">
+            <div class="section-header">
+                <h2>Casos típicos</h2>
+                <div class="separator"></div>
+                <p>Padrões que aparecem com mais frequência na fila</p>
+            </div>
+            <div class="expertise-content">
+                <div class="expertise-category">
+                    <h3><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-arrows-h"></use></svg> Migração e modernização</h3>
+                    <div class="expertise-items">
+                        <span>On-prem → AWS</span>
+                        <span>EC2 → EKS</span>
+                        <span>Monolito → serverless</span>
+                        <span>Refactor incremental</span>
+                    </div>
+                </div>
+                <div class="expertise-category">
+                    <h3><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-shield"></use></svg> Segurança e compliance</h3>
+                    <div class="expertise-items">
+                        <span>IAM least privilege</span>
+                        <span>AWS Config</span>
+                        <span>GuardDuty + Security Hub</span>
+                        <span>Auditoria pra LGPD</span>
+                    </div>
+                </div>
+                <div class="expertise-category">
+                    <h3><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-network"></use></svg> Plataforma interna</h3>
+                    <div class="expertise-items">
+                        <span>Golden path pra serviços</span>
+                        <span>Backstage e catálogo</span>
+                        <span>GitOps com ArgoCD</span>
+                        <span>Self-service controlado</span>
+                    </div>
+                </div>
+                <div class="expertise-category">
+                    <h3><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-coins"></use></svg> FinOps na prática</h3>
+                    <div class="expertise-items">
+                        <span>Cost allocation por tag</span>
+                        <span>Anomaly detection</span>
+                        <span>Rightsizing</span>
+                        <span>Spot em batch</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="sobre">
+        <div class="container">
+            <div class="section-header">
+                <h2>Como funciona</h2>
+                <div class="separator"></div>
+            </div>
+            <div class="sobre-content">
+                <div class="sobre-text">
+                    <p>O primeiro passo é uma conversa de 30 minutos sem custo. Entendo a stack atual, a conta AWS, o time de operação e a urgência. No fim digo se faz sentido seguir ou se você precisa de outro perfil.</p>
+                    <p>Se faz sentido, mando proposta com escopo, prazo e valor em até 48 horas. Engajamento por projeto fechado entre duas e doze semanas, ou pacote mensal pra acompanhamento contínuo do ambiente.</p>
+                    <p>Trabalho remoto, com acesso somente-leitura na conta do cliente pra diagnóstico, e acesso de execução escopado quando há entrega de código IaC. Tudo via Terraform Cloud, GitHub Actions ou pipeline do cliente.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq" id="faq">
+        <div class="container">
+            <div class="section-header">
+                <h2>Perguntas frequentes</h2>
+                <div class="separator"></div>
+                <p>As que mais aparecem no primeiro contato</p>
+            </div>
+
+            <div class="faq-list">
+                <details class="faq-item">
+                    <summary>Kubernetes ou serverless?</summary>
+                    <div class="faq-answer"><p>Depende do perfil de carga, do time e do roadmap. Serverless brilha em workload spiky com baixa duração e times pequenos sem operação de cluster. Kubernetes faz sentido pra workload contínua, controle fino de runtime, multi-tenant complexo ou quando o time já opera EKS. A escolha errada custa caro: serverless mal usado vira fatura imprevisível, Kubernetes mal operado vira incident permanente.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Aurora vale a pena versus RDS PostgreSQL?</summary>
+                    <div class="faq-answer"><p>Aurora paga em throughput, resiliência, leitura horizontal e tempo de failover. Em workload pequeno, RDS PostgreSQL é mais barato e suficiente. A transição faz sentido quando volume de escrita supera o que uma instância RDS bem provisionada aguenta, ou quando o SLA exige failover sub-minuto. Migrar antes de precisar gera custo sem retorno.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Multi-account ou single account na AWS?</summary>
+                    <div class="faq-answer"><p>Multi-account com AWS Organizations é o padrão pra qualquer empresa séria. Isolamento de blast radius, separação prod/staging/dev/security, billing por unidade de negócio e compliance ficam tratáveis. Single account funciona pra POC ou empresa muito pequena, mas migrar depois é doloroso. Organização bem feita desde cedo economiza meses no futuro.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Como reduz custo de AWS sem quebrar nada?</summary>
+                    <div class="faq-answer"><p>Em camadas. Primeiro elimina o óbvio: instâncias zumbi, EBS órfão, snapshot antigo, NAT Gateway desnecessário. Depois ajusta sizing com base em métricas reais, não no padrão. Em seguida revê arquitetura: workload batch em Spot, leitura em read replica, cache estratégico. Por último negocia Savings Plans ou Reserved Instances. Cortar 20% a 40% no primeiro mês é comum, sem regressão.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Trabalha com GCP ou Azure também?</summary>
+                    <div class="faq-answer"><p>Profundidade maior em AWS, onde rodo workload em produção há mais de uma década. Atendo projetos em GCP (GKE, Cloud Run, BigQuery) e Azure (AKS, Functions, Cosmos DB) quando o cliente já tem investimento, mas com curva de adaptação inicial. Pra projetos multicloud, deixo isso explícito na proposta e ajusto a equação.</p></div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2>Quer um diagnóstico da sua conta AWS?</h2>
+            <p>30 minutos sem custo. Saio com leitura honesta do que tá gastando demais, do que tá frágil e do que vale priorizar.</p>
+            <a href="/consultoria/#contato" class="btn-primary">Agendar Diagnóstico</a>
+        </div>
+    </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="/consultoria/">Leonardo<span>Rifeli</span></a>
+                    <p>Consultoria Tech & Mentoria</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Serviços</h4>
+                    <ul>
+                        <li><a href="/consultoria/servicos/consultoria-ia-genai/">Consultoria GenAI</a></li>
+                        <li><a href="/consultoria/servicos/engenharia-dados/">Engenharia de Dados</a></li>
+                        <li><a href="/consultoria/servicos/arquitetura-software/">Arquitetura de Software</a></li>
+                        <li><a href="/consultoria/servicos/cloud-devops/">Cloud & DevOps</a></li>
+                        <li><a href="/consultoria/servicos/mentoria-tech/">Mentoria Tech</a></li>
+                        <li><a href="/consultoria/servicos/transformacao-digital/">Transformação Digital</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>Conecte-se</h4>
+                    <div class="social-links">
+                        <a href="https://linkedin.com/in/leonardorifeli" target="_blank" rel="noopener" aria-label="LinkedIn de Leonardo Rifeli"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-linkedin"></use></svg></a>
+                        <a href="https://github.com/leonardorifeli" target="_blank" rel="noopener" aria-label="GitHub de Leonardo Rifeli"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-github"></use></svg></a>
+                        <a href="/blog/" aria-label="Blog rifeli.dev"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-globe"></use></svg></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>43.622.212/0001-13 - RIFELI TECHNOLOGY & SOFTWARE CRAFTSMAN</p>
+                <p>&copy; 2026 Leonardo Rifeli. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <a class="wa-float" href="https://wa.me/5548988215325?text=Oi%20Leonardo%2C%20vim%20pelo%20site%20da%20consultoria." target="_blank" rel="noopener" aria-label="Chamar no WhatsApp">
+        <svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-whatsapp"></use></svg>
+        <span>WhatsApp</span>
+    </a>
+
+    <script src="/consultoria/js/script.js" defer></script>
+</body>
+</html>

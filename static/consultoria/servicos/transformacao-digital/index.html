@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Consultoria em transformação digital pra empresas tradicionais: modernização de ERP legado, migração pra cloud, adoção de IA, estratégia de dados e roadmap pra C-level.">
+    <meta name="keywords" content="consultoria transformação digital, modernização sistemas legados, migração cloud, adoção IA empresa tradicional, estratégia de dados, CTO fracional, transformação digital varejo, transformação digital indústria">
+    <meta name="author" content="Leonardo Rifeli">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+    <meta name="googlebot" content="index, follow">
+    <meta name="theme-color" content="#F3F2F7" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0E0C14" media="(prefers-color-scheme: dark)">
+    <meta name="msapplication-TileColor" content="#5B2BD9">
+    <title>Consultoria em Transformação Digital: Modernização, Cloud e IA | Leonardo Rifeli</title>
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/consultoria/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="manifest" href="/consultoria/manifest.json">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="canonical" href="https://rifeli.dev/consultoria/servicos/transformacao-digital/">
+
+    <!-- Aplica o tema antes da primeira pintura pra nao piscar branco no dark -->
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('tema');
+                if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+            } catch (e) {}
+        })();
+    </script>
+    <meta name="geo.region" content="BR-SC">
+    <meta name="geo.placename" content="Antônio Carlos">
+    <meta name="geo.position" content="-27.5197;-48.7662">
+    <meta name="ICBM" content="-27.5197, -48.7662">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="og:site_name" content="Leonardo Rifeli Consultoria">
+    <meta property="og:title" content="Consultoria em Transformação Digital: Modernização, Cloud e IA">
+    <meta property="og:description" content="Roadmap de modernização pra empresa tradicional: legado, cloud, IA e dados. Conversa de diretoria, não jargão.">
+    <meta property="og:image" content="https://rifeli.dev/consultoria/img/og.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://rifeli.dev/consultoria/servicos/transformacao-digital/">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Consultoria em Transformação Digital: Modernização, Cloud e IA">
+    <meta name="twitter:description" content="Roadmap de modernização pra empresa tradicional. Diretoria sai com plano técnico defensável.">
+    <meta name="twitter:image" content="https://rifeli.dev/consultoria/img/og.png">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Consultoria em Transformação Digital",
+      "serviceType": "Consultoria em Modernização Tecnológica e Estratégia Digital",
+      "url": "https://rifeli.dev/consultoria/servicos/transformacao-digital/",
+      "description": "Diagnóstico estratégico, roadmap de modernização de 12 a 36 meses, avaliação make vs buy, adoção de IA e estratégia de dados pra empresas tradicionais.",
+      "provider": {
+        "@type": "ProfessionalService",
+        "name": "Leonardo Rifeli - Consultoria Tech & Mentoria",
+        "url": "https://rifeli.dev/consultoria/",
+        "telephone": "+5548988215325",
+        "email": "leonardo@rifeli.dev"
+      },
+      "areaServed": {"@type": "Country", "name": "Brasil"},
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Entregas de Transformação Digital",
+        "itemListElement": [
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Diagnóstico estratégico de stack"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Roadmap de modernização"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Avaliação make vs buy vs partner"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Plano de adoção de IA"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Estratégia de dados"}},
+          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Acompanhamento executivo"}}
+        ]
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Quanto tempo dura uma transformação digital?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Não existe versão honesta com prazo único. Modernização de stack crítico (ERP, integrações, plataforma de dados) leva entre 12 e 36 meses dependendo do escopo, do appetite por risco e do orçamento. Mas valor mensurável aparece bem antes: o primeiro ciclo de seis meses já deveria entregar um sistema modernizado, um caso de IA em produção e dado estratégico fora do Excel. Quem promete dois anos sem entrega intermediária tá vendendo deslumbre."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Como se mede sucesso de transformação digital?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Em métricas de negócio, não de tecnologia. Redução de custo operacional, aumento de margem por automação, encurtamento de time-to-market de produto novo, redução de incidente operacional, NPS de cliente interno e externo. Migração de servidor pra cloud que melhora o diagrama mas não mexe em nenhuma dessas métricas em 12 meses não foi transformação, foi mudança de fornecedor."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Substitui consultoria de Big4 como Accenture ou Deloitte?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Substituo em parte. Pra diagnóstico, decisão arquitetural, roadmap defensável e acompanhamento executivo, sim. O que entrego com mais profundidade técnica e custo menor que Big4. Pra execução com 50 consultores em paralelo, terceirização de squad inteiro e responsabilidade contratual de obra pública, não. Frequentemente complemento: faço a leitura técnica do que Big4 está propondo pro cliente e dou segunda opinião defensável."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Atende empresa não-tech (varejo, indústria, saúde)?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sim, e é onde transformação digital tem maior impacto. Empresa não-tech costuma ter ERP legado, dado disperso em planilha, processo manual replicado entre filiais e tentativa anterior de modernização que parou no meio. A conversa começa fora do jargão técnico, com diretoria e operação, e o roadmap se conecta a métrica de negócio concreta (margem, frete, estoque, atendimento)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Atua só no técnico ou também ajuda na decisão comercial?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Os dois. Em transformação digital, decisão técnica é decisão comercial. Substituir ERP, escolher cloud, comprar produto ou construir interno, parceria com integrador, contratação de squad interno: tudo é tradeoff de risco, custo e prazo. Trabalho com C-level pra que a diretoria tome decisão informada, não decisão vendida por fornecedor."
+          }
+        }
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Início", "item": "https://rifeli.dev/consultoria/"},
+        {"@type": "ListItem", "position": 2, "name": "Serviços", "item": "https://rifeli.dev/consultoria/#servicos"},
+        {"@type": "ListItem", "position": 3, "name": "Transformação Digital", "item": "https://rifeli.dev/consultoria/servicos/transformacao-digital/"}
+      ]
+    }
+    </script>
+</head>
+<body>
+    <a class="skip-link" href="#conteudo">Pular para o conteudo</a>
+
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="/consultoria/">Leonardo<span>Rifeli</span></a>
+            </div>
+
+            <nav class="nav" id="menu-principal" aria-label="Navegacao principal">
+                <ul>
+                    <li><a href="/consultoria/#servicos">Servicos</a></li>
+                    <li><a href="/consultoria/#processo">Como funciona</a></li>
+                    <li><a href="/consultoria/#sobre">Sobre</a></li>
+                    <li><a href="/blog/">Blog</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+                <a href="/consultoria/#contato" class="btn-primary">Agendar 30 min</a>
+            </nav>
+
+            <div class="header-actions">
+                <button type="button" class="theme-toggle" aria-label="Mudar tema">
+                    <svg class="icon icon-sun" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-sun"></use></svg>
+                    <svg class="icon icon-moon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-moon"></use></svg>
+                </button>
+                <a href="/consultoria/#contato" class="btn-primary">Agendar 30 min</a>
+                <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="menu-principal" aria-label="Abrir menu">
+                    <svg class="icon icon-menu" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-menu"></use></svg>
+                    <svg class="icon icon-close" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-close"></use></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="conteudo">
+
+    <section class="hero">
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <h1>Consultoria em Transformação Digital pra Empresas Tradicionais</h1>
+                <h2>Modernização de <span class="highlight">legados</span>, migração pra <span class="highlight">cloud</span>, adoção de <span class="highlight">IA</span> e estratégia de dados</h2>
+                <p>Transformação digital virou jargão. Pra quem decide, o que importa é qual sistema substituir primeiro, com qual orçamento e o que o board vai cobrar em 12 meses. É essa conversa que tenho com diretoria.</p>
+                <div class="hero-buttons">
+                    <a href="/consultoria/#contato" class="btn-primary">Agendar Conversa Estratégica</a>
+                    <a href="#faq" class="btn-secondary">Ver FAQ</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://avatars.githubusercontent.com/u/6767689?v=4" alt="Leonardo Rifeli - Consultor em Transformação Digital">
+            </div>
+        </div>
+    </section>
+
+    <section class="sobre">
+        <div class="container">
+            <div class="section-header">
+                <h2>Quando contratar consultoria em transformação digital</h2>
+                <div class="separator"></div>
+            </div>
+            <div class="sobre-content">
+                <div class="sobre-text">
+                    <p>Empresa com ERP de duas décadas travando produto novo. O fornecedor original não existe mais, a customização interna virou caixa-preta, ninguém da operação confia em fazer mudança grande, e o time digital novo já desistiu de propor.</p>
+                    <p>A diretoria decidiu "vamos usar IA" sem clareza do que substituir, comprar ou construir. Cada fornecedor que entra na sala vende a versão dele de IA, e a diretoria não tem como diferenciar plataforma genuína de slide bonito sem alguém técnico do lado.</p>
+                    <p>A migração pra cloud foi tentada com integrador grande e parou no meio. Parte do legado tá em AWS, parte continua no data center, dados estão duplicados, custo dobrou e ninguém quer puxar o fio.</p>
+                    <p>O dado estratégico do negócio tá em planilha de Excel, relatório PowerBI quebrado e ERP que ninguém atualiza. Quando a diretoria precisa de número, atrasa dias. Quando precisa de série histórica, vira projeto.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="servicos">
+        <div class="container">
+            <div class="section-header">
+                <h2>O que entrego</h2>
+                <div class="separator"></div>
+                <p>Decisão estratégica defensável, com tradeoff técnico e financeiro explícito</p>
+            </div>
+            <div class="servicos-grid">
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-stethoscope"></use></svg></div>
+                    <h3>Diagnóstico estratégico</h3>
+                    <p>Leitura técnica e estratégica do stack atual: ERP, integrações, dados, infraestrutura, equipe, processo. Identifica o que tá travando crescimento e o que pode esperar.</p>
+                </div>
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-route"></use></svg></div>
+                    <h3>Roadmap de modernização</h3>
+                    <p>Plano de 12 a 36 meses, com fases claras, entregas trimestrais mensuráveis e marco de decisão a cada ciclo. Sem big-bang, sem promessa de transformação total em seis meses.</p>
+                </div>
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-scale"></use></svg></div>
+                    <h3>Make vs buy vs partner</h3>
+                    <p>Avaliação pra cada componente: construir interno, comprar produto, contratar parceiro ou outsourcear. Matriz de risco, custo total, dependência de fornecedor e prazo de break-even.</p>
+                </div>
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-brain"></use></svg></div>
+                    <h3>Plano de adoção de IA</h3>
+                    <p>Identifica três a cinco casos de uso de IA com retorno mensurável, prioriza por risco e impacto, define stack (RAG, LLM, automação) e plano de implementação ligado a métrica de negócio.</p>
+                </div>
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-database"></use></svg></div>
+                    <h3>Estratégia de dados</h3>
+                    <p>Governança, data platform, BI confiável, indicador estratégico no painel da diretoria. Estratégia que une operação, financeiro e comercial em torno de dado único.</p>
+                </div>
+                <div class="servico-card">
+                    <div class="servico-icon"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-briefcase"></use></svg></div>
+                    <h3>Acompanhamento executivo</h3>
+                    <p>Sessão mensal ou trimestral com C-level e liderança técnica pra acompanhar execução, ajustar prioridade, mediar conflito entre áreas e garantir que o roadmap não vire prateleira.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="expertise">
+        <div class="container">
+            <div class="section-header">
+                <h2>Casos típicos</h2>
+                <div class="separator"></div>
+                <p>Perfis de cliente que aparecem com mais frequência na fila</p>
+            </div>
+            <div class="expertise-content">
+                <div class="expertise-category">
+                    <h3><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-store"></use></svg> Varejo enterprise</h3>
+                    <div class="expertise-items">
+                        <span>ERP legado</span>
+                        <span>Omnichannel</span>
+                        <span>Reputação como ativo</span>
+                        <span>Dado de cliente unificado</span>
+                    </div>
+                </div>
+                <div class="expertise-category">
+                    <h3><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-factory"></use></svg> Indústria e logística</h3>
+                    <div class="expertise-items">
+                        <span>WMS e MES</span>
+                        <span>Integração SAP</span>
+                        <span>IoT operacional</span>
+                        <span>BI de chão de fábrica</span>
+                    </div>
+                </div>
+                <div class="expertise-category">
+                    <h3><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-briefcase"></use></svg> Serviços profissionais</h3>
+                    <div class="expertise-items">
+                        <span>Automação de processo</span>
+                        <span>RAG sobre base interna</span>
+                        <span>Copilot pra time</span>
+                        <span>Indicador estratégico</span>
+                    </div>
+                </div>
+                <div class="expertise-category">
+                    <h3><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-heart"></use></svg> Saúde e finanças</h3>
+                    <div class="expertise-items">
+                        <span>Compliance e LGPD</span>
+                        <span>Dado sensível</span>
+                        <span>Migração criteriosa</span>
+                        <span>IA com guardrail</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="sobre">
+        <div class="container">
+            <div class="section-header">
+                <h2>Como funciona</h2>
+                <div class="separator"></div>
+            </div>
+            <div class="sobre-content">
+                <div class="sobre-text">
+                    <p>O primeiro passo é uma conversa de 30 a 60 minutos com C-level ou diretoria, sem custo. Entendo a empresa, o setor, o estágio digital, as restrições políticas internas e o que já foi tentado. No fim digo se faz sentido seguir comigo ou se você precisa de outro perfil.</p>
+                    <p>Se faz sentido, mando proposta com escopo, cronograma e valor em até cinco dias úteis. Engajamento mínimo de três meses pra diagnóstico e roadmap, e mensal ou trimestral pra acompanhamento executivo de execução.</p>
+                    <p>Trabalho remoto com viagens pontuais pra workshops presenciais quando faz sentido. Documento entregue em formato consumível por diretoria, com versão técnica complementar pra liderança de engenharia.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq" id="faq">
+        <div class="container">
+            <div class="section-header">
+                <h2>Perguntas frequentes</h2>
+                <div class="separator"></div>
+                <p>As que mais aparecem no primeiro contato</p>
+            </div>
+
+            <div class="faq-list">
+                <details class="faq-item">
+                    <summary>Quanto tempo dura uma transformação digital?</summary>
+                    <div class="faq-answer"><p>Não existe versão honesta com prazo único. Modernização de stack crítico (ERP, integrações, plataforma de dados) leva entre 12 e 36 meses dependendo do escopo, do appetite por risco e do orçamento. Mas valor mensurável aparece bem antes: o primeiro ciclo de seis meses já deveria entregar um sistema modernizado, um caso de IA em produção e dado estratégico fora do Excel. Quem promete dois anos sem entrega intermediária tá vendendo deslumbre.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Como se mede sucesso de transformação digital?</summary>
+                    <div class="faq-answer"><p>Em métricas de negócio, não de tecnologia. Redução de custo operacional, aumento de margem por automação, encurtamento de time-to-market de produto novo, redução de incidente operacional, NPS de cliente interno e externo. Migração de servidor pra cloud que melhora o diagrama mas não mexe em nenhuma dessas métricas em 12 meses não foi transformação, foi mudança de fornecedor.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Substitui consultoria de Big4 como Accenture ou Deloitte?</summary>
+                    <div class="faq-answer"><p>Substituo em parte. Pra diagnóstico, decisão arquitetural, roadmap defensável e acompanhamento executivo, sim. O que entrego com mais profundidade técnica e custo menor que Big4. Pra execução com 50 consultores em paralelo, terceirização de squad inteiro e responsabilidade contratual de obra pública, não. Frequentemente complemento: faço a leitura técnica do que Big4 está propondo pro cliente e dou segunda opinião defensável.</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Atende empresa não-tech (varejo, indústria, saúde)?</summary>
+                    <div class="faq-answer"><p>Sim, e é onde transformação digital tem maior impacto. Empresa não-tech costuma ter ERP legado, dado disperso em planilha, processo manual replicado entre filiais e tentativa anterior de modernização que parou no meio. A conversa começa fora do jargão técnico, com diretoria e operação, e o roadmap se conecta a métrica de negócio concreta (margem, frete, estoque, atendimento).</p></div>
+                </details>
+                <details class="faq-item">
+                    <summary>Atua só no técnico ou também ajuda na decisão comercial?</summary>
+                    <div class="faq-answer"><p>Os dois. Em transformação digital, decisão técnica é decisão comercial. Substituir ERP, escolher cloud, comprar produto ou construir interno, parceria com integrador, contratação de squad interno: tudo é tradeoff de risco, custo e prazo. Trabalho com C-level pra que a diretoria tome decisão informada, não decisão vendida por fornecedor.</p></div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2>Quer um diagnóstico estratégico honesto?</h2>
+            <p>Uma conversa com a diretoria sem custo. Saio com leitura técnica e estratégica do que tá travando e onde mexer primeiro pra entregar resultado mensurável.</p>
+            <a href="/consultoria/#contato" class="btn-primary">Agendar Conversa</a>
+        </div>
+    </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="/consultoria/">Leonardo<span>Rifeli</span></a>
+                    <p>Consultoria Tech & Mentoria</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Serviços</h4>
+                    <ul>
+                        <li><a href="/consultoria/servicos/consultoria-ia-genai/">Consultoria GenAI</a></li>
+                        <li><a href="/consultoria/servicos/engenharia-dados/">Engenharia de Dados</a></li>
+                        <li><a href="/consultoria/servicos/arquitetura-software/">Arquitetura de Software</a></li>
+                        <li><a href="/consultoria/servicos/cloud-devops/">Cloud & DevOps</a></li>
+                        <li><a href="/consultoria/servicos/mentoria-tech/">Mentoria Tech</a></li>
+                        <li><a href="/consultoria/servicos/transformacao-digital/">Transformação Digital</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>Conecte-se</h4>
+                    <div class="social-links">
+                        <a href="https://linkedin.com/in/leonardorifeli" target="_blank" rel="noopener" aria-label="LinkedIn de Leonardo Rifeli"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-linkedin"></use></svg></a>
+                        <a href="https://github.com/leonardorifeli" target="_blank" rel="noopener" aria-label="GitHub de Leonardo Rifeli"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-github"></use></svg></a>
+                        <a href="/blog/" aria-label="Blog rifeli.dev"><svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-globe"></use></svg></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>43.622.212/0001-13 - RIFELI TECHNOLOGY & SOFTWARE CRAFTSMAN</p>
+                <p>&copy; 2026 Leonardo Rifeli. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <a class="wa-float" href="https://wa.me/5548988215325?text=Oi%20Leonardo%2C%20vim%20pelo%20site%20da%20consultoria." target="_blank" rel="noopener" aria-label="Chamar no WhatsApp">
+        <svg class="icon" aria-hidden="true"><use href="/consultoria/img/icons.svg#i-whatsapp"></use></svg>
+        <span>WhatsApp</span>
+    </a>
+
+    <script src="/consultoria/js/script.js" defer></script>
+</body>
+</html>

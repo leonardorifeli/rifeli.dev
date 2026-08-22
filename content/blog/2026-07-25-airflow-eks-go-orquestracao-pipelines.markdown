@@ -34,9 +34,9 @@ tags:
 
 # Introdução
 
-Airflow é Python por natureza. MWAA é o Airflow gerenciado da AWS. EKS é onde nossos workloads pesados rodam, em Go (cluster k8s). A combinação dos três não é a mais óbvia, mas é a que sustenta hoje a maior parte dos pipelines de dados que rodam por trás da Plataforma Harmo. Esse post conta o porquê dessa escolha e como as peças se encaixam.
+Airflow é Python por natureza. MWAA é o Airflow gerenciado da AWS. EKS é onde nossos workloads pesados rodam, em Go (cluster Kubernetes). A combinação dos três não é a mais óbvia, mas é a que sustenta hoje a maior parte dos pipelines de dados que rodam por trás da Plataforma Harmo. Esse post conta o porquê dessa escolha e como as peças se encaixam.
 
-A escala que essa stack sustenta hoje: +25 DAGs ativas em produção, executando cerca de mil tasks por dia com taxa de falha de 0,35% no último mês. Dessas tasks, uma média de 500 por dia vira pod de Go no EKS, quase 14 mil pods em 30 dias, cuidando da coleta, do processamento e da sincronização das mais de 300 mil avaliações públicas que entram por mês na plataforma.
+A escala que essa stack sustenta hoje: mais de 25 DAGs ativas em produção, executando cerca de mil tasks por dia com taxa de falha de 0,35% no último mês. Dessas tasks, uma média de 500 por dia vira pod de Go no EKS, cerca de 15 mil pods em 30 dias, cuidando da coleta, do processamento e da sincronização das mais de 300 mil avaliações públicas que entram por mês na plataforma.
 
 Antes de entrar na arquitetura, vale dizer o que isso substituiu. A geração anterior era cronjobs agendando Lambdas em Node.js, coladas por filas SQS, e mais tarde Step Functions coordenando os fluxos de coleta. O MWAA entrou em março de 2024, mas não houve corte: parte do legado coexistiu por mais dois anos.
 
@@ -48,17 +48,17 @@ A maturidade do Airflow trouxe um custo conhecido: ele assume Python no plano da
 
 # Por que MWAA pro scheduler e EKS pro runtime
 
-A primeira pergunta foi onde hospedar o Airflow em si. Self-hosted via Helm chart oficial no EKS era opção possível, mas trazia operação inteira do Airflow pra dentro do time: upgrade de versão, gerenciamento de scheduler/web server/workers, backup de metadata DB, segurança. MWAA resolve tudo isso como serviço gerenciado, em troca de menos flexibilidade fina. Pra um time que quer Airflow como ferramenta e não como produto operado, vale a troca.
+A primeira pergunta foi onde hospedar o Airflow em si. Self-hosted via Helm chart oficial no EKS era opção possível, mas trazia operação inteira do Airflow pra dentro do time: upgrade de versão, gerenciamento de scheduler/web server/workers, backup de metadata DB, segurança. MWAA absorve boa parte dessa operação como serviço gerenciado, em troca de menos flexibilidade fina. Pra um time que quer Airflow como ferramenta e não como produto operado, vale a troca.
 
 Nosso ambiente é um mw1.medium rodando Airflow 2.10.1, com dois schedulers e workers Celery escalando de um a cinco. Classe modesta de propósito: o MWAA só coordena. Se o ambiente precisasse ser grande, seria sinal de que trabalho pesado está vazando pra dentro do scheduler.
 
 A segunda pergunta foi onde rodar o trabalho pesado. A Harmo já roda mais de 50 microservices em Go no EKS, com observabilidade, autoscaling, secrets management e quotas de recurso compartilhados. Subir compute pro trabalho pesado em outro lugar (Lambda, ECS, Batch) seria duplicação de operação sem ganho. Então a decisão foi natural: scheduler no MWAA, workload no EKS.
 
-O ponto que destrava a topologia é a integração entre os dois. MWAA tem permissão de chamar a API do EKS via execution role configurada com IAM. Isso permite que o **KubernetesPodOperator** dentro de uma DAG aponte pro nosso cluster EKS e suba pods lá, mesmo o Airflow não morando dentro do cluster. Cada task pesada vira um pod Go separado no EKS, disparado pelo MWAA via API call de pod create. Foi genial.
+O ponto que destrava a topologia é a integração entre os dois. MWAA tem permissão de chamar a API do EKS via execution role configurada com IAM. Isso permite que o **KubernetesPodOperator** dentro de uma DAG aponte pro nosso cluster EKS e suba pods lá, mesmo o Airflow não morando dentro do cluster. Cada task pesada vira um pod Go separado no EKS, disparado pelo MWAA via API call de pod create. O scheduler nunca hospeda o processo pesado: ele acompanha um pod e um estado.
 
 # Por que Go pros workers
 
-Workers do Airflow padrão em Python sustentam a coordenação, não o trabalho pesado. Quando a task envolve I/O concorrente em volume (coleta paginada, sincronização com APIs externas, escrita em massa em banco), Go entrega throughput de outro patamar com previsibilidade de latência muito melhor. Footprint de container fica pequeno, startup time fica curto, e o padrão de worker pool (com errgroup, context, cancelamento limpo) [já está dominado pelo time](/blog/2026-05-27-concorrencia-worker-pools-go/).
+Workers do Airflow padrão em Python sustentam a coordenação, não o trabalho pesado. Pro perfil dos nossos workers, que é muito I/O concorrente, paginação e escrita em massa em banco, Go tem entregado throughput maior, consumo previsível e uma operação que o time já domina. Footprint de container fica pequeno, startup time fica curto, e o padrão de worker pool com errgroup, context e cancelamento limpo [já virou rotina por aqui](/blog/2026-05-27-concorrencia-worker-pools-go/).
 
 Quatro categorias cobrem quase tudo que roda em Go por aqui. Coleta de avaliações em fontes externas (Google, iFood, TripAdvisor, etc), em lotes que chegam via arquivo no S3. Processamento de texto e IA sobre o que foi coletado, extraindo sentimento, termos e categorias, que é onde está o maior volume de pods do dia. Sincronização de feeds com a ponta do Google: catálogo, cardápio, ofertas. E disparo de notificações e consolidação de relatórios. Todos os workers seguem o mesmo formato: binário único compilado pra arm64, imagem mínima, `cmds=["./main"]` como entrypoint.
 
@@ -66,7 +66,7 @@ Em paralelo, mantemos workers em Python pra coisas em que Python ganha de Go por
 
 # A topologia
 
-O fluxo típico de uma task pesada é o seguinte. DAG em Python define o **KubernetesPodOperator** com a imagem do worker em Go, parâmetros de entrada via variáveis de ambiente ou arquivo de config, e política de retry/timeout. Airflow dispara o pod no cluster, o pod roda o binário Go que faz o trabalho, escreve resultado em destino persistente (S3, Postgres, Kafka, dependendo da task), termina com exit code limpo. Airflow lê o exit code, decide próxima task ou retry.
+O fluxo típico de uma task pesada é o seguinte. DAG em Python define o **KubernetesPodOperator** com a imagem do worker em Go, parâmetros de entrada via variáveis de ambiente ou arquivo de config, e política de retry/timeout. Airflow dispara o pod no cluster, o pod roda o binário Go que faz o trabalho, escreve resultado em destino persistente (S3, Postgres, Kafka, dependendo da task) e termina. O operator acompanha o estado do pod até o fim e traduz esse término em sucesso ou falha da task, e é isso que decide se o fluxo segue pra próxima ou entra em retry.
 
 Uma DAG de coleta real, enxuta e anonimizada, fica assim:
 
@@ -75,6 +75,7 @@ import datetime
 from airflow import DAG
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 from airflow.utils.task_group import TaskGroup
+from kubernetes.client import models as k8s
 
 dag = DAG(
     dag_id="coleta_avaliacoes",
@@ -95,10 +96,10 @@ def cria_pod(lote_id, arquivo, versao):
             "karpenter.sh/do-not-disrupt": "true",
             "cluster-autoscaler.kubernetes.io/safe-to-evict": "false",
         },
-        container_resources={
-            "requests": {"cpu": "500m", "memory": "1024Mi"},
-            "limits":   {"cpu": "500m", "memory": "1024Mi"},
-        },
+        container_resources=k8s.V1ResourceRequirements(
+            requests={"cpu": "500m", "memory": "1024Mi"},
+            limits={"cpu": "500m", "memory": "1024Mi"},
+        ),
         get_logs=True,
         is_delete_operator_pod=True,
         retries=3,
@@ -110,15 +111,19 @@ with TaskGroup("coleta", dag=dag) as grupo:
         cria_pod(i, arquivo, versao_imagem())
 ```
 
-As annotations de anti-disrupção e o requests igual ao limits não são decoração: cada uma dessas linhas é cicatriz de incidente, e conto a história na seção de gotchas. Boa parte das DAGs nem instancia o **KubernetesPodOperator** direto: usa um operator interno que o estende com os defaults (namespace, recursos, proteção contra eviction), pra que DAG nova não reinvente configuração.
+As annotations de anti-disrupção e o requests igual ao limits não são decoração, e cada um resolve um problema diferente: cada uma dessas linhas é cicatriz de incidente, e conto a história na seção das cicatrizes. Boa parte das DAGs nem instancia o **KubernetesPodOperator** direto: usa um operator interno que o estende com os defaults (namespace, recursos, proteção contra disrupção), pra que DAG nova não reinvente configuração.
 
-Pra dados pequenos entre tasks (IDs, timestamps, métricas de resumo), usamos XCom. Pra dados grandes (datasets, payloads completos), o intermediário é storage externo: o pod escreve em S3, a próxima task lê o path do XCom e busca o conteúdo de lá. XCom tem limite operacional baixo, forçar dado grande por ele é antipattern que aparece em DAG mal desenhada.
+Pra dados pequenos entre tasks (IDs, timestamps, métricas de resumo), usamos XCom. Pra dados grandes (datasets, payloads completos), o intermediário é storage externo: o pod escreve em S3, a próxima task lê o path do XCom e busca o conteúdo de lá. A regra por aqui é XCom carrega referência, não payload. Isso é decisão da nossa arquitetura, não limitação universal do Airflow: o XCom aguenta mais do que a gente deixa passar por ele, mas dado grande no metadata DB é acoplamento que a gente não quer.
 
-# Os gotchas
+# As cicatrizes da arquitetura
 
 Cinco aprendizados que custaram tempo.
 
-**Eviction no meio da coleta.** Uma das nossas coletoras leva cerca de meia hora pra varrer mais de 2 mil estabelecimentos. Em maio, execuções começaram a morrer no meio do caminho: numa delas, 1.189 de 2.037 estabelecimentos se perderam quando o pod foi despejado por `EvictionByEvictionAPI`. A consolidação do Karpenter tinha decidido que aquele nó podia ser drenado, e os pods rodavam em QoS Burstable, sem nenhuma proteção contra disrupção. A correção saiu em duas ondas no mesmo dia: annotations `karpenter.sh/do-not-disrupt` e `safe-to-evict: false`, mais requests iguais a limits pra promover os pods a QoS Guaranteed. Na segunda onda, espelhamos a proteção nas duas coletoras mais longas do parque, com execuções de duas a três horas, que eram alvos ainda maiores. Pod de task longa sem proteção explícita é aposta contra o autoscaler, e o autoscaler ganha.
+**Eviction no meio da coleta.** Uma das nossas coletoras leva cerca de meia hora pra varrer mais de 2 mil estabelecimentos. Em maio, execuções começaram a morrer no meio do caminho: numa delas, 1.189 de 2.037 estabelecimentos se perderam quando o pod foi despejado por `EvictionByEvictionAPI`. A consolidação do Karpenter tinha decidido que aquele nó podia ser drenado, e os pods rodavam em QoS Burstable, sem nenhuma proteção declarada. A correção saiu em duas ondas no mesmo dia, e ela junta dois mecanismos que a gente aprendeu a não confundir.
+
+A annotation `karpenter.sh/do-not-disrupt` fala com o Karpenter: pede pra ele não escolher aquele nó pra consolidação ou drain voluntário. Requests iguais a limits fazem outra coisa: promovem o pod a QoS Guaranteed, o que reduz o risco de eviction quando o nó entra em pressão de recurso. Nenhuma das duas cobre o buraco da outra. QoS Guaranteed sozinho não impede o Karpenter de consolidar ou drenar o nó embaixo do pod, e `do-not-disrupt` não protege contra toda disrupção involuntária ou forçada: se o nó morre, se alguém drena na força, o pod cai igual. A `cluster-autoscaler.kubernetes.io/safe-to-evict: "false"` que aparece no exemplo entrou na mesma onda e continua lá, mas ela fala com o Cluster Autoscaler do Kubernetes, não com o Karpenter, então não é ela que segura a consolidação por aqui.
+
+Na segunda onda, espelhamos as duas proteções nas duas coletoras mais longas do parque, com execuções de duas a três horas, que eram alvos ainda maiores. Pod de task longa sem proteção explícita é aposta contra o autoscaler, e o autoscaler ganha.
 
 **O retry do Airflow reinicia do zero.** Todos os nossos pods rodam com `retries=3`, e o incidente de eviction confirmou na prática: task despejada aos 90% refaz 100%. Isso transforma idempotência em pré-requisito de design, não em refinamento. Cada worker recebe um lote fechado via arquivo no S3 e precisa poder reprocessar o mesmo lote sem duplicar no destino. Não temos registro de duplicação em produção, e quero que continue assim, porque isso é propriedade de desenho, não de sorte.
 
@@ -132,16 +137,22 @@ Cinco aprendizados que custaram tempo.
 
 - Worker padronizado corta custo de manutenção. Cada worker é um binário Go compilado pra arm64 numa imagem mínima, com `./main` de entrypoint. Qualquer coisa além disso na imagem é sintoma de worker mal desenhado.
 
-- Dado grande nunca passa por XCom. Lote entra por arquivo no S3 e o XCom carrega só metadado: path, contagem, versão de imagem. Essa regra precisa ser explícita no time, não convenção implícita, senão a DAG cresce torta.
+- XCom carrega referência, não payload. Lote entra por arquivo no S3 e o XCom leva só metadado: path, contagem, versão de imagem. É decisão nossa, não limite do Airflow, e precisa ser explícita no time, não convenção implícita, senão a DAG cresce torta.
 
 - Idempotência vale mais que retry esperto. O retry do Airflow reinicia a task do zero, então o worker que não sabe reprocessar o próprio lote sem duplicar é uma duplicação agendada.
 
-- Task longa exige proteção explícita contra disrupção. QoS Guaranteed e annotations de do-not-disrupt não são paranoia: Burstable numa task de 3 horas é aposta contra o autoscaler.
+- Task longa exige proteção explícita, e são duas proteções distintas. Requests iguais a limits promovem o pod a QoS Guaranteed e reduzem eviction por pressão de recurso; `karpenter.sh/do-not-disrupt` é o que pede ao Karpenter pra não consolidar o nó embaixo do pod. Burstable e sem annotation numa task de 3 horas é aposta contra o autoscaler.
 
 - Métrica retida não é alarme. O MWAA publica tudo em CloudWatch, mas não cria alarme nenhum por padrão. Alarme de orquestração é trabalho seu, e é o tipo de coisa que se descobre tarde.
 
-- Pod não é pra task trivial. Aqui, só uma em cada cinco tasks criadas vira pod; o resto roda em PythonOperator e afins dentro do próprio worker do MWAA. Subir pod, puxar imagem e inicializar runtime pra 200ms de trabalho transforma uma task rápida numa task de 30 segundos.
+- Pod não é pra task trivial. Aqui, aproximadamente metade das execuções vira pod; o resto roda em PythonOperator e afins dentro do próprio worker do MWAA. Subir pod, puxar imagem e inicializar runtime pra 200ms de trabalho transforma uma task rápida numa task de 30 segundos.
 
 # Conclusão
 
-A maior parte das empresas trata Airflow e Python como um pacote indivisível: orquestra em Python, executa em Python, escala em Python. Pra quem já opera workload pesado em Kubernetes, o desenho mais limpo é outro. O scheduler resolve o grafo, dispara o pod e cobra o exit code, e nesse papel restrito o Airflow é excelente. O trabalho pesado fica onde a operação já sabe rodar, observar e escalar: no cluster, em Go. A combinação dos três não é a mais óbvia. É a que deixa cada peça fazendo só o que faz melhor.
+A maior parte das empresas trata Airflow e Python como um pacote indivisível: orquestra em Python, executa em Python, escala em Python. Pra quem já opera workload pesado em Kubernetes, o desenho mais limpo é outro. O scheduler resolve o grafo, dispara o pod e cobra o resultado, e nesse papel restrito o Airflow é excelente. O trabalho pesado fica onde a operação já sabe rodar, observar e escalar: no cluster, em Go.
+
+Não escolhemos uma stack exótica. Escolhemos limitar a responsabilidade de cada peça.
+
+O scheduler coordena. O cluster executa. O worker processa.
+
+E cada um faz só o trabalho que sabe fazer melhor.

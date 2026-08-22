@@ -5,7 +5,7 @@
 		{{ with .Params.tags }}
 		<div id="tags-custom-container">
 				{{ range . }}
-				<a id="tag-custom-button" href="{{ "/tags/" | relLangURL }}{{ . | urlize }}">{{ . }}</a>
+				<a class="tag-chip" href="{{ "/tags/" | relLangURL }}{{ . | urlize }}">{{ . }}</a>
 				{{ end }}
 		</div>
 		{{ end }}

@@ -1,6 +1,6 @@
 baseURL = 'https://rifeli.dev/'
 copyright = "2015 - {year}"
-languageCode = 'en-US'
+languageCode = 'pt-BR'
 defaultContentLanguage = 'en'
 theme = 'lowkey'
 title = 'rifeli.dev'

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode | default `pt-BR` }}" class="scroll-smooth dark" data-color-scheme="manual">
+  <head>
+    {{/* tokens.css tem fonte unica em assets/. Publicamos uma copia sem
+         fingerprint em /css/tokens.css pra LP estatica em /consultoria/
+         consumir o MESMO arquivo, sem duplicar. */}}
+    {{- $tokens := resources.Get "css/tokens.css" | resources.Copy "/css/tokens.css" -}}
+    {{- $tokens.Publish -}}
+
+    {{/* aplica o tema antes da primeira pintura pra nao piscar */}}
+    <script>
+      (function () {
+        try {
+          if (localStorage.getItem('theme') === 'light') {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+    {{- partial "head/index" . -}}
+  </head>
+
+  <body>
+    <a class="skip-link" href="#content">Pular para o conteúdo</a>
+
+    <div class="header max-w-screen-md mx-auto">
+      {{ partial "header/index" . }}
+      {{ partial "header/theme-button" . }}
+    </div>
+
+    {{ if .IsHome }}
+      {{ partial "intro.html" . }}
+    {{ end }}
+
+    <main id="content" class="max-w-screen-md mx-auto">
+      {{- block "main" . -}}
+      {{- end }}
+    </main>
+
+    <div>
+    {{- partial "footer/index" . -}}
+    </div>
+
+    {{ partial "consent-banner.html" . }}
+  </body>
+</html>

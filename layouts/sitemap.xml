@@ -1,0 +1,29 @@
+{{ printf "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>" | safeHTML }}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  {{- range .Data.Pages }}
+  {{- if .Permalink }}
+  <url>
+    <loc>{{ .Permalink }}</loc>
+    {{- if not .Lastmod.IsZero }}
+    <lastmod>{{ safeHTML ( .Lastmod.Format "2006-01-02T15:04:05-07:00" ) }}</lastmod>
+    {{- end }}
+  </url>
+  {{- end }}
+  {{- end }}
+  {{- /* A LP de consultoria e servida como arquivo estatico em /consultoria/,
+         entao nao entra em .Data.Pages. Listamos explicitamente aqui. */}}
+  {{- $consultoria := slice
+      "/consultoria/"
+      "/consultoria/servicos/consultoria-ia-genai/"
+      "/consultoria/servicos/engenharia-dados/"
+      "/consultoria/servicos/arquitetura-software/"
+      "/consultoria/servicos/cloud-devops/"
+      "/consultoria/servicos/mentoria-tech/"
+      "/consultoria/servicos/transformacao-digital/" }}
+  {{- range $consultoria }}
+  <url>
+    <loc>{{ . | absURL }}</loc>
+    <lastmod>{{ safeHTML ( now.Format "2006-01-02T15:04:05-07:00" ) }}</lastmod>
+  </url>
+  {{- end }}
+</urlset>

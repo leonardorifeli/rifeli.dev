@@ -1,0 +1,106 @@
+/* ==========================================================================
+   tokens.css - camada compartilhada de design
+   FONTE UNICA para consultoria.rifeli.dev e rifeli.dev.
+   Editou aqui, copia pro outro projeto. Nada de cor ou tamanho solto
+   fora deste arquivo.
+   ========================================================================== */
+
+/* --- Tokens -------------------------------------------------------------- */
+:root {
+    /* superficie */
+    --paper:        #F3F2F7;
+    --surface:      #FFFFFF;
+    --surface-2:    #FAFAFC;
+    --ink:          #16131F;
+    --ink-2:        #55506B;
+    --ink-3:        #8A85A0;
+    --line:         #E1DFEA;
+    --line-strong:  #C9C5D8;
+
+    /* marca */
+    --violet:       #5B2BD9;
+    --violet-deep:  #3D1B99;
+    --violet-soft:  #EFE9FD;
+    --violet-ink:   #2E1470;
+
+    /* sinal: usado so em medicao, estado e acento pontual */
+    --signal:       #C4700A;
+    --signal-soft:  #FCF1DF;
+
+    --ok:           #15803D;
+    --err:          #C42B2B;
+
+    /* tipografia */
+    --font-display: 'Space Grotesk', 'Segoe UI', system-ui, sans-serif;
+    --font-body:    'Inter', system-ui, -apple-system, sans-serif;
+    --font-mono:    'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+    --step--1: 0.8125rem;
+    --step-0:  1.0625rem;
+    --step-1:  clamp(1.15rem, 0.4vw + 1.05rem, 1.3rem);
+    --step-2:  clamp(1.35rem, 1vw + 1.1rem, 1.6rem);
+    --step-3:  clamp(1.75rem, 2.2vw + 1.2rem, 2.6rem);
+    --step-4:  clamp(2.35rem, 5.2vw + 1rem, 4.15rem);
+
+    /* ritmo */
+    --gutter:   clamp(1.25rem, 4vw, 2.5rem);
+    --section:  clamp(4rem, 8vw, 7rem);
+    --r:        6px;
+    --r-sm:     3px;
+
+    --lift:     0 1px 2px rgba(22, 19, 31, .04), 0 8px 24px -12px rgba(22, 19, 31, .14);
+    --lift-2:   0 1px 2px rgba(22, 19, 31, .05), 0 18px 40px -20px rgba(46, 20, 112, .28);
+    --ease:     cubic-bezier(.22, .61, .36, 1);
+}
+
+/* dark explicito: data-theme (LP) ou classe .dark (Tailwind, blog) */
+:root[data-theme="dark"],
+html.dark {
+    --paper:        #0E0C14;
+    --surface:      #17141F;
+    --surface-2:    #1D1928;
+    --ink:          #EFEDF5;
+    --ink-2:        #A9A3BF;
+    --ink-3:        #7B7595;
+    --line:         #2A2537;
+    --line-strong:  #3B3450;
+
+    --violet:       #A184FF;
+    --violet-deep:  #C6B2FF;
+    --violet-soft:  #221B38;
+    --violet-ink:   #D9CCFF;
+
+    --signal:       #E9A64B;
+    --signal-soft:  #2B2114;
+
+    --ok:           #4ADE80;
+    --err:          #F87171;
+
+    --lift:     0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px -12px rgba(0, 0, 0, .6);
+    --lift-2:   0 1px 2px rgba(0, 0, 0, .5), 0 18px 40px -20px rgba(0, 0, 0, .8);
+}
+
+@media (prefers-color-scheme: dark) {
+    /* [data-color-scheme="manual"] desliga o automatico em paginas
+       que ja controlam o tema por classe, como o blog */
+    :root:not([data-theme="light"]):not([data-color-scheme="manual"]) {
+        --paper:        #0E0C14;
+        --surface:      #17141F;
+        --surface-2:    #1D1928;
+        --ink:          #EFEDF5;
+        --ink-2:        #A9A3BF;
+        --ink-3:        #7B7595;
+        --line:         #2A2537;
+        --line-strong:  #3B3450;
+        --violet:       #A184FF;
+        --violet-deep:  #C6B2FF;
+        --violet-soft:  #221B38;
+        --violet-ink:   #D9CCFF;
+        --signal:       #E9A64B;
+        --signal-soft:  #2B2114;
+        --ok:           #4ADE80;
+        --err:          #F87171;
+        --lift:     0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px -12px rgba(0, 0, 0, .6);
+        --lift-2:   0 1px 2px rgba(0, 0, 0, .5), 0 18px 40px -20px rgba(0, 0, 0, .8);
+    }
+}
