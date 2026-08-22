@@ -1,0 +1,95 @@
+{{/* Sumario da barra lateral, montado de .Fragments.Headings em vez de
+     .TableOfContents: assim a marcacao e minha e da pra estilizar com token.
+     Aparece so quando ha secao suficiente pra valer navegacao. */}}
+{{/* Quando o conteudo nao tem h1, o Hugo devolve um no raiz sintetico sem ID
+     e pendura as secoes nele. Os posts daqui nao tem h1 no corpo (o titulo
+     mora no template), entao na pratica cai sempre nesse caso. O teste pelo
+     ID vazio cobre os dois formatos. */}}
+{{ $secoes := .Fragments.Headings }}
+{{ if and (eq (len $secoes) 1) (not (index $secoes 0).ID) }}
+  {{ $secoes = (index $secoes 0).Headings }}
+{{ end }}
+{{ if ge (len $secoes) 3 }}
+<aside class="post-toc" aria-labelledby="post-toc-titulo">
+  <nav class="post-toc-inner">
+    <p class="eyebrow" id="post-toc-titulo">Nesta página</p>
+    <ol>
+      {{ range $secoes }}
+      <li>
+        <a href="#{{ .ID }}">{{ .Title }}</a>
+        {{ with .Headings }}
+        <ol>
+          {{ range . }}<li><a href="#{{ .ID }}">{{ .Title }}</a></li>{{ end }}
+        </ol>
+        {{ end }}
+      </li>
+      {{ end }}
+    </ol>
+  </nav>
+</aside>
+
+<script>
+  /* Marca a secao que o leitor esta lendo.
+     Nao uso IntersectionObserver aqui: ele acende enquanto o heading cruza uma
+     faixa da tela, e entre dois headings nada intersecta, entao o destaque
+     congela na secao anterior. A conta certa e outra: a secao atual e a ultima
+     cujo topo ja passou da linha de leitura. */
+  (function () {
+    const toc = document.querySelector('.post-toc');
+    if (!toc) return;
+
+    const pares = [];
+    toc.querySelectorAll('a[href^="#"]').forEach((a) => {
+      const alvo = document.getElementById(decodeURIComponent(a.hash.slice(1)));
+      if (alvo) pares.push({ a: a, alvo: alvo });
+    });
+    if (!pares.length) return;
+
+    const LINHA = 120;            /* px do topo: abaixo do header fixo */
+    let atual = null;
+    let agendado = false;
+
+    function marcar() {
+      agendado = false;
+
+      let escolhido = pares[0];
+      for (const par of pares) {
+        if (par.alvo.getBoundingClientRect().top - LINHA <= 0) escolhido = par;
+        else break;
+      }
+
+      if (atual === escolhido.a) return;
+      if (atual) atual.classList.remove('is-current');
+      atual = escolhido.a;
+      atual.classList.add('is-current');
+
+      /* mantem o item visivel quando a lista e longa e tem rolagem propria */
+      const caixa = toc.querySelector('.post-toc-inner');
+      if (caixa && caixa.scrollHeight > caixa.clientHeight) {
+        const r = atual.getBoundingClientRect();
+        const c = caixa.getBoundingClientRect();
+        if (r.top < c.top || r.bottom > c.bottom) {
+          atual.scrollIntoView({ block: 'nearest' });
+        }
+      }
+    }
+
+    function agendar() {
+      if (agendado) return;
+      agendado = true;
+      requestAnimationFrame(marcar);
+    }
+
+    addEventListener('scroll', agendar, { passive: true });
+    addEventListener('resize', agendar, { passive: true });
+
+    /* Recalcula quando a pagina termina de carregar. Sem isso, quem chega por
+       ancora fica com destaque velho: o navegador salta pro heading, as imagens
+       carregam depois e empurram o conteudo, e nenhum scroll acontece pra
+       disparar o recalculo. */
+    addEventListener('load', agendar);
+
+    marcar();
+  })();
+</script>
+{{ end }}

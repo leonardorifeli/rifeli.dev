@@ -32,10 +32,6 @@
 			{{ .Params.tldr }}
 		</div>{{ end }}
 
-		{{ if eq .Section "blog" }}
-			<div data-pagefind-ignore>{{ partial "newsletter.html" . }}</div>
-		{{ end }}
-
 		<section class="body">
 			{{ .Content }}
 		</section>
@@ -59,10 +55,16 @@
 			</section>
 		{{ end }}
 
+		{{ if eq .Section "blog" }}
+			<div data-pagefind-ignore>{{ partial "newsletter.html" . }}</div>
+		{{ end }}
+
 		{{ if .Params.Comments }}
 			<div data-pagefind-ignore>{{ partial "single/comments/giscus.html" . }}</div>
 		{{ end }}
 
 	</article>
+
+	{{ if eq .Section "blog" }}{{ partial "single/toc.html" . }}{{ end }}
 </main>
 {{ end }}

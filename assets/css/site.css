@@ -101,6 +101,67 @@ a:hover { color: var(--violet-deep); }
     user-select: none;
 }
 
+/* --- Sumario lateral do post --------------------------------------------- */
+/* A coluna de leitura NAO muda de largura nem de posicao: o main continua em
+   max-w-screen-md centrado, e o sumario e posicionado na margem direita que
+   sobra. Isso mantem o artigo alinhado com o header e o rodape. */
+.layout-post { position: relative; }
+
+.post-toc { display: none; }
+
+.post-toc-inner {
+    position: sticky;
+    top: 2.5rem;
+    max-height: calc(100vh - 5rem);
+    overflow-y: auto;
+    padding-left: 1.1rem;
+    border-left: 1px solid var(--line);
+}
+.post-toc-inner .eyebrow { margin-bottom: .85rem; }
+
+.post-toc ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.post-toc ol ol { margin: .35rem 0 .35rem .85rem; }
+.post-toc li { margin-bottom: .5rem; }
+.post-toc ol ol li { margin-bottom: .35rem; }
+
+#content .post-toc a {
+    display: block;
+    font-size: 0.82rem;
+    line-height: 1.4;
+    color: var(--ink-3);
+    text-decoration: none;
+    text-wrap: pretty;
+    border-left: 2px solid transparent;
+    margin-left: -1.1rem;
+    padding-left: 1.1rem;
+    transition: color .15s var(--ease), border-color .15s var(--ease);
+}
+#content .post-toc a:hover { color: var(--ink); }
+#content .post-toc ol ol a { font-size: 0.78rem; }
+
+/* secao que o leitor esta lendo */
+#content .post-toc a.is-current {
+    color: var(--violet);
+    border-left-color: var(--violet);
+}
+
+/* Aparece so quando a margem cabe a barra: 768px de texto mais 15rem de
+   lateral mais folga. Abaixo disso o post volta a ser coluna unica. */
+@media (min-width: 1240px) {
+    .post-toc {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: calc(100% + 2rem);
+        width: 13rem;
+        height: 100%;
+    }
+}
+
 /* --- Busca --------------------------------------------------------------- */
 .header-actions { display: flex; align-items: center; gap: .5rem; }
 
