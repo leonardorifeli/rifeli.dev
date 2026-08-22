@@ -6,3 +6,5 @@ node_modules
 .netlify
 package-lock.json
 resources
+# indice local da busca, gerado por bin/indexar-busca.sh
+static/pagefind
