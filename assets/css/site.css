@@ -101,6 +101,33 @@ a:hover { color: var(--violet-deep); }
     user-select: none;
 }
 
+/* --- Formula matematica -------------------------------------------------- */
+/* O MathJax renderiza dentro deste bloco. O overflow-x importa: formula longa
+   estoura a coluna no celular, e sem isso a pagina inteira rola de lado. */
+.formula {
+    margin-block: 1.5rem;
+    padding: 1.1rem 1.25rem;
+    border: 1px solid var(--line);
+    border-left: 2px solid var(--signal);
+    border-radius: var(--r);
+    background: var(--surface-2);
+    overflow-x: auto;
+    overflow-y: hidden;
+    color: var(--ink);
+}
+.formula .MathJax_Display { margin: 0 !important; }
+
+/* legenda embaixo da formula, pra nomear os simbolos. O seletor precisa do
+   contexto porque "section.body p" tem especificidade maior que uma classe
+   sozinha, e a nota sairia na mesma cor do paragrafo normal. */
+article > section .formula-nota,
+section.body .formula-nota {
+    margin-block: -.9rem 1.5rem;
+    font-size: 0.83rem;
+    line-height: 1.55;
+    color: var(--ink-3);
+}
+
 /* --- Sumario lateral do post --------------------------------------------- */
 /* A coluna de leitura NAO muda de largura nem de posicao: o main continua em
    max-w-screen-md centrado, e o sumario e posicionado na margem direita que
