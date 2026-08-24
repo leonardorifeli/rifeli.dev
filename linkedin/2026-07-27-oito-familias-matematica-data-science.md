@@ -16,7 +16,7 @@ Processamos 10 milhões de pesquisas e 300 mil avaliações públicas por mês, 
 
 Estatística descritiva separa "achismo de loja" de "leitura de loja". Álgebra linear e cálculo são o motor do NLP que classifica sentimento de avaliação em escala, com a mesma derivada parcial de Cálculo II que vira retropropagação. Séries temporais disparam os alarmes operacionais via moving average e z-score. Probabilidade e information theory sustentam decisão sob incerteza, de churn a detecção de avaliação falsa.
 
-No post anterior mostrei que uma única ferramenta, o gradiente descendente, sustenta toda IA moderna. Aqui o quadro é maior: cada caixa do cheatsheet tem aplicação concreta. A diferença entre o aluno que aproveita isso na carreira e o que não aproveita é só saber onde olhar.
+No post anterior mostrei que uma única ferramenta, o gradiente descendente, sustenta o treinamento de grande parte da IA moderna. Aqui o quadro é maior: cada caixa do cheatsheet tem aplicação concreta. A diferença entre o aluno que aproveita isso na carreira e o que não aproveita é só saber onde olhar.
 
 O mapa inteiro, família por família, no blog. Link no primeiro comentário.
 
@@ -46,7 +46,7 @@ Você provavelmente roda z-score, moving average e probabilidade condicional em 
 
 É o caso mais comum. O threshold de alarme que dispara "quando o valor está muito fora do normal" é um z-score. A regra que compara o valor de hoje com a média dos últimos 7 dias é moving average, é literalmente o que faz o robô diário de custo AWS abrir task automática aqui. A regra de negócio que estima risco de churn a partir do histórico do cliente é Bayes atualizando crença com evidência. A métrica de dashboard que "suaviza" a previsão é exponential smoothing.
 
-O cheatsheet de data science tem oito caixas, e a leitura útil dele não é "preciso decorar tudo pra fazer data science". É que cada família já aparece no seu dia a dia, disfarçada de regra de negócio, de threshold, de métrica de painel. Information theory parece esotérica até o momento em que você precisa escolher features entre centenas de candidatas, e aí vira a única coisa que funciona em escala.
+O cheatsheet de data science tem oito caixas, e a leitura útil dele não é "preciso decorar tudo pra fazer data science". É que cada família já aparece no seu dia a dia, disfarçada de regra de negócio, de threshold, de métrica de painel. Information theory parece esotérica até o momento em que você precisa escolher features entre centenas de candidatas, e aí vira ferramenta especialmente útil pra separar o que carrega informação do que é redundância cara de carregar.
 
 Mapeei onde cada uma das oito famílias mora na operação da Harmo, do NLP ao alarme operacional. Link no primeiro comentário.
 
@@ -62,3 +62,18 @@ Mapeei onde cada uma das oito famílias mora na operação da Harmo, do NLP ao a
 - Todos os números de volume e a Correlação de Ouro são os aprovados pra uso externo. Não trocar por médias não aprovadas.
 - A pergunta de fechamento do post no blog é genuína e específica (qual das oito famílias você aplica sem ver como matemática), então aqui o CTA pode ser essa pergunta, não fórmula vazia.
 - Primeira linha narrativa. Link no primeiro comentário. Hashtags no fim, 4 a 5. Sem emoji, sem travessão.
+
+### Revisão de 23/08/2026
+
+- O post ganhou as 13 fórmulas renderizadas, uma por etapa, cada uma com nota
+  explicando os símbolos. Isso é ativo novo pro CTA: vale dizer que a fórmula
+  de cada família está no post, não só a aplicação.
+- Corrigidas duas afirmações que tinham ficado mais fortes que a fonte: o
+  gradiente descendente sustenta "o treinamento de grande parte da IA moderna",
+  não "toda IA moderna"; e information theory é "ferramenta especialmente útil"
+  pra seleção de feature, não "a única coisa que funciona em escala". As duas
+  foram suavizadas no post e o draft tinha ficado desalinhado.
+- Pendência que NÃO é do LinkedIn e ainda está aberta no post: ele lista
+  "data science essentials" como uma das oito famílias, e a caixa que existe na
+  imagem de capa é Optimization. Enquanto isso não for resolvido, não escrever
+  variação que nomeie as oito uma por uma.
