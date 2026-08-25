@@ -125,3 +125,49 @@ eviction estava de fora, a Variação 3 anunciava cinco gotchas e listava quatro
 os gotchas listados não eram os do post, e um deles, "OOMKilled silencioso",
 não existe no post nenhum. Esse último mandaria o leitor procurar algo que não
 está lá.
+
+---
+
+## Respostas a comentários
+
+### "Qual o TPS?" (Mateus Brum, Senior Software Engineering)
+
+Peer substantivo. O post não publica TPS porque TPS não é a métrica que governa
+a stack. O eixo da resposta é assíncrono, não o cron: parte das DAGs roda em
+janela agendada e parte entra por trigger nosso, e nos dois casos ninguém
+espera resposta. Ancorar no `schedule` deixaria a resposta vulnerável a quem
+soubesse do trigger.
+
+**Versão longa**
+
+> Boa pergunta, e a resposta honesta é que TPS não é a métrica que governa essa stack. TPS pressupõe alguém do outro lado esperando resposta, e aqui não tem ninguém esperando. Parte das DAGs roda em janela agendada, parte entra por trigger de fluxo nosso, e nos dois casos é assíncrono: quem dispara recebe o aceite, o run é enfileirado, e o trabalho acontece depois nos pods. Não existe requisição pra medir por segundo.
+>
+> O número que significa alguma coisa é o de dentro do run. Uma das coletoras varre mais de 2 mil estabelecimentos em cerca de meia hora, o que dá aproximadamente um estabelecimento por segundo por pod. E o paralelismo não vem de dentro do pod, vem de cima: a TaskGroup instancia N pods de Go em paralelo, cada um com seu worker pool via errgroup. No agregado são cerca de 500 pods por dia, quase 15 mil em 30 dias, com 0,35% de falha de task no último mês.
+>
+> Pra sistema assíncrono, as perguntas que doem são outras. Quanto tempo o run leva de ponta a ponta, se a janela fecha antes da próxima abrir, e o que acontece com o backlog quando não fecha. Foi por aí que a gente levou a pancada que virou seção no post, e não foi throughput: foi um pod despejado no meio da coleta perdendo 1.189 de 2.037 estabelecimentos.
+>
+> O que eu não medi, e vale dizer: qual é o teto de throughput por pod e onde ele bate primeiro. Aposto que o limitante não somos nós, é o rate limit das fontes externas, porque coleta é I/O contra API de terceiro. Nunca instrumentei pra confirmar, e é exatamente o que eu deveria ter medido antes de escrever no post que Go entrega mais throughput.
+>
+> No teu caso, tem alguém esperando a resposta? Se sim, provavelmente Airflow não é o ideal.
+
+**Versão curta**
+
+> TPS pressupõe alguém esperando resposta, e aqui não tem. Parte das DAGs roda em janela agendada, parte entra por trigger nosso, e nos dois casos é assíncrono: quem dispara recebe o aceite e o trabalho acontece depois, nos pods.
+>
+> O número que vale é o de dentro do run. Uma coletora varre mais de 2 mil estabelecimentos em cerca de meia hora, aproximadamente um por segundo por pod, e o paralelismo vem da TaskGroup subindo N pods, cada um com worker pool próprio. No agregado, cerca de 500 pods por dia e quase 15 mil em 30 dias, com 0,35% de falha.
+>
+> Em assíncrono a pergunta que dói é outra: o run fecha antes da próxima janela abrir, e o que acontece com o backlog quando não fecha. O que eu não medi é o teto por pod, e aposto que o limitante é o rate limit das fontes externas, não a gente.
+>
+> No teu caso, tem alguém esperando a resposta? Se sim, provavelmente Airflow não é o ideal.
+
+**Notas**
+
+- O fecho é veredito, não devolução de bola: se tem alguém esperando, Airflow é
+  a ferramenta errada, porque o loop do scheduler sozinho já custa segundos.
+- O trigger de fluxo NÃO está no post. Mencionar no comentário é adicionar
+  informação nova sobre a arquitetura, e foi decisão consciente. O mecanismo do
+  trigger não é nomeado de propósito, pra não chutar detalhe que um peer testa
+  na resposta seguinte.
+- A admissão de não ter medido o teto por pod é deliberada: ela toca a
+  afirmação mais frágil do post, a de que Go entrega mais throughput. Melhor
+  admitir do que ser apontado.
