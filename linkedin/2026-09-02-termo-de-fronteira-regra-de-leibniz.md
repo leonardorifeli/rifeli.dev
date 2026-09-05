@@ -1,8 +1,8 @@
 # O termo de fronteira
 
-Três variações para o LinkedIn. Post no blog datado 2026-08-29, publicado na URL
-com prefixo 2026-09-02. Link do blog no primeiro comentário. Primeira linha
-sempre narrativa, nunca fórmula solta.
+Três variações para o LinkedIn. Post no blog datado 2026-09-02, a mesma data do
+prefixo da URL. Link do blog no primeiro comentário. Primeira linha sempre
+narrativa, nunca fórmula solta.
 
 Primeiro comentário (qualquer variação):
 
