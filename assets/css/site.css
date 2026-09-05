@@ -616,14 +616,16 @@ section.body pre code {
     padding: 0; border: 0; background: none; font-size: inherit;
 }
 
+article > section .table-wrap,
+section.body .table-wrap {
+    margin-block: 1.5rem;
+    overflow-x: auto;
+}
 article > section table,
 section.body table {
     width: 100%;
-    margin-block: 1.5rem;
     border-collapse: collapse;
     font-size: 0.92rem;
-    display: block;
-    overflow-x: auto;
 }
 article > section th, article > section td,
 section.body th, article > section td {

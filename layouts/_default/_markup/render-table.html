@@ -1,0 +1,28 @@
+{{- /* Envolve toda tabela markdown num container rolavel, pra que a rolagem
+horizontal em tela estreita nao dependa de display:block na propria tabela
+(o que quebra o layout de colunas e impede o width:100% de valer). */ -}}
+<div class="table-wrap">
+  <table
+    {{- range $k, $v := .Attributes }}
+      {{- if $v }} {{ printf "%s=%q" $k $v | safeHTMLAttr }}{{ end }}
+    {{- end }}>
+    <thead>
+      {{- range .THead }}
+      <tr>
+        {{- range . }}
+        <th{{ with .Alignment }} style="text-align: {{ . }}"{{ end }}>{{ .Text }}</th>
+        {{- end }}
+      </tr>
+      {{- end }}
+    </thead>
+    <tbody>
+      {{- range .TBody }}
+      <tr>
+        {{- range . }}
+        <td{{ with .Alignment }} style="text-align: {{ . }}"{{ end }}>{{ .Text }}</td>
+        {{- end }}
+      </tr>
+      {{- end }}
+    </tbody>
+  </table>
+</div>

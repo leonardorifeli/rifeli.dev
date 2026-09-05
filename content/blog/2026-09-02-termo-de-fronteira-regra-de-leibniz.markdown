@@ -1,7 +1,7 @@
 ---
 title: "O termo de fronteira"
-draft: true
-date: 2026-09-02T00:00:00.000Z
+draft: false
+date: 2026-08-29T00:00:00.000Z
 description: "Derivar uma integral cujos limites e cujo integrando dependem do mesmo parâmetro é a regra de Leibniz, e quase todo mundo que aplica ela esquece o termo de fronteira. Num caso que eu conferi numericamente, esquecer esse termo erra a resposta em 4,5 de 11,385, quase 40% do valor. Este post deriva os três termos a partir da regra da cadeia, mostra onde a regra quebra em domínio infinito, e investiga a parte incômoda da história: o que Leibniz de fato escreveu não é a regra que hoje leva o nome dele."
 comments: true
 keywords: [
@@ -108,6 +108,35 @@ E o número que abriu o post: esquecendo o termo de fronteira, $A^{\prime}(7)$ d
 
 A segunda armadilha é mais boba e mais comum: usar a mesma letra para a variável de integração e para o parâmetro. Escrever $\int_0^t F(t) dt$ não é notação relaxada, é expressão sem sentido, e o efeito colateral pior é apagar a possibilidade de aplicar a regra. Se as duas coisas têm o mesmo nome, você não consegue nem perguntar qual está variando.
 
+## Onde isso aparece em computação
+
+Nada disso é exclusividade de integral com primitiva fechada. A regra aparece em lugares que qualquer pessoa que escreve código encontra, e em dois dos três casos abaixo o termo de fronteira não é detalhe: é a resposta inteira.
+
+O primeiro é a janela deslizante, que é o agregado mais comum de qualquer sistema de observabilidade. Soma dos últimos $W$ minutos é uma integral com os dois limites andando junto com o tempo:
+
+<div class="formula">
+$$ A(t) = \int_{t-W}^{t} f(\tau)\,d\tau \qquad\Longrightarrow\qquad A^{\prime}(t) = f(t) - f(t-W) $$
+</div>
+<p class="formula-nota">O integrando não depende de $t$, então o termo interior é zero e sobra fronteira pura: o que entra na janela menos o que sai dela.</p>
+
+Conferi numericamente e bate na décima primeira casa. A consequência é conhecida de quem já pôs alarme em cima da variação de uma métrica de janela: cada pico produz dois eventos, um quando entra e outro, exatamente $W$ depois, quando sai. A queda que aparece uma janela inteira depois do incidente não é o sistema melhorando, é o segundo termo de fronteira entrando na conta com sinal trocado. O gráfico está certo e a leitura é que erra, porque a intuição trata a curva como se fosse o sistema quando ela é o sistema convolvido com a janela.
+
+O segundo é o gradiente de uma esperança, que é o que treina boa parte de machine learning moderno. Otimizar a esperança de $f(X)$ sob uma densidade $p_\theta$, em relação a $\theta$, é derivar uma integral cujo parâmetro está na densidade, e a pergunta de sempre é se dá pra empurrar a derivada pra dentro. Quando o suporte não depende de $\theta$, dá, e o que sobra é a identidade que sustenta os estimadores de gradiente por amostragem, o mesmo movimento que aparece em policy gradient:
+
+<div class="formula">
+$$ \nabla_\theta \int f(x)\,p_\theta(x)\,dx = \int f(x)\,\nabla_\theta \log p_\theta(x)\,p_\theta(x)\,dx $$
+</div>
+
+Conferi com $X \sim N(\mu,1)$ e $f(x)=x^3$: a derivada numérica e a identidade dão 11,67 e batem com o valor fechado $3(\mu^2+1)$, com erro de $1{,}4 \times 10^{-9}$.
+
+Agora o caso em que o suporte depende do parâmetro, que é onde a coisa fica interessante e onde autodiff ingênuo erra em silêncio. Tome $X \sim \mathrm{Uniforme}(0,\theta)$ e $f(x) = x^2$. A esperança é $\theta^2/3$ e a derivada é $2\theta/3$, que em $\theta = 3$ vale 2. Derivar só a densidade, que é o que a regra da cadeia enxerga quando você diferencia o código de amostragem sem pensar no domínio, entrega $-\theta/3$, que vale $-1$. Não é imprecisão, é sinal trocado e 150% de erro. O que falta são exatamente os 3 do termo de fronteira, $f(\theta)p_\theta(\theta)$, o efeito de o próprio domínio esticar quando $\theta$ cresce.
+
+A saída conhecida pra esse problema é reescrever a amostragem de modo que o parâmetro saia dos limites e vá pro integrando. Com $x = \theta u$ e $u \sim \mathrm{Uniforme}(0,1)$, a esperança vira $\int_0^1 f(\theta u) du$, os limites ficam fixos e o termo interior dá conta de tudo sozinho. É essa a ideia do truque de reparametrização. Ele não é uma esperteza de implementação: é uma mudança de variável que tira o parâmetro da fronteira, onde ele é difícil, e coloca no interior, onde a regra é bem comportada.
+
+O terceiro é rendering diferenciável, e é o exemplo mais bonito porque a fronteira ali é literalmente uma silhueta. A cor de um pixel é uma integral, e o termo de visibilidade torna o integrando descontínuo: um ponto está atrás do objeto ou não está. A posição dessa descontinuidade depende dos parâmetros da cena, então derivar em relação à geometria produz uma contribuição concentrada na borda. Quem ignora essa contribuição consegue treinar cor e material, e não consegue mover geometria, porque o gradiente que empurraria a silhueta é justamente o que ficou de fora. O trabalho que virou referência na área ataca isso de frente, com um algoritmo de amostragem de arestas que, nas palavras dos autores em tradução minha, "diretamente amostra as funções delta de Dirac introduzidas pelas derivadas do integrando descontínuo".
+
+Some os três e o padrão fica claro. Na integral fechada da seção anterior, esquecer a fronteira custou 40% da resposta. No suporte móvel, custa o sinal. No rendering, custa a capacidade de otimizar geometria. O termo que ninguém precisa provar continua sendo o que mais cobra.
+
 ## O parâmetro que você inventa
 
 A mesma regra sustenta um truque que parece mágica na primeira vez: introduzir um parâmetro que não existia no problema, só pra derivar em relação a ele. O exemplo clássico cabe em três linhas.
@@ -160,8 +189,9 @@ O termo de fronteira é o resumo do post. É a parte da regra que ninguém preci
 - Steven B. Engelsman, *Families of Curves and the Origins of Partial Differentiation*, North-Holland Mathematics Studies 93, 1984: 1697 como data da descoberta e uso do teorema de permutabilidade por Leibniz e Johann Bernoulli, 1698 para Jakob Bernoulli, e o termo diferenciação de curva em curva.
 - Carta de Leibniz a Johann Bernoulli de 7/17 de junho de 1698, edição da Academia A III 7, 796-97, em tradução inglesa publicada pela Technion: os infinitos e infinitamente pequenos como possivelmente imaginários. [humanities.technion.ac.il](https://humanities.technion.ac.il/wp-content/uploads/2023/07/Bernoulli-Leibniz.English-2.pdf)
 - Keith Conrad, *Differentiating under the integral sign*: enunciado moderno com hipóteses de dominação, a versão com limites variáveis como corolário, contraexemplo com parcial descontínua, e a epígrafe com o trecho do Feynman. [kconrad.math.uconn.edu](https://kconrad.math.uconn.edu/blurbs/analysis/diffunderint.pdf)
+- Tzu-Mao Li, Miika Aittala, Frédo Durand e Jaakko Lehtinen, *Differentiable Monte Carlo Ray Tracing through Edge Sampling*, ACM Transactions on Graphics 37(6), SIGGRAPH Asia 2018: descontinuidade de visibilidade no integrando e amostragem direta das deltas de Dirac introduzidas pela derivada. A citação do parágrafo de rendering vem do resumo dos autores. [people.csail.mit.edu/tzumao/diffrt](https://people.csail.mit.edu/tzumao/diffrt/)
 - Richard Feynman, *Surely You're Joking, Mr. Feynman!*, capítulo "A Different Box of Tools": o Mr. Bader, o *Advanced Calculus* do Woods, e o trecho sobre derivar parâmetros sob o sinal da integral.
-- Conferência numérica de $A^{\prime}(7)$ e $A^{\prime\prime}(7)$, do contraexemplo $\int_0^\infty t e^{-tx}dx$ e de $\int_0^1 (x^a-1)/\ln x dx = \ln(a+1)$: script próprio em Python, quadratura de Simpson com 200 mil a 400 mil subintervalos e diferenças finitas centrais.
+- Conferência numérica da janela deslizante, do gradiente de esperança com suporte fixo e com suporte móvel, de $A^{\prime}(7)$ e $A^{\prime\prime}(7)$, do contraexemplo $\int_0^\infty t e^{-tx}dx$ e de $\int_0^1 (x^a-1)/\ln x dx = \ln(a+1)$: script próprio em Python, quadratura de Simpson com 200 mil a 400 mil subintervalos e diferenças finitas centrais.
 
 ## O que eu não consegui verificar
 
