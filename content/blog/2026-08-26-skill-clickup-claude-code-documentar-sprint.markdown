@@ -1,7 +1,7 @@
 ---
-title: "Ensinei o Claude Code a documentar minha sprint no ClickUp (e ele abriu a última task sozinho)"
-draft: true
-date: 2026-07-31T00:00:00.000Z
+title: "Ensinei o Claude Code a documentar minha sprint no ClickUp"
+draft: false
+date: 2026-08-26T00:00:00.000Z
 description: "War story de produtividade: numa única conversa saíram 15 tasks pontuadas, 11 subtasks reestimadas e dois PRs, sem eu abrir o ClickUp na mão. Como transformei isso numa skill do Claude Code que fala com a API do ClickUp, as decisões de engenharia que apareceram no caminho (os dois campos de ponto, o cheiro do default, segredo por env var) e o limite que mantive: a skill propõe, eu aprovo."
 comments: true
 keywords: [
@@ -52,15 +52,29 @@ Funcionou, mas era frágil. A cada novo pedido o modelo redescobria os mesmos ID
 
 A parte interessante não foi escrever o código. Foi o que apareceu enquanto eu olhava o resultado.
 
-A primeira foi um detalhe chato da API do ClickUp que vale registrar pra quem for tentar: existem dois campos de ponto. Tem o custom field que o time configurou no board, e tem o Sprint Points nativo, que é o que alimenta a velocity. Eles são independentes. Preencher só um deixa o board mentindo pra você no relatório de sprint. A skill passou a sempre escrever nos dois, iguais. Parece bobo, mas é o tipo de armadilha que só dá as caras quando você confere o gráfico de velocity uma semana depois e os números não batem.
+A primeira foi um detalhe chato da API do ClickUp que vale registrar pra quem for tentar: existem dois campos de ponto. Tem o custom field que o time configurou no board, e tem o Sprint Points nativo, que é o que alimenta a velocity. Eles são independentes. Preencher só um deixa o board mentindo pra você no relatório de sprint. A skill passou a sempre escrever nos dois, iguais:
 
-A segunda foi mais sutil, e é onde a IA quase me passou a perna sem querer. Eu tinha um conjunto de subtasks pra pontuar, e o campo de pontos já vinha preenchido: todas com 8. Olhei e o número não cheirava bem. Oito pontos em tudo, de "fallback quando não tem dado" a "conversa multi-turno de sugestão de resposta", é o padrão clássico de quem aplicou um valor em lote e seguiu a vida. Se eu mandasse o Claude "só copiar o que já estava lá", ele teria propagado um default sem sentido com a maior cara de competência. Em vez disso, pedi pra reestimar feature a feature. Saíram pontos variados, de 2 a 8, somando bem menos que o bloco de oito em tudo. A lição não é sobre ClickUp. É que ferramenta nenhuma substitui o seu julgamento sobre o tamanho das coisas. Ela acelera o registro, não a decisão.
+```
+# 1) custom field do board: vai no corpo da criação, e o valor é o id da OPÇÃO
+POST /api/v2/list/{list_id}/task
+{"name": "...", "custom_fields": [{"id": "<id do campo Pontos>", "value": "<id da opção 5>"}]}
 
-A terceira foi sobre segredo, e essa eu não abri mão. O token de acesso jamais entra no arquivo da skill nem no repositório. Ele vive numa variável de ambiente, resolvida de um secrets manager no startup do shell. Quando o próprio modelo sugeriu, em algum momento, salvar o token num arquivo pra ficar mais fácil, eu recusei e expliquei o porquê. Credencial em texto puro versionada é dívida que volta pra te morder. Construir uma ferramenta nova não é desculpa pra repetir o erro que você passa a vida pedindo pros outros não cometerem.
+# 2) Sprint Points nativo: chamada separada, e aqui vai o número mesmo
+PUT /api/v2/task/{task_id}
+{"points": 5}
+```
+
+São duas chamadas, não uma: o campo nativo não entra no payload de criação, e o dropdown do board não aceita `5`, aceita o UUID da opção que vale 5. Parece bobo, mas é o tipo de armadilha que só dá as caras quando você confere o gráfico de velocity uma semana depois e os números não batem.
+
+A segunda foi mais sutil, e é onde a IA quase me passou a perna sem querer. Eu tinha um conjunto de subtasks pra pontuar, e o campo de pontos já vinha preenchido: todas com 8. Olhei e o número não cheirava bem, porque 8 é o teto da escala do board: o dropdown vai de 1 a 8, sem 13. Teto em tudo, de "fallback quando não tem dado" a "conversa multi-turno de sugestão de resposta", não é estimativa, é o padrão clássico de quem aplicou um valor em lote e seguiu a vida. Se eu mandasse o Claude "só copiar o que já estava lá", ele teria propagado um default sem sentido com a maior cara de competência. Em vez disso, pedi pra reestimar feature a feature. Saíram pontos variados, de 2 a 8, somando bem menos que o bloco de oito em tudo. A lição não é sobre ClickUp. É que ferramenta nenhuma substitui o seu julgamento sobre o tamanho das coisas. Ela acelera o registro, não a decisão.
+
+A terceira foi sobre segredo, e essa eu não abri mão. O token de acesso jamais entra no arquivo da skill nem no repositório. Ele vive numa variável de ambiente, com fallback pro Secrets Manager na hora da chamada, resolvido pelo próprio script. Quando o próprio modelo sugeriu, em algum momento, salvar o token num arquivo pra ficar mais fácil, eu recusei e expliquei o porquê. Credencial em texto puro versionada é dívida que volta pra te morder. Construir uma ferramenta nova não é desculpa pra repetir o erro que você passa a vida pedindo pros outros não cometerem.
 
 ## O limite que mantive
 
 O ponto da skill não é automação cega. Ela não cria task em lote sem me mostrar antes. Quando peço "abre essas tasks na sprint", ela descobre qual é a sprint corrente pela data, monta cada uma com título, escopo, pontos e épico, e me apresenta a lista pra revisar. Eu aprovo ou ajusto, e só então ela sobe.
+
+Tem um segundo detalhe que virou regra junto com esse: toda task que a skill abre sai com um PS dizendo que foi aberta automaticamente pelo Claude Code. Quem abrir o board em seis meses não precisa adivinhar a procedência do registro.
 
 Esse passo de confirmação é deliberado. A diferença entre uma ferramenta que te ajuda e uma que te assombra é quem aperta o botão final. Trabalho que afeta outras pessoas, compromisso externo, decisão com impacto: a supervisão é humana. A IA prepara o rascunho qualificado e organiza. Quem assina sou eu.
 
