@@ -151,7 +151,7 @@ section.body .diagrama figcaption {
     color: var(--ink-3);
 }
 
-.diagrama .area-base   { fill: var(--ink); opacity: .07; }
+.diagrama .area-base   { fill: var(--ink); opacity: .13; }
 .diagrama .area-int    { fill: var(--violet); opacity: .24; }
 .diagrama .area-entra  { fill: var(--ok); opacity: .3; }
 .diagrama .area-sai    { fill: var(--err); opacity: .3; }
