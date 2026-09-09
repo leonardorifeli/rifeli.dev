@@ -28,7 +28,7 @@ tags:
   - educação
 ---
 
-<img id="image-custom" src="/images/posts/e7834d8b-c618-4db0-a1be-d685e1c8ad67.png" alt="" />
+<img id="image-custom" src="/images/posts/e7834d8b-c618-4db0-a1be-d685e1c8ad67.png" alt="Oito quadros de fórmulas, de estatística a otimização, com feixes de luz descendo até marcadores de lojas num mapa" />
 <p id="image-legend">As oito famílias do cheatsheet não param na lousa: descem até a loja física e viram fluxo de gente na porta.</p>
 
 ## Introdução

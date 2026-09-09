@@ -29,7 +29,7 @@ tags:
   - drive-to-store
 ---
 
-<img id="image-custom" src="/images/posts/f4160481-ac27-4807-a036-e04c1b394436.png" alt="" />
+<img id="image-custom" src="/images/posts/f4160481-ac27-4807-a036-e04c1b394436.png" alt="Quatro canais de comunicação convergindo por trilhas luminosas até um ponto único que aponta para uma loja física" />
 <p id="image-legend">6 anos como CTO de uma infraestrutura Drive-to-Store</p>
 
 ## Introdução

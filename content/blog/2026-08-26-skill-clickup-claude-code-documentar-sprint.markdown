@@ -28,7 +28,7 @@ tags:
   - produtividade
 ---
 
-<img id="image-custom" src="/images/posts/f973e008-4073-4ae7-ba2c-2ab7ab37e399.png" alt="" />
+<img id="image-custom" src="/images/posts/f973e008-4073-4ae7-ba2c-2ab7ab37e399.png" alt="Cartões de task saindo de um terminal, passando por um portão de aprovação e chegando a um board" />
 <p id="image-legend">Da conversa pro board: a skill propõe as tasks pontuadas, eu aprovo, ela escreve.</p>
 
 Numa única conversa com o Claude Code saíram 15 tasks pontuadas, 11 subtasks reestimadas e dois pull requests. Eu não abri o ClickUp em momento nenhum. No fim, a parte que mais me marcou foi banal: a própria ferramenta que eu tinha acabado de construir criou a última task do board, sozinha, fechando o loop.

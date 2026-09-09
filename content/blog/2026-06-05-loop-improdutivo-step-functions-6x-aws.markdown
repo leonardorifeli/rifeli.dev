@@ -28,7 +28,7 @@ tags:
   - incidente
 ---
 
-<img id="image-custom" src="/images/posts/8114554f-af51-4928-932f-a2bb01af2c38.png" alt="" />
+<img id="image-custom" src="/images/posts/8114554f-af51-4928-932f-a2bb01af2c38.png" alt="Diagrama em neon de uma função Lambda da AWS presa num laço que se realimenta, com cifrões escapando do ciclo" />
 <p id="image-legend">Custo AWS mensal: pico de março com fator próximo de 6x sobre a baseline histórica.</p>
 
 ## Introdução

@@ -27,7 +27,7 @@ tags:
   - aws
 ---
 
-<img id="image-custom" src="https://i.ytimg.com/vi/l7IpsIzMa6E/maxresdefault.jpg" alt="" />
+<img id="image-custom" src="https://i.ytimg.com/vi/l7IpsIzMa6E/maxresdefault.jpg" alt="Miniatura de vídeo do YouTube sobre o Amazon Aurora" />
 <p id="image-legend">AWS Aurora</p>
 
 ## Introdução

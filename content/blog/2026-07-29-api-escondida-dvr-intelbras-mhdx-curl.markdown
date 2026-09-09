@@ -28,7 +28,7 @@ tags:
   - engenharia-reversa
 ---
 
-<img id="image-custom" src="/images/posts/7c4e6bdc-21e4-4dde-8a66-73a75ee47222.png" alt="" />
+<img id="image-custom" src="/images/posts/7c4e6bdc-21e4-4dde-8a66-73a75ee47222.png" alt="Quatro câmeras ligadas a um DVR, com o monitor em visão quádrupla à esquerda e respostas OK de uma API à direita" />
 <p id="image-legend"></p>
 
 ## Introdução

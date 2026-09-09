@@ -26,7 +26,7 @@ tags:
   - patterns
 ---
 
-<img id="image-custom" src="/images/posts/5ba7c7c0-1ce0-4913-b12e-b004122025ef.png" alt="" />
+<img id="image-custom" src="/images/posts/5ba7c7c0-1ce0-4913-b12e-b004122025ef.png" alt="Diagrama de fan-out e fan-in em Go: uma entrada se divide em cinco linhas paralelas de processamento que voltam a convergir na saída" />
 <p id="image-legend">Goroutines, channels, fan-out/fan-in, worker pool com errgroup e cancelamento via context</p>
 
 ## Introdução

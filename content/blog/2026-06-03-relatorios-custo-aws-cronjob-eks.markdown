@@ -29,7 +29,7 @@ tags:
   - automação
 ---
 
-<img id="image-custom" src="/images/posts/0f89c5bf-73bd-4ab6-b7f9-f960619efc84.png" alt="" />
+<img id="image-custom" src="/images/posts/0f89c5bf-73bd-4ab6-b7f9-f960619efc84.png" alt="Gráfico de barras diárias com uma barra laranja muito acima das demais, ligada a um cartão de task aberta automaticamente" />
 <p id="image-legend"></p>
 
 ## Introdução

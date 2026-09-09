@@ -30,7 +30,7 @@ tags:
 
 ## Introdução
 
-<img id="image-custom" src="/images/posts/home-server/19.png" alt="" />
+<img id="image-custom" src="/images/posts/home-server/19.png" alt="Tampa de notebook coberta de adesivos sobre uma prateleira de madeira, com o gabinete do servidor iluminado logo abaixo" />
 <p id="image-legend">Sempre em busca da melhor versão</p>
 
 Comecei a programar aos 14 anos, tendo um site de streaming de áudio e um servidor de Tibia (vulgo OT Server), na época rodando na versão 8.5. Desde cedo, **soluções self-hosted** foram parte essencial do meu aprendizado: de protocolos de comunicação até sistemas de auto-gestão.
@@ -119,7 +119,7 @@ Tudo isso sem precisar configurar NGINX ou Let's Encrypt manualmente.
 
 ## Setup
 
-<img id="image-custom" src="/images/posts/home-server/18.png" alt="" />
+<img id="image-custom" src="/images/posts/home-server/18.png" alt="Interior do gabinete do servidor com placa-mãe, cooler, ventoinhas RGB e um boneco do Gopher do Go" />
 <p id="image-legend">Server com AMD-A8-5600k, 16GB RAM e NAS 5TB</p>
 
 #### 🖥️ Servidor
@@ -135,7 +135,7 @@ Os HDs estão ligados via **gaveta hot-swap**, e não diretamente à placa-mãe.
 - 📦 Expansão simples (basta adicionar novo HD)
 - 🛡️ Perfeito para ZFS/RAID, com reconstrução automática (resilver)
 
-<img id="image-custom" src="/images/posts/home-server/17.png" alt="" />
+<img id="image-custom" src="/images/posts/home-server/17.png" alt="Gaveteiro hot-swap do NAS com quatro baias e LEDs verdes indicando HD1 a HD4" />
 <p id="image-legend">NAS com gavetas hot-swap</p>
 
 #### ⚡ Gestão de energia
@@ -165,7 +165,7 @@ Em média, gasto **R\$ 60–110/mês**, dependendo da carga e da tarifa.
 
 ## Arquitetura
 
-<img id="image-custom" src="/images/posts/home-server/flow.jpeg" alt="" />
+<img id="image-custom" src="/images/posts/home-server/flow.jpeg" alt="Diagrama do fluxo: do usuário e do navegador para a internet, passando pela Cloudflare até o servidor e o NAS em casa" />
 <p id="image-legend">Arquitetura do Home Server</p>
 
 #### 🔍 Como funciona o fluxo

@@ -1,5 +1,6 @@
 ---
-title: "O termo de fronteira da regra de Leibniz"
+title: "O termo de fronteira"
+seotitle: "O termo de fronteira: a parte esquecida da regra de Leibniz"
 draft: false
 date: 2026-09-02T00:00:00.000Z
 description: "Derivar sob o sinal da integral quando os limites também se movem é a regra de Leibniz, e quase todo mundo que aplica ela esquece o termo de fronteira. Num caso que eu conferi numericamente, esquecer esse termo erra a resposta em 4,5 de 11,385, quase 40% do valor. Este post deriva os três termos a partir da regra da cadeia, dá as hipóteses que a troca de derivada com integral exige, mostra onde ela quebra em domínio infinito e no suporte de uma distribuição, e investiga a parte incômoda da história: o que Leibniz de fato escreveu não é a regra que hoje leva o nome dele."
@@ -131,7 +132,7 @@ Agora a parte que interessa: conferir. Com $F(\tau) = 1 + \tau/2$ e $t = 7$, com
 
 Os dois erros são do método, não da fórmula. A coluna de Leibniz bate com a forma fechada da integral na décima quinta casa, então o que a tabela mostra é erro da derivada numérica, e ele erra pelo motivo esperado. Variando o passo, aparece o desenho de sempre: o erro da diferença central cai como $h^2$ até perto de $h = 10^{-4}$ e depois volta a subir como $1/h$, quando subtrair dois números quase iguais passa a custar mais do que a aproximação ganha. A diferença segunda faz a mesma curva, só que o ramo de arredondamento sobe como $1/h^2$. É por isso que os dois passos da tabela são diferentes, cada um perto do fundo da curva do seu método, e por isso a segunda linha erra mais mesmo usando passo cem vezes maior.
 
-Todas as contas deste post estão num script de verificação em Python, só biblioteca padrão, que imprime método, discretização, valor esperado, valor obtido, erro absoluto e tolerância, e sai com código diferente de zero se qualquer verificação passar da tolerância justificada pro método dela: [verificacao.py](/code/2026-09-02-termo-de-fronteira-regra-de-leibniz/verificacao.py). São 21 verificações e roda em um segundo e meio.
+Todas as contas deste post estão num script de verificação em Python, só biblioteca padrão, que imprime método, discretização, valor esperado, valor obtido, erro absoluto e tolerância, e sai com código diferente de zero se qualquer verificação passar da tolerância justificada pro método dela: [verificacao.py](/code/2026-09-02-termo-de-fronteira-regra-de-leibniz/verificacao.py). São 23 verificações e roda em um segundo e meio.
 
 E o número que abriu o post: esquecendo o termo de fronteira, $A^{\prime}(7)$ daria 6,885154864821 em vez de 11,385154864821. A diferença é 4,5 exatos, que é exatamente $F(7)$, o termo que ficou de fora. Não é erro pequeno, é 39,5% da resposta. E não podia ser pequeno: o termo de fronteira vale $g(t,b(t))b^{\prime}(t)$, uma quantidade da ordem do próprio integrando. Quem esquece ele não perde precisão, perde o resultado.
 
@@ -194,7 +195,20 @@ A mesma regra sustenta um truque que parece mágica na primeira vez: introduzir 
 $$ I(a) = \int_0^1 \frac{x^a - 1}{\ln x}\,dx $$
 </div>
 
-Essa integral não tem primitiva elementar. A derivada dela tem, e é trivial: derivar sob o sinal mata o logaritmo do denominador, porque $\partial_a x^a = x^a \ln x$. Sobra $I^{\prime}(a) = \int_0^1 x^a dx = 1/(a+1)$, e como $I(0) = 0$, integrando de volta vem $I(a) = \ln(a+1)$, válido para $a > -1$. Conferi em quatro valores de $a$ e o erro fica em $1{,}1 \times 10^{-7}$ nos quatro, todo ele de quadratura junto às pontas, onde $x^a$ tem derivada de ordem alta ilimitada e o Simpson deixa de valer $O(h^4)$. Mas a troca de derivada com integral, essa não fica no ar: a integral é a seção 8 das notas do Conrad, e a tabela-resumo dele já traz as dominantes prontas. Para $0 < a < c$ vale $|f| \le (1-x^c)/\lvert\log x\rvert$ e $|\partial_a f| = x^a \le 1$, as duas integráveis em $(0,1]$. É o caso raro em que a hipótese não precisa ser negociada no olho, porque alguém já tabelou.
+Essa integral não tem primitiva elementar. A derivada dela tem, e é trivial: derivar sob o sinal mata o logaritmo do denominador, porque $\partial_a x^a = x^a \ln x$. Sobra $I^{\prime}(a) = \int_0^1 x^a dx = 1/(a+1)$, e como $I(0) = 0$, integrando de volta vem $I(a) = \ln(a+1)$, válido para $a > -1$.
+
+E aqui eu escorreguei escrevendo este post, então conto o escorregão. A tabela-resumo do Conrad traz as dominantes prontas para exatamente esta integral, com $|\partial_a f| = x^a \le 1$. Peguei a cota e segui em frente. Só que aquela linha da tabela vale para $0 < a < c$, e eu tinha acabado de afirmar o resultado para todo $a > -1$. Com $a$ negativo a cota é falsa: em $x = 0{,}01$ e $a = -1/2$, $x^a$ já vale 10. Cota tabelada vale no intervalo em que foi tabelada.
+
+A conta que cobre o domínio inteiro é local, que é como a dominação tinha que ser desde o começo. Fixe $a_0 > -1$ e um intervalo $[c,C]$ em volta dele que contenha o zero, com $c > -1$. Em $(0,1)$ a função $x^s$ decresce em $s$, então para todo $a$ nesse intervalo:
+
+<div class="formula">
+$$ \left|\frac{\partial f}{\partial a}\right| = x^a \le x^c, \qquad |f(x,a)| = \left|\int_0^a x^s\,ds\right| \le (C-c)\,x^c, \qquad \int_0^1 x^c\,dx = \frac{1}{c+1} $$
+</div>
+<p class="formula-nota">A cota do meio sai de enxergar o próprio integrando como uma integral, \(\int_0^a x^s\,ds = (x^a-1)/\ln x\), e é ela que resolve as duas pontas de uma vez: limitar numerador e denominador em separado não funciona perto de \(x=1\), onde \(1/\lvert\ln x\rvert\) explode e é só o numerador indo a zero que segura o quociente.</p>
+
+Nenhuma das duas depende de $a$, as duas são integráveis porque $c > -1$, e as duas valem numa vizinhança de $a_0$, não no domínio inteiro de uma vez. É a mesma dominação local da seção das hipóteses, agora numa integral concreta.
+
+Conferi em cinco valores de $a$, quatro positivos e um negativo. Nos positivos o erro fica em $1{,}1 \times 10^{-7}$, todo ele de quadratura junto às pontas, onde o integrando vale $-1/\ln x$ e tem derivadas de ordem alta ilimitadas, e o Simpson deixa de valer $O(h^4)$. Com $a$ negativo o integrando é ilimitado em zero e a integral é imprópria, então o script troca de variável, $x = u^p$ com $p(a+1) > 1$, e o erro cai para $10^{-14}$.
 
 É esse movimento que ficou conhecido como truque de Feynman. E é aqui que o post vira outro post, de propósito. Até agora eu tratei a regra como ferramenta, e ferramenta se julga por funcionar. Daqui pra frente eu trato ela como atribuição, e atribuição se julga por ser verdadeira. A segunda pergunta tem uma resposta bem pior do que eu esperava quando comecei a procurar.
 
@@ -241,7 +255,7 @@ O termo de fronteira é o resumo do post. É a parte da regra que ninguém preci
 - Shakir Mohamed, Mihaela Rosca, Michael Figurnov e Andriy Mnih, *Monte Carlo Gradient Estimation in Machine Learning*, JMLR 21 (2020) 1-62: as condições para a troca de derivada e integral no estimador score function (seção 4.3.1), a hipótese de continuidade absoluta e o exemplo de suporte limitado com $\mathrm{Uniforme}(0,\theta)$ e $f(x)=x$, com gradiente verdadeiro $1/2$ contra $-1/2$ do estimador (seção 4.3.2), a derivação do estimador pathwise empurrando o parâmetro pro custo (seção 5.2), e a separação em termo de fronteira e termo interior na equação (41a). [jmlr.org/papers/volume21/19-346](https://jmlr.org/papers/volume21/19-346/19-346.pdf)
 - Tzu-Mao Li, Miika Aittala, Frédo Durand e Jaakko Lehtinen, *Differentiable Monte Carlo Ray Tracing through Edge Sampling*, ACM Transactions on Graphics 37(6), SIGGRAPH Asia 2018: descontinuidade de visibilidade no integrando e amostragem direta das deltas de Dirac introduzidas pela derivada. A citação do parágrafo de rendering vem do resumo dos autores. [people.csail.mit.edu/tzumao/diffrt](https://people.csail.mit.edu/tzumao/diffrt/)
 - Richard Feynman, *Surely You're Joking, Mr. Feynman!*, capítulo "A Different Box of Tools": o Mr. Bader, o *Advanced Calculus* do Woods, e o trecho sobre derivar parâmetros sob o sinal da integral.
-- Conferência numérica de tudo que este post afirma em número: $A^{\prime}(7)$ e $A^{\prime\prime}(7)$ contra a forma fechada, o termo de fronteira esquecido valendo $F(7)$, a janela deslizante, o gradiente de esperança com suporte fixo, os cinco números da $\mathrm{Uniforme}(0,\theta)$, o contraexemplo $\int_0^\infty t e^{-tx}dx$ e a integral $\int_0^1 (x^a-1)/\ln x\,dx = \ln(a+1)$. São 21 verificações, quadratura de Simpson com 200 mil a 400 mil subintervalos somada com `math.fsum`, diferenças finitas centrais, e uma tolerância própria por método. Script em Python, só biblioteca padrão. [verificacao.py](/code/2026-09-02-termo-de-fronteira-regra-de-leibniz/verificacao.py)
+- Conferência numérica de tudo que este post afirma em número: $A^{\prime}(7)$ e $A^{\prime\prime}(7)$ contra a forma fechada, o termo de fronteira esquecido valendo $F(7)$, a janela deslizante, o gradiente de esperança com suporte fixo, os cinco números da $\mathrm{Uniforme}(0,\theta)$, o contraexemplo $\int_0^\infty t e^{-tx}dx$ e a integral $\int_0^1 (x^a-1)/\ln x\,dx = \ln(a+1)$. São 23 verificações, quadratura de Simpson com 200 mil a 400 mil subintervalos somada com `math.fsum`, diferenças finitas centrais, uma troca de variável para o caso impróprio, e uma tolerância própria por método. Script em Python, só biblioteca padrão. [verificacao.py](/code/2026-09-02-termo-de-fronteira-regra-de-leibniz/verificacao.py)
 
 ## O que eu não consegui verificar
 

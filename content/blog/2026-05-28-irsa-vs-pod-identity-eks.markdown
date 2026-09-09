@@ -27,7 +27,7 @@ tags:
   - segurança
 ---
 
-<img id="image-custom" src="/images/posts/5e48087d-d8f7-4bb8-bef5-e013c9f238a3.png" alt="" />
+<img id="image-custom" src="/images/posts/5e48087d-d8f7-4bb8-bef5-e013c9f238a3.png" alt="Comparação em dois painéis: à esquerda o caminho longo e sinuoso do IRSA passando por várias peças até o pod, à direita a ligação direta do Pod Identity" />
 <p id="image-legend">IRSA vs Pod Identity</p>
 
 ## Introdução

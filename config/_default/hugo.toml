@@ -7,6 +7,14 @@ title = 'rifeli.dev'
 enableRobotsTXT = true
 summaryLength = 15
 
+[outputs]
+  home = ['html', 'rss', 'llms']
+
+[outputFormats.llms]
+  mediaType = 'text/plain'
+  baseName = 'llms'
+  isPlainText = true
+
 [params.social]
   github = "https://github.com/leonardorifeli"
   linkedin = "https://www.linkedin.com/in/leonardorifeli"

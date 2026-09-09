@@ -27,7 +27,7 @@ tags:
   - educação
 ---
 
-<img id="image-custom" src="/images/posts/b0c3e9bf-35a5-43c8-80a6-bdb15f71956b.png" alt="" />
+<img id="image-custom" src="/images/posts/b0c3e9bf-35a5-43c8-80a6-bdb15f71956b.png" alt="Silhueta de uma pessoa vendada descendo uma encosta de malha luminosa em direção a um ponto verde no fundo do vale" />
 <p id="image-legend">Descer no escuro, um passo de cada vez: é assim que o modelo encontra o fundo do vale.</p>
 
 ## Introdução

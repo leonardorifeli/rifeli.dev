@@ -30,7 +30,7 @@ tags:
   - ferramentas
 ---
 
-<img id="image-custom" src="/images/posts/1219c4f3-2a22-45f8-b136-4f15c1a40288.png" alt="" />
+<img id="image-custom" src="/images/posts/1219c4f3-2a22-45f8-b136-4f15c1a40288.png" alt="Interface de terminal do clawtop mostrando consumo de tokens por projeto, por host e por modelo, com nomes de projeto borrados" />
 <p id="image-legend"></p>
 
 ## A pergunta que me travou três dias
@@ -96,7 +96,7 @@ A combinação é que dá o ganho. O servidor de visualização recebe três JSO
 
 Pra quem roda Claude numa máquina só, o merge de um elemento é identidade e tudo funciona igual. Pra quem roda em três, é a diferença entre ter três relatórios separados e ter uma resposta clara pra "onde foi minha cota essa semana, e em qual máquina".
 
-<img id="image-custom" src="/images/posts/2514427f-0305-4293-8bb5-9abd72ff33da.jpeg" alt="" />
+<img id="image-custom" src="/images/posts/2514427f-0305-4293-8bb5-9abd72ff33da.jpeg" alt="Monitor sobre bancada de madeira exibindo o clawtop em tela cheia no home server" />
 <p id="image-legend">Clawtop rodando no meu home-server</p>
 
 ## O que o dashboard mostra hoje

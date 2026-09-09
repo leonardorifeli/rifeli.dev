@@ -25,7 +25,7 @@ tags:
   - anthropic
 ---
 
-<img id="image-custom" src="/images/posts/e2cad8ae-006f-4dfc-970f-107334842be9.png" alt="" />
+<img id="image-custom" src="/images/posts/e2cad8ae-006f-4dfc-970f-107334842be9.png" alt="Um terminal enviando camadas de dados para um núcleo de memória, que devolve o contexto para um desktop e um notebook" />
 <p id="image-legend">Um comando no fim da sessão: o contexto que importa vira memória, sincronizada entre as máquinas.</p>
 
 ## Introdução

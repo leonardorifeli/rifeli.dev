@@ -26,7 +26,7 @@ tags:
   - anthropic
 ---
 
-<img id="image-custom" src="/images/posts/e0f403dc-d31c-496e-a3f8-38f912b334d6.png" alt="" />
+<img id="image-custom" src="/images/posts/e0f403dc-d31c-496e-a3f8-38f912b334d6.png" alt="Painel de terminal com as estatísticas de 30 dias de uso: 68 sessões, 1.024 turnos, 12.824 respostas, 96,6% de cache hit e desempenho de 4x" />
 <p id="image-legend">O que importa não é USD 8.069 em tokens. É comprimir quatro meses de roadmap em um.</p>
 
 ## Introdução

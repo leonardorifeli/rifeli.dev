@@ -29,7 +29,7 @@ tags:
 
 ## Introdução
 
-<img id="image-custom" src="https://nodejs.org/static/logos/nodejsDark.svg" alt="" />
+<img id="image-custom" src="https://nodejs.org/static/logos/nodejsDark.svg" alt="Logotipo do Node.js" />
 <p id="image-legend">Node.js</p>
 
 Na Harmo, nosso codebase é bastante diverso. Sempre buscamos equilíbrio entre as linguagens, usando cada uma para aquilo que faz de melhor. Começamos nosso core em **Node.js** e, desde 2017, evoluímos muito com **Golang** (desde a versão 1.7). Hoje, também contamos com Python, Vue.js e até shell scripts para infra.
@@ -38,7 +38,7 @@ No ecossistema **Node.js** é comum haver múltiplas formas de resolver o mesmo 
 
 Dessa forma, para gerir os clients back-end que fazem requisições HTTPS (internas e externas), usamos desde o Node v18 o **fetch** nativo. Porém, ele não possui uma forma "oficial” de configurar timeout. Vamos ver como contornar isso.
 
-<img id="image-custom" src="/images/posts/nodejs-fetch/distribuicao_tecnologias.png" alt="" />
+<img id="image-custom" src="/images/posts/nodejs-fetch/distribuicao_tecnologias.png" alt="Gráfico de pizza da distribuição de linguagens: Golang 40%, Python 24%, Node.js 20%, VueJS 10% e Shell mais infra 6%" />
 <p id="image-legend">Distribuição das linguagens no codebase da Harmo</p>
 
 ## Por que usar fetch nativo?

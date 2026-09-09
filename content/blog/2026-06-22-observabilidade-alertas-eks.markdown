@@ -28,7 +28,7 @@ tags:
   - aws
 ---
 
-<img id="image-custom" src="/images/posts/a67480be-998f-4f5d-b948-24fe0b5c531b.png" alt="" />
+<img id="image-custom" src="/images/posts/a67480be-998f-4f5d-b948-24fe0b5c531b.png" alt="Pessoa de costas diante de um painel de monitores vermelhos cheios de alertas, com um único gráfico azul legível no centro" />
 <p id="image-legend">Duzentos alertas piscando, e o que importa é aquele único sinal que você consegue enxergar no meio do ruído.</p>
 
 ## Introdução

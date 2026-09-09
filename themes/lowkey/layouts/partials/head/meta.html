@@ -1,7 +1,11 @@
 {{- $defaultImage := "https://avatars.githubusercontent.com/u/6767689?v=4" -}}
 {{- $image := or .Params.image $defaultImage -}}
 {{- $description := or .Params.description .Summary .Site.Params.description -}}
-{{- $title := cond .IsHome .Site.Title (printf "%s | rifeli.dev" .Title) -}}
+{{/* "seotitle" no frontmatter separa o titulo de busca do H1 editorial, pra
+     quando o H1 curto que funciona na pagina nao diz sozinho do que o texto
+     trata. Quem nao define cai no .Title de sempre. */}}
+{{- $seotitle := or .Params.seotitle .Title -}}
+{{- $title := cond .IsHome .Site.Title (printf "%s | rifeli.dev" $seotitle) -}}
 
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,6 +13,8 @@
 <title>{{ $title }}</title>
 <meta name="description" content="{{ $description }}">
 <link rel="canonical" href="{{ .Permalink }}">
+{{/* Autodiscovery do feed: o index.xml existe e ate agora nada apontava pra ele. */}}
+<link rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}" href="{{ "index.xml" | absURL }}">
 
 {{ with .Params.keywords }}
 <meta name="keywords" content="{{ delimit . ", " }}">
@@ -40,7 +46,7 @@
   {{ $schema := dict
     "@context" "https://schema.org"
     "@type" "Article"
-    "headline" .Title
+    "headline" $seotitle
     "description" $description
     "image" ($image | absURL)
     "datePublished" (.Date.Format "2006-01-02T15:04:05Z07:00")

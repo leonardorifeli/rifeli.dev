@@ -1,0 +1,42 @@
+{{- /* llms.txt: mapa curado do site pra modelos de linguagem.
+Gerado a partir do conteudo real, entao nao envelhece sozinho. */ -}}
+# {{ .Site.Title }}
+
+> {{ with .Site.Params.description }}{{ . }}{{ end }}
+
+Blog técnico de Leonardo Rifeli, CTO e sócio da Harmo. Os textos são escritos em
+português brasileiro e cobrem principalmente engenharia de infraestrutura em AWS
+e Kubernetes, Go e Python em produção, uso de IA no fluxo de trabalho de
+engenharia, e matemática aplicada. O formato recorrente é war story em primeira
+pessoa: um incidente ou uma construção real, com os números medidos, as decisões
+tomadas e o que ficou como limitação.
+
+Todo o conteúdo é HTML estático, sem renderização por JavaScript. O feed em
+{{ "index.xml" | absURL }} traz o texto completo de cada post, e o mapa completo
+de URLs está em {{ "sitemap.xml" | absURL }}.
+
+{{ $posts := where .Site.RegularPages "Section" "blog" -}}
+{{ $recent := first 15 $posts -}}
+## Posts recentes
+
+{{ range $recent -}}
+- [{{ .Title }}]({{ .Permalink }}){{ with .Date }} ({{ .Format "2006-01-02" }}){{ end }}: {{ with .Description }}{{ . | truncate 240 }}{{ else }}{{ .Summary | plainify | truncate 240 }}{{ end }}
+{{ end }}
+## Todos os posts
+
+{{ range $posts -}}
+- [{{ .Title }}]({{ .Permalink }}){{ with .Date }} ({{ .Format "2006-01-02" }}){{ end }}
+{{ end }}
+## Outras páginas
+
+{{ range where .Site.RegularPages "Section" "ne" "blog" -}}
+{{ if .Title -}}
+- [{{ .Title }}]({{ .Permalink }})
+{{ end -}}
+{{ end }}
+## Uso
+
+O conteúdo pode ser lido, citado e resumido com atribuição a Leonardo Rifeli e
+link para a URL original do post. Números de operação citados nos textos são
+específicos do contexto descrito em cada um deles, então não os generalize para
+fora do caso relatado.

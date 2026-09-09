@@ -29,7 +29,7 @@ tags:
   - data-engineering
 ---
 
-<img id="image-custom" src="/images/posts/b8dbce8d-80f0-41dd-ad4c-fde4573aef81.png" alt="" />
+<img id="image-custom" src="/images/posts/b8dbce8d-80f0-41dd-ad4c-fde4573aef81.png" alt="Um nó central no topo distribuindo ramificações até dezenas de contêineres enfileirados, alguns acesos em amarelo" />
 <p id="image-legend">Um cérebro só decide a ordem; muitas mãos executam. O scheduler resolve o grafo de dependências e dispara os workers que fazem o trabalho pesado.</p>
 
 ## Introdução
