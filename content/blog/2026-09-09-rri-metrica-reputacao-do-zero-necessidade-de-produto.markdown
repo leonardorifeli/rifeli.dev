@@ -1,8 +1,8 @@
 ---
 title: "A métrica que não existia: como tiramos o RRi do zero, na notação"
-draft: true
-date: 2026-09-03T00:00:00.000Z
-description: "Uma necessidade de produto chegou sem métrica que a resolvesse: média de estrelas não distingue loja que era boa de loja que é boa. Não tinha o que comprar, então a gente escreveu a matemática. Essa é a jornada do RRi, do primeiro rascunho em notação ao índice reescrito por econometristas, com as propriedades que exigimos antes da fórmula, o que a álgebra devolveu quando olhamos de novo, o critério explícito que substituiu o chute, e o que sobrou depois que o produto morreu."
+draft: false
+date: 2026-09-09T00:00:00.000Z
+description: "Uma necessidade de produto chegou sem métrica que a resolvesse: média de estrelas não distingue loja que era boa de loja que é boa. Não tinha o que comprar, então a gente escreveu a matemática. Essa é a jornada do RRi e do método que ficou dela: escrever as propriedades desejáveis e os problemas esperados antes de qualquer símbolo, montar a notação antes do código, revisar a álgebra em vez do programa, trocar o chute por critério de corte declarado, e descobrir que interpretabilidade, e não precisão, é a restrição que decide se a métrica vive."
 comments: true
 keywords: [
   "métrica proprietária",
@@ -52,11 +52,15 @@ E o que a gente sabia que ia atrapalhar: valor faltante em volume alto; heteroge
 
 Essa lista de dez linhas fez mais pela métrica do que qualquer decisão técnica que veio depois. É ela que transforma "queremos medir reputação de verdade" em critério de aceite.
 
+Com o tempo essa etapa virou uma ordem fixa, e é ela que eu sigo hoje em qualquer indicador novo. Escrever as propriedades desejáveis e os problemas esperados antes de qualquer símbolo. Montar a notação antes de abrir o editor de código, porque é na álgebra que erro de raciocínio aparece. Revisar a fórmula, e não o programa, até ela responder às propriedades uma por uma. Trocar todo chute de parâmetro por critério declarado, que pode ser discutido e reajustado quando a preferência da empresa mudar. E, no fim, sentar com quem vai receber o número e perguntar o que ele faz na segunda-feira com aquilo. Os cinco passos estão nas seções que vêm, na ordem em que eu aprendi cada um, quase sempre errando antes.
+
 ## O primeiro rascunho, escrito à mão
 
 Com as propriedades na mesa, escrevi a primeira versão. O peso de cada avaliação e o índice final ficaram assim, com $s_i$ o escore da avaliação, $\Delta t_i$ o tempo decorrido em dias até a data de referência, $N$ o total de avaliações do conjunto e $\tau_i$ valendo 1 quando a avaliação tem texto:
 
+<div class="formula">
 $$ w_i = \frac{\ln(s_i + N + \tau_i)}{\Delta t_i} \qquad\qquad \mathrm{RRi} = 2 \cdot \frac{\sum_i s_i w_i}{\sum_i w_i} $$
+</div>
 
 Cada pedaço responde a um item da lista. Média ponderada porque o acumulado tem que somar tudo. Peso caindo com o tempo porque avaliação velha importa menos. Logaritmo pra achatar escala. Bônus pra quem escreveu texto. E um dois no fim pra jogar o resultado numa faixa de 0 a 10, que é uma escala que soa mais natural pra quem lê dashboard.
 
@@ -68,7 +72,7 @@ Esse é o ponto da jornada que eu quero destacar antes de contar o que deu errad
 
 O caro é revisar. E revisando aquela fórmula com calma, anos depois, dá pra ver três coisas que a intuição não pegou. Vale escrever porque são erros que qualquer um comete na primeira métrica.
 
-O escore aparece dentro do próprio peso. Logaritmo é monotônico crescente, então avaliação de 5 estrelas pesa mais que avaliação de 1 estrela pelo fato de ser 5 estrelas. Numa loja com 5 avaliações, o peso de uma nota 5 fica 23,2% acima do peso de uma nota 1. A regra que eu levo daí é curta: a grandeza que você mede não pode aparecer no peso com que você a mede.
+O escore aparece dentro do próprio peso. Logaritmo é monotônico crescente, então avaliação de 5 estrelas pesa mais que avaliação de 1 estrela pelo fato de ser 5 estrelas. Numa loja com 5 avaliações, todas com texto, o peso de uma nota 5 fica 23,2% acima do peso de uma nota 1. A regra que eu levo daí é curta: a grandeza que você mede não pode aparecer no peso com que você a mede.
 
 O $N$, que é o total de avaliações do conjunto, é a mesma constante pra todas as avaliações do cálculo. Somar constante de conjunto dentro de um logaritmo que deveria diferenciar itens individuais faz o escore sumir do peso conforme a base cresce: aquela diferença de 23,2% com 5 avaliações cai pra 0,83% com 100, 0,058% com mil e 0,0013% com 30 mil. O esquema de ponderação atua com força máxima onde a amostra é frágil e se dissolve onde ela é robusta, que é o inverso do desejável. Quantidade de conjunto e valor de item não se misturam na mesma expressão.
 
@@ -76,23 +80,7 @@ E o decaimento é $1/\Delta t$, hiperbólico. Avaliação de ontem pesa 365 veze
 
 Nenhum desses três é erro de programação. Todos os três são visíveis na notação e invisíveis no código, e é por isso que hoje eu escrevo a fórmula antes de escrever a função.
 
-## A lição de engenharia que veio de brinde
-
-Tem um quarto achado, e esse é de engenharia pura.
-
-O cálculo precisa de uma data de referência. Quando a chamada não passa data, o serviço usa hoje e funciona. Quando passa, ele faz o parsing assim:
-
-```go
-dateValidate, _ = time.Parse("2006-01-02 00:00:00", rri.DateTo)
-```
-
-Em Go o layout é a data de referência escrita por extenso, e hora, minuto e segundo se escrevem `15`, `04` e `05`. Aquele `00:00:00` não é máscara de horário, é literal: o layout só casa com meia-noite exata. Qualquer outro horário falha. E o erro vai pro `_`.
-
-Quando o parsing falha, `time.Parse` devolve o instante zero, primeiro de janeiro do ano 1. A subtração satura no teto de `time.Duration`, em torno de 106.752 dias, e todo $\Delta t$ do cálculo vira mais ou menos o mesmo número gigante. Pesos praticamente iguais entre si, e média ponderada com pesos iguais é média simples. O decaimento, que era a alma da métrica, desligava sem reclamar.
-
-Meus scripts de exportação passavam a data como `dateTo=2020-09-30 23:59:59`, e o exemplo do README do serviço também. Reproduzi as três funções originais num programa isolado pra medir em vez de deduzir. Numa amostra de cinco avaliações, três notas 5 antigas e duas notas 1 recentes, o índice sai 3,08 com data válida e 7,17 com o formato que eu realmente usava, contra 6,80 de média simples dobrada.
-
-O número quebrado é plausível. Está na faixa, tem uma casa decimal, sobe e desce mês a mês. Se devolvesse -12 ou 400 alguém teria olhado no primeiro dia. Métrica não tem teste de sanidade natural, e essa é a lição que eu carrego pra qualquer pipeline de indicador: cálculo que depende de parsing tem que explodir quando o parsing falha, porque métrica errada não vira alerta, vira gráfico.
+Teve um quarto problema, e esse não estava na álgebra: uma linha de parsing de data em Go descartava o erro, o cálculo seguia com o instante zero e o decaimento desligava em silêncio, o que virava a média ponderada em média simples e continuava exportando número plausível. Não desenvolvo aqui porque não é matemática, é execução, e por isso virou [post próprio](/blog/2026-09-12-time-parse-go-layout-nao-e-mascara/). Do assunto deste texto ele leva uma frase só: métrica não tem teste de sanidade natural, então número errado não vira alerta, vira gráfico.
 
 ## Quando a matemática de artesão virou econometria
 
@@ -118,7 +106,8 @@ Compare com a frase que a gente usa hoje: a cada 0,1 estrela adicional, aparece 
 
 Métrica proprietária cobra um pedágio de aprendizado do cliente, e ela só se paga se, depois de aprender, ele souber o que fazer. O RRi cobrava o pedágio e não entregava a ação. Foi por isso que ele saiu, e não por erro de conta.
 
-<!-- PENDENTE, Rifeli: confirmar antes de publicar. (1) RRi é sigla de quê? O deck do estudo só chama de Índice de Reputação e nunca abre o acrônimo, e eu não invento. (2) Ano em que a primeira versão foi escrita: o código entrou no review-ms na consolidação do monorepo em fev/2021, mas os exemplos do README usam datas de 2018 e domínio antigo, então a origem é anterior e eu não tenho prova da data. Hoje o texto diz só "antes da gente escrever". (3) Data e motivo oficial do desligamento: o endpoint ainda está roteado e existe gráfico legado consumindo a coluna consolidada, então "morreu" é a minha leitura. A tese da interpretabilidade também é minha, não conclusão escrita no estudo. Se a decisão real foi outra, me diz e eu reescrevo a seção. -->
+Uma ressalva de honestidade, porque ela importa num texto que fala de rigor: essa é a minha leitura, não ata de reunião. Não existe no estudo nenhuma linha dizendo que o índice saiu por interpretabilidade, e o desligamento não teve um dia com data marcada. O que eu afirmo aqui é o que eu vi de dentro. Se quem decidiu lembrar diferente, eu corrijo o post.
+
 
 ## O que ficou depois que o produto saiu
 
