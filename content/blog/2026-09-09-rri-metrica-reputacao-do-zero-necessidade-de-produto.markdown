@@ -52,7 +52,7 @@ E o que a gente sabia que ia atrapalhar: valor faltante em volume alto; heteroge
 
 Essa lista de dez linhas fez mais pela métrica do que qualquer decisão técnica que veio depois. É ela que transforma "queremos medir reputação de verdade" em critério de aceite.
 
-Com o tempo essa etapa virou uma ordem fixa, e é ela que eu sigo hoje em qualquer indicador novo. Escrever as propriedades desejáveis e os problemas esperados antes de qualquer símbolo. Montar a notação antes de abrir o editor de código, porque é na álgebra que erro de raciocínio aparece. Revisar a fórmula, e não o programa, até ela responder às propriedades uma por uma. Trocar todo chute de parâmetro por critério declarado, que pode ser discutido e reajustado quando a preferência da empresa mudar. E, no fim, sentar com quem vai receber o número e perguntar o que ele faz na segunda-feira com aquilo. Os cinco passos estão nas seções que vêm, na ordem em que eu aprendi cada um, quase sempre errando antes.
+Com o tempo essa etapa virou uma ordem fixa, e é ela que eu sigo hoje em qualquer indicador novo. Escrever as propriedades desejáveis e os problemas esperados antes de qualquer símbolo. Montar a notação antes de abrir o editor de código, porque é na álgebra que erro de raciocínio aparece. Revisar a fórmula, e não o programa, até ela responder às propriedades uma por uma. Trocar todo chute de parâmetro por critério declarado, que pode ser discutido e reajustado quando a preferência da empresa mudar. E, no fim, sentar com quem vai receber o número e perguntar o que ele faz na segunda-feira com aquilo. O primeiro passo é esta seção. Os outros quatro estão nas que vêm, na ordem em que eu aprendi cada um, quase sempre errando antes.
 
 ## O primeiro rascunho, escrito à mão
 
@@ -104,18 +104,18 @@ Pense no operador do shopping recebendo a leitura. O RRi da loja dele é 4,42 e 
 
 Compare com a frase que a gente usa hoje: a cada 0,1 estrela adicional, aparece em média uma diferença de 8,8% nos pedidos de rota. É a mesma família de estatística descritiva que eu já mapeei [no post sobre as oito famílias de matemática](/blog/2026-07-27-formulas-essenciais-data-science-harmo/), amarrada num número que o lojista já entende, a estrela, e num resultado que ele quer, gente entrando na porta. Nota é comparável com o concorrente da esquina, é auditável no Google, e todo mundo já sabe se 4,3 é bom ou ruim.
 
-Métrica proprietária cobra um pedágio de aprendizado do cliente, e ela só se paga se, depois de aprender, ele souber o que fazer. O RRi cobrava o pedágio e não entregava a ação. Foi por isso que ele saiu, e não por erro de conta.
+Métrica proprietária cobra um pedágio de aprendizado do cliente, e ela só se paga se, depois de aprender, ele souber o que fazer. O RRi cobrava o pedágio e não entregava a ação. Pra mim foi por isso que ele saiu, e não por erro de conta.
 
 Uma ressalva de honestidade, porque ela importa num texto que fala de rigor: essa é a minha leitura, não ata de reunião. Não existe no estudo nenhuma linha dizendo que o índice saiu por interpretabilidade, e o desligamento não teve um dia com data marcada. O que eu afirmo aqui é o que eu vi de dentro. Se quem decidiu lembrar diferente, eu corrijo o post.
 
-
 ## O que ficou depois que o produto saiu
 
-Quatro coisas que sobreviveram ao RRi, e nenhuma delas é o número.
+O que sobreviveu ao RRi, e nada disso é o número.
 
 - O vocabulário. Reputação como estoque, e não como média, é uma ideia que continua orientando produto aqui. A frase sobrevive à fórmula que a originou.
 - O critério antes do símbolo. Escrever as propriedades desejáveis e os problemas esperados, dez linhas, antes de qualquer notação. É o artefato mais reaproveitável da jornada inteira e serve pra qualquer métrica nova.
 - A régua da notação. Os três problemas da minha fórmula eram todos visíveis na álgebra e nenhum era visível no código. Notação é onde erro de raciocínio aparece; código é onde ele fica escondido, rodando e exportando série histórica.
+- O parâmetro declarado no lugar do chute. Onde eu tinha resolvido o problema de volume com um logaritmo, o estudo resolveu com uma regra de corte explícita, que pode ser discutida, auditada e reajustada quando a preferência da empresa mudar. Parâmetro escolhido por critério deixa rastro; parâmetro chutado não deixa nem como perguntar.
 - A descoberta de que interpretabilidade era a restrição dominante, e não precisão. Isso custou uma métrica pra aprender e hoje é o filtro que aplico em toda proposta de indicador novo: se não vem com uma ação atrelada, é decoração.
 
 Se o critério de sucesso fosse o produto continuar de pé, o RRi foi um fracasso. Mas a empresa saiu da jornada sabendo formular uma métrica própria, sabendo quando escalar isso pra econometria formal, e sabendo que sofisticação estatística não compra interpretabilidade. Isso não estava disponível pra compra, e não teria vindo de outro jeito que não tentando. Necessidade de produto que ninguém no mercado resolve é convite pra escrever a matemática você mesmo, e a conta fecha mesmo quando o resultado é desligado depois.
